@@ -1,0 +1,1 @@
+This is where your character .png and .xml/.txt files go.
