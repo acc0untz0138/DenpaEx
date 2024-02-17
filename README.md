@@ -98,6 +98,7 @@ Shygee - Additional Programmer
 
 ## Upcoming Features
 
+01) Add an accurate MEM counter (the current one is limited to 2gb)
 01) Add keybind reminders on the start of songs
 02) Add Character-Based Note Colors
 03) Add "Play as Opponent" in GameplayChangersSubstate
