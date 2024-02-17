@@ -22,13 +22,13 @@ DenpaEx is a Denpa Engine Fork made by justAMZ. It adds a small amount of extra 
 
 ## DenpaEx Team
 
-![justamz](https://github.com/justAMZ/DenpaEx/blob/main/assets/preload/images/credits/amz.png)
+![justamz](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/amz.png)
 
 justAMZ - Creator of DenpaEx
 
 ## Support
 
-![jordansantiagoyt](https://github.com/justAMZ/DenpaEx/blob/main/assets/preload/images/credits/jordan.png)
+![jordansantiagoyt](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/jordan.png)
 
 Jordan Santiago - Co-Developer (Huge Help! :heart:)
 
@@ -104,7 +104,6 @@ Shygee - Additional Programmer
 04) Make a toggle for OG & denpa icons
 05) Make a toggle for the cool freeplay state thingy
 06) Add compatibility for .frag files/shaders (prolly not possible)
-07) fix the fuCKIN OPTIONS MENU LOOKING WEIRD CUZ OF THE NEW BUTTON BEING ADDED AAAAAAAAAAAAAAAAAAAAAA
 
 ## License Summary
 
