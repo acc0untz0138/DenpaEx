@@ -18,16 +18,6 @@ class CoolUtil
 	public static final defaultDifficulty:String = 'Normal'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode
 	public static var difficulties:Array<String> = [];
 
-	public static var byte_formats:Array<Array<Dynamic>> = [
-		["$bytes B", 1.0],
-		["$bytes KB", 1024.0],
-		["$bytes MB", 1048576.0],
-		["$bytes GB", 1073741824.0],
-		["$bytes TB", 1099511627776.0],
-		["$bytes PB", 1125899906842624.0],
-		["$bytes EB", 1152921504606846976.0]
-	];
-	
 	inline public static function quantize(f:Float, snap:Float):Float
 		return Math.fround(f * snap) / snap;
 
@@ -74,28 +64,6 @@ class CoolUtil
             bytes /= 1024;
 		}
 		return [bytes, format];
-	}
-
-	public static function formatBytes(bytes:Float, onlyValue:Bool = false, precision:Int = 2):String {
-		var formatted_bytes:String = "?";
-
-		for (i in 0...byte_formats.length) {
-			// If the next byte format has a divisor smaller than the current amount of bytes,
-			// and thus not the right format skip it.
-			if (byte_formats.length > i + 1 && byte_formats[i + 1][1] < bytes)
-				continue;
-
-			var format:Array<Dynamic> = byte_formats[i];
-
-			if (!onlyValue)
-				formatted_bytes = StringTools.replace(format[0], "$bytes", Std.string(FlxMath.roundDecimal(bytes / format[1], precision)));
-			else
-				formatted_bytes = Std.string(FlxMath.roundDecimal(bytes / format[1], precision));
-
-			break;
-		}
-
-		return formatted_bytes;
 	}
 
 	/**
