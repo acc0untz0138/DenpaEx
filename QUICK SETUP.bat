@@ -9,6 +9,8 @@ haxelib install flxanimate 3.0.4
 haxelib install hxCodec 2.6.1
 haxelib remove discord_rpc
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+haxelib remove hxcpp
+haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp
 haxelib remove linc_luajit
 haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
 echo Libraries installed and updated.
