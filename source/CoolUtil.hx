@@ -34,7 +34,7 @@ class CoolUtil
 	inline public static function getMemUsage():Array<Any> {
 		//mem should be in Bytes.
 		//abs is because mem can be negative sometimes for some reason
-		return [Math.abs(#if cpp Gc.memInfo(0) #elseif sys cast(cast(System.totalMemory, UInt), Float) #else 0 #end), 'B'];
+		return [Math.abs(#if cpp Gc.memInfo64(0) #elseif sys cast(cast(System.totalMemory, UInt64), Float) #else 0 #end), 'B'];
 	}
 
 	inline public static function convPathShit(path:String):String {
