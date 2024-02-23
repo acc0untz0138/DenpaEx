@@ -118,6 +118,6 @@ class InitState extends FlxState
 	inline function swapState() {
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
-		MusicBeatState.switchState(new DenpaState());
+		MusicBeatState.switchState(new TitleState());
 	}
 }
