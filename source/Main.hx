@@ -96,7 +96,7 @@ class Main extends Sprite
 		final gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
 		final initialState:Class<FlxState> = InitState; // The FlxState the game starts with.
 		final framerate:Int = 60; // How many frames per second the game should run at.
-		final skipSplash:Bool = false; // Whether to skip the flixel splash screen that appears in release mode.
+		final skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 		final startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
 		//do not "funkingame" me, it is slower
@@ -282,7 +282,7 @@ class Main extends Sprite
 
 		dateNow = dateNow.replace(" ", "_").replace(":", "'");
 
-		final path = "./crshhndlr/logs/" + "DenpaEngine_" + dateNow + ".txt";
+		final path = "./crshhndlr/logs/" + "DenpaEx_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
