@@ -14,7 +14,7 @@
 
 ## WARNING!
 
-ALL CREDIT GOES TO THE DENPA ENGINE & JS ENGINE DEVELOPERS! THIS FORK ONLY HAS A HANDFUL OF FEATURES THAT WOULDNT BE DONE WITHOUT THEIR HELP! THANKS TO A.T., JORDAN SANTIAGO AND THEIR RESPECTIVE DISCORD SERVERS!
+ALL CREDIT GOES TO THE DENPA ENGINE & JS ENGINE DEVELOPERS! THIS FORK ONLY HAS A HANDFUL OF FEATURES THAT WOULDNT BE DONE WITHOUT THEIR HELP! THANKS TO UMBRA AND JORDAN SANTIAGO FOR EVERYTHING!
 
 ## Synopsis
 
@@ -25,8 +25,6 @@ DenpaEx is a Denpa Engine Fork made by justAMZ. It adds a small amount of extra 
 ![justamz](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/amz.png)
 
 justAMZ - Creator of DenpaEx
-
-## Support
 
 ![jordansantiagoyt](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/jordan.png)
 
@@ -79,8 +77,8 @@ Shygee - Additional Programmer
 05) Added blank character (name is "null").
 06) Restored easy charts.
 07) Custom noteskin colors (Default, Greyscale & Rainbow).
-08) Modified Debug Keys script from Kevin Kuntz (now it supports denpaex v0.8.2, is smaller in file size. for controls read the actual script)
-09) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.) (jordan i fuckin love u blud)
+08) Modified Debug Keys script from Kevin Kuntz (now it supports denpaex v0.8.2 and is smaller in file size, for controls read the script in assets/scripts).
+09) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.) (jordan i fuckin love u blud).
 10) Total notes counter in ChartingState (counts all notes in a chart. thanks to jordan santiagos js engine for this, all credit to him :heart:).
 11) Custom max BPM, speed, zoom & note density.
 12) Restored the miss sound toggle (literally the easiest thing).
@@ -91,20 +89,20 @@ Shygee - Additional Programmer
 01) Toggleable Rating & Timing Pop-ups (includes a better Kade score pop-up, better perfect score pop-up & better #1 pop-up).
 02) Toggleable Ratings Display (includes a total hits counter).
 03) Toggleable Health Bar.
-04) Changeable Score Text (includes a custom one named "AMZ").
-05) Changeable Time Bar & Format
-06) Toggleable Note Strum Animation
-07) Toggleable Note Splashes
+04) Toggleable Score Text (includes a custom one named "AMZ").
+05) Toggleable Time Bar & Format.
+06) Toggleable Note Strum Animation.
+07) Toggleable Note Splashes.
 
 ## Upcoming Features
 
-01) Add an accurate MEM counter (the current one is limited to 2gb)
-01) Add keybind reminders on the start of songs
-02) Add Character-Based Note Colors
-03) Add "Play as Opponent" in GameplayChangersSubstate
-04) Make a toggle for OG & denpa icons
-05) Make a toggle for the cool freeplay state thingy
-06) Add compatibility for .frag files/shaders (prolly not possible)
+01) Add Rendering Mode (coming soon).
+02) Add keybind reminders on the start of songs.
+03) Add Character-Based Note Colors.
+04) Add "Play as Opponent" in GameplayChangersSubstate.
+05) Make a toggle for OG & denpa icons.
+06) Make a toggle for the cool freeplay state thingy.
+07) Add compatibility for .frag files/shaders (prolly not possible).
 
 ## License Summary
 

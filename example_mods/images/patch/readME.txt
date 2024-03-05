@@ -1,1 +1,0 @@
-This is where your patch icon .pngs go.
