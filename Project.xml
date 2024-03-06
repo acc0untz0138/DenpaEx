@@ -165,7 +165,7 @@
 		${linc_luajit == 0.0.3} ||
 		${linc_luajit == 0.0.4}" />
 	<!-- Throws an exception if you are using the wrong haxe version. -->
-	<error value="You're using an outdated Haxe, update to 4.3.3." 
+	<error value="You're using an outdated Haxe, update to 4.2.5." 
 		if="${haxe == 4.1.0} ||
 		${haxe == 4.1.1} ||
 		${haxe == 4.1.2} ||
@@ -173,7 +173,7 @@
 		${haxe == 4.1.4} ||
 		${haxe == 4.1.5}" />
 	<!-- Throws an exception if you are using the wrong flixel version. -->
-	<error value="You're using an outdated Flixel, update to the latest version." 
+	<error value="You're using an outdated Flixel, update to 5.2.2." 
 		if="${flixel == 4.11.0} ||
 		${flixel == 5.0.0} ||
 		${flixel == 5.0.1} ||
@@ -182,7 +182,7 @@
 		${flixel == 5.2.0} ||
 		${flixel == 5.2.1}" />
 	<!-- Throws an exception if you are using the wrong flixel-addons version. -->
-	<error value="You're using an outdated Flixel Addons, update to the latest version." 
+	<error value="You're using an outdated Flixel Addons, update to 3.0.2." 
 		if="${flixel-addons == 2.11.0} ||
 		${flixel-addons == 3.0.0} ||
 		${flixel-addons == 3.0.1}" />
