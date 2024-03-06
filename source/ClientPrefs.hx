@@ -46,6 +46,10 @@ class ClientPrefs {
 		"missSoundShit" => false,
 		"strumVisibility" => true,
 		"healthBarVisibility" => true,
+		"ffmpegMode" => false,
+		"ffmpegInfo" => false,
+		"lossless" => false,
+		"noCapture" => false,
         //Ints
         "framerate" => 60,
         "noteOffset" => 0,
@@ -55,6 +59,8 @@ class ClientPrefs {
         "goodWindow" => 90,
         "badWindow" => 135,
         "shitWindow" => 180,
+		"targetFPS" => 60,
+		"quality" => 50,
         //Floats
         "hitsoundVolume" => 0,
         "safeFrames" => 10,

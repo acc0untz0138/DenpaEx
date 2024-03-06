@@ -1000,6 +1000,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	}
 }
 
+// Substate to customize how your DenpaEx looks.
 class CustomizationSettingsSubState extends BaseOptionsMenu
 {
 	public static var instance: CustomizationSettingsSubState;
@@ -1077,6 +1078,71 @@ class CustomizationSettingsSubState extends BaseOptionsMenu
 		super();
 	}
 }
+
+class GameRendererSettingsSubState extends BaseOptionsMenu
+{
+	public function new()
+	{
+		title = 'Game Renderer';
+		rpcTitle = 'Game Renderer Settings Menu'; //for Discord Rich Presence
+
+		var option:Option = new Option('Video Rendering Mode', //Name
+			'If checked, the game will render each frame as a screenshot into a folder. They can then be rendered into MP4s using FFmpeg.\nThey are located in a folder called gameRenders.\nDo NOT use this if you have a low-end PC!',
+			'ffmpegMode',
+			'bool',
+			false);
+		addOption(option);
+
+        	var option:Option = new Option('Show Debug Info',
+			"If checked, the Botplay text will show how long it took to render 1 frame.",
+			'ffmpegInfo',
+			'bool',
+			false);
+		addOption(option);
+
+        	var option:Option = new Option('Video Framerate',
+			"How much FPS would you like for your videos?",
+			'targetFPS',
+			'int',
+			60);
+		addOption(option);
+
+		option.minValue = 1;
+		option.maxValue = 1000;
+		option.scrollSpeed = 125;
+		option.decimals = 0;
+		option.displayFormat = '%v FPS';
+
+		var option:Option = new Option('Lossless Screenshots',
+			"If checked, screenshots will save as PNGs.\nOtherwise, It uses JPEG.",
+			'lossless',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('JPEG Quality',
+			"Change the JPEG quality in here.\nThe recommended value is 50.",
+			'quality',
+			'int',
+			50);
+		addOption(option);
+
+		option.minValue = 1;
+		option.maxValue = 100;
+		option.scrollSpeed = 30;
+		option.decimals = 0;
+
+       		var option:Option = new Option('No Screenshot',
+			"If checked, Skip taking of screenshot.\nIt's a function for debug.",
+			'noCapture',
+			'bool',
+			false);
+		addOption(option);
+
+		super();
+	}
+}
+
 /**
 * State used to adjust misc settings, which do not fit in the other classifications.
 */
@@ -1163,6 +1229,14 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = changeOption;
 
+		var option:Option = new Option('Game Renderer Options',
+			"Open the Game Renderer Options menu.",
+			'gameRenderOptions',
+			'link',
+			false);
+		addOption(option);
+		option.onChange = changeOption;
+
 		var option:Option = new Option('Secret Options',
 			"Open the secret options submenu.",
 			'secretLink',
@@ -1208,6 +1282,9 @@ class MiscSettingsSubState extends BaseOptionsMenu
 				/*var possibleSounds = ['bfBeep', 'cancelMenu', 'scrollMenu', 'confirmMenu', 'invalidJSON'];
 				FlxG.sound.play(Paths.sound(possibleSounds[FlxG.random.int(0, possibleSounds.length-1)]));*/
 				Main.updateColorblindFilter(FlxG.random.bool(45) ? 8 : FlxG.random.int(0, 7));
+
+			case 'Game Renderer Options':
+				openSubState(new options.OptionsSubState.GameRendererSettingsSubState());
 		}
 	}
 

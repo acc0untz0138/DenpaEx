@@ -66,6 +66,32 @@ class CoolUtil
 		return [bytes, format];
 	}
 
+	public static function zeroFill(value:Int, digits:Int) {
+		var length:Int = Std.string(value).length;
+		var format:String = "";
+		if(length < digits) {
+			for (i in 0...(digits - length))
+				format += "0";
+			format += Std.string(value);
+		} else format = Std.string(value);
+		return format;
+	}
+
+	public static function floatToStringPrecision(n:Float, prec:Int){
+		n = Math.round(n * Math.pow(10, prec));
+		var str = ''+n;
+		var len = str.length;
+		if(len <= prec){
+			while(len < prec){
+				str = '0'+str;
+				len++;
+			}
+			return '0.'+str;
+		}else{
+			return str.substr(0, str.length-prec) + '.'+str.substr(str.length-prec);
+		}
+	}
+
 	/**
      * Converts the input `String` into the Title Case formatting. (Replace dashes with space, and captilize the first letter of every word).
      * @param input The `String` to be title cased.
