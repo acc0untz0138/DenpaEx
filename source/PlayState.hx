@@ -504,8 +504,6 @@ class PlayState extends MusicBeatState
 	var ffmpegMode = ClientPrefs.settings.get("ffmpegMode");
 	var ffmpegInfo = ClientPrefs.settings.get("ffmpegInfo");
 	var targetFPS = ClientPrefs.settings.get("targetFPS");
-	var noCapture = ClientPrefs.settings.get("noCapture");
-	static var capture:Screenshot = new Screenshot();
 	public var frameCaptured:Int = 0;
 
 	//Optimization Stuff
@@ -520,7 +518,10 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		if (ffmpegMode) FlxG.fixedTimestep = true;
+		if (ffmpegMode) {
+			FlxG.fixedTimestep = true;
+			initRender();
+		}
 		//Stops playing on a height that isn't divisible by 2
 		if (ffmpegMode && ClientPrefs.settings.get("resolution") != null) {
 				var val = cast (ClientPrefs.settings.get("resolution"), String);
@@ -3580,11 +3581,9 @@ class PlayState extends MusicBeatState
 		for (i in shaderUpdates){
 			i(elapsed);
 		}
-		if(ffmpegMode && !noCapture)
-		{
-			var filename = CoolUtil.zeroFill(frameCaptured, 7);
-			capture.save(Paths.formatToSongPath(SONG.header.song) + #if linux '/' #else '\\' #end, filename);
-		}
+		if (!ffmpegMode) return;
+		
+		pipeFrame();
 		frameCaptured++;
 
 		if(hud.botplayTxt != null && hud.botplayTxt.visible) {
@@ -7376,6 +7375,50 @@ class PlayState extends MusicBeatState
 			trace('exception: ' + e);
 			return;
 		}
+	}
+
+	// Render mode stuff.. If SGWLC isn't ok with this I will remove it :thumbsup:
+
+	private var process:sys.io.Process;
+	var ffmpegExists:Bool = false;
+
+	private function initRender():Void
+	{
+		if (!ffmpegMode)
+			return;
+
+		if (!sys.FileSystem.exists('ffmpeg.exe'))
+		{
+			trace("\"ffmpeg.exe\" not found! (Is it in the same folder as the DenpaEx exe?");
+			return;
+		}
+
+		ffmpegExists = true;
+
+		process = new sys.io.Process('ffmpeg', ['-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', lime.app.Application.current.window.width + 'x' + lime.app.Application.current.window.height, '-r', Std.string(targetFPS), '-i', '-', '-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 'assets/gameRenders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4']);
+		FlxG.autoPause = false;
+	}
+
+	private function pipeFrame():Void
+	{
+		if (!ffmpegExists)
+		return;
+
+		var img = lime.app.Application.current.window.readPixels(new lime.math.Rectangle(FlxG.scaleMode.offset.x, FlxG.scaleMode.offset.y, FlxG.scaleMode.gameSize.x, FlxG.scaleMode.gameSize.y));
+		var bytes = img.getPixels(new lime.math.Rectangle(0, 0, img.width, img.height));
+		process.stdin.writeBytes(bytes, 0, bytes.length);
+	}
+
+	public function stopRender():Void
+	{
+		if (!ClientPrefs.settings.get("ffmpegMode"))
+			return;
+
+		process.stdin.close();
+		process.close();
+		process.kill();
+
+		FlxG.autoPause = true;
 	}
 }
 
