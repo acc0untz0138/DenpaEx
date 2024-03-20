@@ -82,8 +82,7 @@ Shygee - Additional Programmer
 10) Total notes counter in ChartingState (counts all notes in a chart. thanks to jordan santiagos js engine for this, all credit to him :heart:).
 11) Custom max BPM, speed, zoom & note density.
 12) Restored the miss sound toggle (literally the easiest thing).
-13) Replaced the DenpaEx splash screen with the HaxeFlixel splash screen.
-14) Fixed some text here and there in some states.
+13) Fixed some text here and there in some states.
 
 ### Customization Options
 
@@ -436,6 +435,16 @@ This license agreement is subject to change at any time, and continued use of th
 - Sustain notes are now near perfectly connected.
 - Sustain notes now smoothly increase player health.
 - Sustain notes are now rendered underneath the strums, and look much nicer overall.
+
+### Splash Screen
+
+- A custom splash screen is present, replacing the HaxeFlixel splash.
+- Several random versions of the splash can be chosen.
+- Several easter eggs exist in the splash screen.
+- Pressing Enter will skip straight to the title screen.
+- On debug mode, there are keybinds to jump straight to a majority of menus from the splash screen.
+
+![splash](https://user-images.githubusercontent.com/101066547/222319156-26f390e8-9573-406c-9b48-314e2a5a7343.gif)   
 
 ### Title Screen
 
