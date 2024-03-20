@@ -533,7 +533,7 @@ class PlayState extends MusicBeatState
 		}
 
 		Paths.clearUnusedCache();
-		trace (ClientPrefs.settings.get("ffmpegMode"));
+
 		cpp.vm.Gc.enable(ClientPrefs.settings.get("ffmpegMode")); //prevent lag spikes where it matters most
 
 		MusicBeatState.disableManual = true;
@@ -3384,7 +3384,7 @@ class PlayState extends MusicBeatState
 			{
 				var cock:Date = npsArray[balls];
 				if (cock != null && cock.getTime() + 1000 < Date.now().getTime())
-					npsArray.shift();
+					npsArray.remove(cock);
 				else
 					balls = 0;
 				balls--;
@@ -3405,7 +3405,7 @@ class PlayState extends MusicBeatState
 			{
 				var cock:Date = npsArray[balls];
 				if (cock != null && cock.getTime() + 1000 < Date.now().getTime())
-					npsArray.shift();
+					npsArray.remove(cock);
 				else
 					balls = 0;
 				balls--;
@@ -7379,7 +7379,7 @@ class PlayState extends MusicBeatState
 
 	// Render mode stuff.. If SGWLC isn't ok with this I will remove it :thumbsup:
 
-	private var process:sys.io.Process;
+	public var process:sys.io.Process;
 	var ffmpegExists:Bool = false;
 
 	private function initRender():Void

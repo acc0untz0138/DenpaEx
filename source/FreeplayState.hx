@@ -73,6 +73,8 @@ class FreeplayState extends MusicBeatState
 		Paths.clearUnusedCache();
 		Paths.refreshModsMaps(true, true, true);
 		instance = this;
+
+		if (PlayState.instance != null && PlayState.instance.process != null) PlayState.instance.stopRender();
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
