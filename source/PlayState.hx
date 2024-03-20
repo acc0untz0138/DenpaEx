@@ -6371,12 +6371,6 @@ class PlayState extends MusicBeatState
 		if (curSection > Math.ceil(curStep/16))
 			curSection = Math.floor(curStep/16);
 
-		if (generatedMusic)
-		{
-			notes.sort(FlxSort.byY, ClientPrefs.settings.get("downScroll") ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-			sustains.sort(FlxSort.byY, ClientPrefs.settings.get("downScroll") ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-		}
-
 		if (SONG.notes[curSection] != null)
 		{
 			if (SONG.notes[curSection].changeBPM)
