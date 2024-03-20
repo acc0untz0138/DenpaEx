@@ -5560,11 +5560,11 @@ class PlayState extends MusicBeatState
 		if((note.isSustainNote && note.wasGoodHit) || (cpuControlled && (note.ignoreNote || note.hitCausesMiss))) return;
 
 		if (ClientPrefs.settings.get("scoreDisplay") == 'Kade') {
-			if (!note.isSustainNote) npsArray.push(Date.now());
+			if (!note.isSustainNote) npsArray.unshift(Date.now());
 		}
 		
 		if (ClientPrefs.settings.get("scoreDisplay") == 'AMZ') {
-			if (!note.isSustainNote) npsArray.push(Date.now());
+			if (!note.isSustainNote) npsArray.unshift(Date.now());
 		}
 
 		if (ClientPrefs.settings.get("hitsoundVolume") > 0 && !note.isSustainNote)
