@@ -176,8 +176,8 @@ class PlayState extends MusicBeatState
 	public var boyfriend:Boyfriend = null;
 
 	//note shits
-	public var notes:FlxTypedGroup<Note>;
-	public var sustains:FlxTypedGroup<Note>;
+	public var notes:NoteGroup;
+	public var sustains:NoteGroup;
 	public var unspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
 
@@ -1404,7 +1404,7 @@ class PlayState extends MusicBeatState
 		hud = new HUD();
 		hud.cameras = [camHUD];
 
-		sustains = new FlxTypedGroup<Note>();
+		sustains = new NoteGroup();
 		add(sustains);
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
@@ -2241,7 +2241,7 @@ class PlayState extends MusicBeatState
 		vocals.volume = !ffmpegMode ? SONG.header.vocalsVolume : 0;
 		secondaryVocals.volume = !ffmpegMode ? SONG.header.secVocalsVolume : 0;
 
-		notes = new FlxTypedGroup<Note>();
+		notes = new NoteGroup();
 		add(notes);
 
 		var noteData:Array<SwagSection>;
@@ -3432,7 +3432,7 @@ class PlayState extends MusicBeatState
 				if (!dunceNote.isSustainNote)
 					notes.add(dunceNote);
 				else
-					sustains.insert(0, dunceNote);
+					sustains.add(dunceNote);
 			}
 		}
 
