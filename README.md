@@ -72,17 +72,19 @@ Shygee - Additional Programmer
 
 01) Custom logo, name & icon.
 02) Dark Mode in the user interface.
-03) Better looking FreeplayState (literally just put the character icon before the song name :skull:).
+03) Better looking FreeplayState (toggleable in options).
 04) Restored the Friday Night Funkin' background music.
 05) Added blank character (name is "null").
 06) Restored easy charts.
 07) Custom noteskin colors (Default, Greyscale & Rainbow).
-08) Modified Debug Keys script from Kevin Kuntz (now it supports denpaex v0.8.2 and is smaller in file size, for controls read the script in assets/scripts).
-09) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.) (jordan i fuckin love u blud).
-10) Total notes counter in ChartingState (counts all notes in a chart. thanks to jordan santiagos js engine for this, all credit to him :heart:).
-11) Custom max BPM, speed, zoom & note density.
-12) Restored the miss sound toggle (literally the easiest thing).
-13) Fixed some text here and there in some states.
+08) Render Mode for showcasing charts.
+09) Optimized Auto Play.
+10) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
+11) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
+12) Total notes counter in ChartingState.
+13) Custom max BPM, speed, zoom & note density.
+14) Restored the miss sound toggle (literally the easiest thing).
+15) Fixed some text here and there in some states.
 
 ### Customization Options
 
@@ -96,12 +98,12 @@ Shygee - Additional Programmer
 
 ## Upcoming Features
 
-01) Add Rendering Mode (coming soon).
+01) Add Faster Chart Loading.
+01) Add long song support (will be hard as SHIT).
 02) Add keybind reminders on the start of songs.
-03) Add Character-Based Note Colors.
-04) Add "Play as Opponent" in GameplayChangersSubstate.
-05) Make a toggle for OG & denpa icons.
-06) Make a toggle for the cool freeplay state thingy.
+03) Add Character and Quant-Based Note Colors.
+04) Add "Play as Opponent" option in GameplayChangersSubstate.
+05) Add a toggle for OG & denpa icons.
 07) Add compatibility for .frag files/shaders (prolly not possible).
 
 ## License Summary
