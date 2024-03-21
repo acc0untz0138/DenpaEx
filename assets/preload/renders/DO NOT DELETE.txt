@@ -1,0 +1,1 @@
+Everything related to chart renders is kept here; if you delete this folder there is a high chance DenpaEx will not render your charts!
