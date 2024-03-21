@@ -1000,6 +1000,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	}
 }
 
+// Substate to customize how your DenpaEx looks.
 class CustomizationSettingsSubState extends BaseOptionsMenu
 {
 	public static var instance: CustomizationSettingsSubState;
@@ -1077,6 +1078,59 @@ class CustomizationSettingsSubState extends BaseOptionsMenu
 		super();
 	}
 }
+
+class GameRendererSettingsSubState extends BaseOptionsMenu
+{
+	public function new()
+	{
+		title = 'Render Settings';
+		rpcTitle = 'Render Settings Menu'; //for Discord Rich Presence
+
+		var option:Option = new Option('Video Rendering Mode', //Name
+			'If checked, the game will render songs you play into a MP4.\nThey will be located in a folder called gameRenders.',
+			'ffmpegMode',
+			'bool',
+			false);
+		addOption(option);
+
+        	var option:Option = new Option('Show Debug Info',
+			"If checked, the Botplay text will show how long it took to render 1 frame.",
+			'ffmpegInfo',
+			'bool',
+			false);
+		addOption(option);
+
+        	var option:Option = new Option('Video Framerate',
+			"How much FPS would you like for your videos?",
+			'targetFPS',
+			'int',
+			60);
+		addOption(option);
+
+		option.minValue = 1;
+		option.maxValue = 1000;
+		option.scrollSpeed = 125;
+		option.decimals = 0;
+		option.displayFormat = '%v FPS';
+
+		var option:Option = new Option('Video Bitrate: ',
+			"Use this option to set your video's bitrate!",
+			'renderBitrate',
+			'float',
+			5.00);
+		addOption(option);
+
+		option.minValue = 1.0;
+		option.maxValue = 100.0;
+		option.scrollSpeed = 5;
+		option.changeValue = 0.01;
+		option.decimals = 2;
+		option.displayFormat = '%v Mbps';
+
+		super();
+	}
+}
+
 /**
 * State used to adjust misc settings, which do not fit in the other classifications.
 */
@@ -1096,6 +1150,13 @@ class MiscSettingsSubState extends BaseOptionsMenu
 			['None', 'Breakfast', 'Property Surgery', 'OVERDOSE']);
 		addOption(option);
 		option.onChange = changeOption;
+
+		var option:Option = new Option('Better Freeplay',
+			"If unchecked, Freeplay will return back to normal.",
+			'coolFreeplay',
+			'bool',
+			true);
+		addOption(option);
 
 		var option:Option = new Option('Cutscenes:',
 			'When do you want cutscenes to play?',
@@ -1163,6 +1224,14 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = changeOption;
 
+		var option:Option = new Option('Render Options',
+			"Open the Render Options menu.",
+			'gameRenderOptions',
+			'link',
+			false);
+		addOption(option);
+		option.onChange = changeOption;
+
 		var option:Option = new Option('Secret Options',
 			"Open the secret options submenu.",
 			'secretLink',
@@ -1208,6 +1277,9 @@ class MiscSettingsSubState extends BaseOptionsMenu
 				/*var possibleSounds = ['bfBeep', 'cancelMenu', 'scrollMenu', 'confirmMenu', 'invalidJSON'];
 				FlxG.sound.play(Paths.sound(possibleSounds[FlxG.random.int(0, possibleSounds.length-1)]));*/
 				Main.updateColorblindFilter(FlxG.random.bool(45) ? 8 : FlxG.random.int(0, 7));
+
+			case 'Render Options':
+				openSubState(new options.OptionsSubState.GameRendererSettingsSubState());
 		}
 	}
 

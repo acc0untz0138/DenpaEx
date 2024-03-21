@@ -73,6 +73,8 @@ class FreeplayState extends MusicBeatState
 		Paths.clearUnusedCache();
 		Paths.refreshModsMaps(true, true, true);
 		instance = this;
+
+		if (PlayState.instance != null && PlayState.instance.process != null) PlayState.instance.stopRender();
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -160,8 +162,10 @@ class FreeplayState extends MusicBeatState
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
 			songText.targetY = i;
+			if(ClientPrefs.settings.get("coolFreeplay")) {
 			songText.altRotation = true;
 			songText.xAdd = 100;
+			}
 			lerpList.push(true);
 			grpSongs.add(songText);
 
@@ -180,8 +184,9 @@ class FreeplayState extends MusicBeatState
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
 			icon.bopMult = 0.95;
 			icon.sprTracker = songText;
-			icon.trackerOffsets = [-songText.width + -icon.width -25, 0];
-
+			if(ClientPrefs.settings.get("coolFreeplay")) {
+				icon.trackerOffsets = [-songText.width + -icon.width -25, 0];
+			}
 			iconArray.push(icon);
 			add(icon);
 			icon.copyState = true;

@@ -46,6 +46,9 @@ class ClientPrefs {
 		"missSoundShit" => false,
 		"strumVisibility" => true,
 		"healthBarVisibility" => true,
+		"ffmpegMode" => false,
+		"ffmpegInfo" => false,
+		"coolFreeplay" => true,
         //Ints
         "framerate" => 60,
         "noteOffset" => 0,
@@ -55,10 +58,12 @@ class ClientPrefs {
         "goodWindow" => 90,
         "badWindow" => 135,
         "shitWindow" => 180,
+	"targetFPS" => 60,
         //Floats
         "hitsoundVolume" => 0,
         "safeFrames" => 10,
 		"colorblindIntensity" => 1,
+	"renderBitrate" => 5.00,
         //Strings
 		"resolution" => "1280x720",
         "uiSkin" => "Kade",
