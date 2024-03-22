@@ -99,12 +99,13 @@ Shygee - Additional Programmer
 ## Upcoming Features
 
 01) Add Faster Chart Loading.
-01) Add long song support (will be hard as SHIT).
-02) Add keybind reminders on the start of songs.
-03) Add Character and Quant-Based Note Colors.
-04) Add "Play as Opponent" option in GameplayChangersSubstate.
-05) Add a toggle for OG & denpa icons.
-07) Add compatibility for .frag files/shaders (prolly not possible).
+02) Add long song support (will be hard as SHIT).
+03) Add search box in FreeplayState.
+04) Add keybind reminders on the start of songs.
+05) Add Character and Quant-Based Note Colors.
+06) Add "Play as Opponent" option in GameplayChangersSubstate.
+07) Add a toggle for OG & denpa icons.
+08) Add compatibility for .frag files/shaders (prolly not possible).
 
 ## License Summary
 
