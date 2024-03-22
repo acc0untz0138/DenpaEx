@@ -7383,13 +7383,13 @@ class PlayState extends MusicBeatState
 
 		if (!sys.FileSystem.exists('ffmpeg.exe'))
 		{
-			trace("\"ffmpeg.exe\" not found! (Is it in the same folder as the DenpaEx exe?");
+			trace("\"ffmpeg.exe\" not found! (Is it in the same folder as DenpaEx.exe?");
 			return;
 		}
 
 		ffmpegExists = true;
-
-		process = new sys.io.Process('ffmpeg', ['-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', lime.app.Application.current.window.width + 'x' + lime.app.Application.current.window.height, '-r', Std.string(targetFPS), '-i', '-', '-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 'assets/gameRenders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4']);
+		
+		process = new sys.io.Process('ffmpeg', ['-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', lime.app.Application.current.window.width + 'x' + lime.app.Application.current.window.height, '-r', Std.string(targetFPS), '-i', '-', '-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 'assets/renders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4']);
 		FlxG.autoPause = false;
 	}
 

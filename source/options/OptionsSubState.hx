@@ -1083,8 +1083,8 @@ class GameRendererSettingsSubState extends BaseOptionsMenu
 {
 	public function new()
 	{
-		title = 'Game Renderer';
-		rpcTitle = 'Game Renderer Settings Menu'; //for Discord Rich Presence
+		title = 'Render Settings';
+		rpcTitle = 'Render Settings Menu'; //for Discord Rich Presence
 
 		var option:Option = new Option('Video Rendering Mode', //Name
 			'If checked, the game will render songs you play into a MP4.\nThey will be located in a folder called gameRenders.',
@@ -1150,6 +1150,13 @@ class MiscSettingsSubState extends BaseOptionsMenu
 			['None', 'Breakfast', 'Property Surgery', 'OVERDOSE']);
 		addOption(option);
 		option.onChange = changeOption;
+
+		var option:Option = new Option('Better Freeplay',
+			"If unchecked, Freeplay will return back to normal.",
+			'coolFreeplay',
+			'bool',
+			true);
+		addOption(option);
 
 		var option:Option = new Option('Cutscenes:',
 			'When do you want cutscenes to play?',
@@ -1217,8 +1224,8 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = changeOption;
 
-		var option:Option = new Option('Game Renderer Options',
-			"Open the Game Renderer Options menu.",
+		var option:Option = new Option('Render Options',
+			"Open the Render Options menu.",
 			'gameRenderOptions',
 			'link',
 			false);
@@ -1271,7 +1278,7 @@ class MiscSettingsSubState extends BaseOptionsMenu
 				FlxG.sound.play(Paths.sound(possibleSounds[FlxG.random.int(0, possibleSounds.length-1)]));*/
 				Main.updateColorblindFilter(FlxG.random.bool(45) ? 8 : FlxG.random.int(0, 7));
 
-			case 'Game Renderer Options':
+			case 'Render Options':
 				openSubState(new options.OptionsSubState.GameRendererSettingsSubState());
 		}
 	}

@@ -48,6 +48,7 @@ class ClientPrefs {
 		"healthBarVisibility" => true,
 		"ffmpegMode" => false,
 		"ffmpegInfo" => false,
+		"coolFreeplay" => true,
         //Ints
         "framerate" => 60,
         "noteOffset" => 0,

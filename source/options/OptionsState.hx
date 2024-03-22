@@ -76,12 +76,12 @@ class OptionsState extends MusicBeatState
 		add(camFollowPos);
 		FlxG.camera.follow(camFollowPos, null, 1);
 
-		final yScroll:Float = Math.max(0.25 - (0.05 * (options.length - 6.25)), 0.1);
+		final yScroll:Float = Math.max(0.25 - (0.05 * (options.length - 8)), 0.25);
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDark'));
 		bg.color = 0xFF98f0f8;
 		bg.scale.set(1.07, 1.07);
 		bg.updateHitbox();
-		bg.scrollFactor.set(0, yScroll/3);
+		bg.scrollFactor.set(0);
 		bg.screenCenter();
 		bg.y += 5;
 		add(bg);
