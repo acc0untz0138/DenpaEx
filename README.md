@@ -78,7 +78,7 @@ Shygee - Additional Programmer
 06) Restored easy charts.
 07) Custom noteskin colors (Default, Greyscale & Rainbow).
 08) Render Mode for showcasing charts.
-09) Optimized Auto Play.
+09) Optimized Auto Play (list coming soon).
 10) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
 11) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
 12) Total notes counter in ChartingState.
@@ -98,14 +98,13 @@ Shygee - Additional Programmer
 
 ## Upcoming Features
 
-01) Add Faster Chart Loading.
-02) Add long song support (will be hard as SHIT).
-03) Add search box in FreeplayState.
-04) Add keybind reminders on the start of songs.
-05) Add Character and Quant-Based Note Colors.
-06) Add "Play as Opponent" option in GameplayChangersSubstate.
-07) Add a toggle for OG & denpa icons.
-08) Add compatibility for .frag files/shaders (prolly not possible).
+01) Add long song support (will be hard as SHIT).
+02) Add search box in FreeplayState.
+03) Add keybind reminders on the start of songs.
+04) Add Character and Quant-Based Note Colors.
+05) Add "Play as Opponent" option in GameplayChangersSubstate.
+06) Add a toggle for OG & denpa icons.
+07) Add compatibility for .frag files/shaders (prolly not possible).
 
 ## License Summary
 
