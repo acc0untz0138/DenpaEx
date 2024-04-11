@@ -309,8 +309,6 @@ class ChartingState extends MusicBeatState
 	override function destroy() {
 		for(listener in mouse_listeners) FlxG.stage.removeEventListener(listener, handleMouseInput);
 		super.destroy();
-		Paths.noteSkinFramesMap.clear();
-		Paths.noteSkinAnimsMap.clear(); //this is so the notes don't turn into black squares after you exit
 	}
 
 	override function create()
@@ -3149,11 +3147,9 @@ class ChartingState extends MusicBeatState
 		var daStrumTime = i[0];
 		var daSus:Dynamic = i[2];
 
-		var note:Note = new Note(true);
-		note.strumTime = daStrumTime;
-		note.noteData = daNoteInfo % Note.ammo[_song.options.mania];
+		var note:Note = new Note(daStrumTime, daNoteInfo % Note.ammo[_song.options.mania], null, null, true);
+		note.active = false;
 		if(daSus != null) { //Common note
-			note.animation.play(Note.keysShit.get(_song.options.mania).get('letters')[daNoteInfo % Note.ammo[_song.options.mania]]);
 			if(!Std.isOfType(i[3], String)) //Convert old note type to new note type format
 			{
 				i[3] = noteTypeIntMap.get(i[3]);

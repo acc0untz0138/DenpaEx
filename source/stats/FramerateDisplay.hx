@@ -87,7 +87,7 @@ class FramerateDisplay extends TextField
 
 		if (currentCount != cacheCount)
 		{
-			text = "FPS: " + (!ClientPrefs.settings.get("ffmpegMode") ? Math.round(currentFPS) : ClientPrefs.settings.get("targetFPS"));
+			text = "FPS: " + Math.round(currentFPS);
 			//textColor = (currentFPS < ClientPrefs.settings.get('framerate')/3 ? 0xff0000 : 0xffffff);
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
