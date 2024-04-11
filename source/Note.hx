@@ -3,43 +3,12 @@ package;
 import Shaders.ColorSwap;
 import editors.ChartingState;
 import flixel.FlxSprite;
-import flixel.math.FlxRect;
 
 typedef EventNote = {
 	strumTime:Float,
 	event:String,
 	value1:String,
 	value2:String
-}
-
-typedef PreloadedChartNote = {
-	strumTime:Float,
-	noteData:Int,
-	mustPress:Bool,
-	noteType:String,
-	animSuffix:String,
-	noteskin:String,
-	texture:String,
-	noAnimation:Bool,
-	noMissAnimation:Bool,
-	gfNote:Bool,
-	isSustainNote:Bool,
-	isSustainEnd:Bool,
-	sustainLength:Float,
-	sustainScale:Float,
-	parent:PreloadedChartNote,
-	prevNote:Note,
-	strum:StrumNote,
-	mania:Int,
-	hitHealth:Float,
-	missHealth:Float,
-	hitCausesMiss:Null<Bool>,
-	wasHit:Bool,
-	spawnTimeMult:Float,
-	wasSpawned:Bool,
-	canBeHit:Bool,
-	ignoreNote:Bool,
-	wasMissed:Bool
 }
 
 /**
@@ -119,7 +88,6 @@ class Note extends FlxSprite
 	public var inEditor:Bool = false;
 	public var gfNote:Bool = false;
 	public var strum:Int = 0; //used to sort the note to strums in playstate
-	public var strumToFollow:StrumNote = null; //used when we need to make the note follow a strum
 	private var earlyHitMult:Float = 0.6;
 
 	public static final swagWidth:Float = 160 * 0.7;
@@ -151,8 +119,6 @@ class Note extends FlxSprite
 	public var rating:String = 'unknown';
 	public var ratingDisabled:Bool = false;
 
-	public var sustainScale:Float = 1;
-
 	public var texture(default, set):String = null;
 
 	public var noAnimation:Bool = false;
@@ -167,16 +133,7 @@ class Note extends FlxSprite
 	var defaultHeight:Float = 0;
 
 	private function set_texture(value:String):String {
-		if (!PlayState.isPixelStage)
-		{
-			if (!Paths.noteSkinFramesMap.exists(value)) Paths.initNote(value);
-			frames = @:privateAccess Paths.noteSkinFramesMap.get(value);
-			animation.copyFrom(@:privateAccess Paths.noteSkinAnimsMap.get(value));
-			antialiasing = ClientPrefs.settings.get("globalAntialiasing");
-			if (inEditor) scale.set(0.7, 0.7);
-				else scale.set(Note.scales[PlayState.mania], Note.scales[PlayState.mania]);
-			updateHitbox();
-		}
+		if(texture != value) reloadNote('', value);
 		texture = value;
 		return value;
 	}
@@ -224,18 +181,24 @@ class Note extends FlxSprite
 		return value;
 	}
 
-	public function new(?inEditor:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false)
 	{
 		super();
 
-		if (prevNote == null)
-			prevNote = this;
-
 		mania = PlayState.mania;
 
+		if (prevNote == null) prevNote = this;
+
+		this.prevNote = prevNote;
+		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
 
+		x += (ClientPrefs.settings.get("middleScroll") ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
 		y -= 2000;
+		this.strumTime = strumTime;
+		if(!inEditor) this.strumTime += ClientPrefs.settings.get("noteOffset");
+
+		this.noteData = noteData;
 
 		if(noteData > -1) {
 			texture = '';
@@ -425,7 +388,7 @@ class Note extends FlxSprite
 	
 		updateHitbox();
 	}
-	public var correctionOffset:Int = 0;
+
 	//remove later possibly??
 	override function update(elapsed:Float)
 	{
@@ -444,125 +407,6 @@ class Note extends FlxSprite
 			if (!(strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))) return;
 			wasGoodHit = ((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition);
 		}
-	}
-
-	public function followStrum(strum:StrumNote, fakeCrochet:Float, songSpeed:Float = 1):Void
-	{
-		if (isSustainNote) 
-		{
-			
-			flipY = strum.downScroll;
-			offsetX = 36.5;
-			scale.set(Note.scales[PlayState.mania], isSustainEnd ? 1 : Conductor.stepCrochet * 0.0105 * (songSpeed / spawnTimeMult) * sustainScale);
-			if (PlayState.isPixelStage) 
-			{
-				scale.x *= PlayState.daPixelZoom;
-				scale.y *= PlayState.daPixelZoom;
-			}
-
-			updateHitbox();
-		}
-			
-		if (strum == null) noteData = PlayState.mania;
-		distance = (0.45 * (Conductor.songPosition - strumTime) * songSpeed * spawnTimeMult);
-		if (!strum.downScroll) distance *= -1;
-
-						if(animation != null && animation.curAnim != null && animation.curAnim.name.endsWith('end'))
-						{
-							y -= height-2;
-						}
-
-		if (copyAngle)
-			angle = strum.direction - 90 + strum.angle + offsetAngle;
-
-		if(copyAlpha)
-			alpha = strum.alpha * multAlpha;
-
-		if(copyX)
-			x = strum.x + offsetX + Math.cos(strum.direction * Math.PI / 180) * distance;
-
-		if(copyY)
-		{
-			y = strum.y + offsetY + correctionOffset + Math.sin(strum.direction * Math.PI / 180) * distance;
-			if(strum.downScroll && isSustainNote)
-			{
-				if(PlayState.isPixelStage)
-				{
-					y -= PlayState.daPixelZoom * 9.5;
-				}
-				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
-			}
-		}
-	}
-
-	public function clipToStrumNote(myStrum:StrumNote)
-	{
-		final center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
-		if(isSustainNote && (mustPress || !ignoreNote) &&
-			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit))))
-		{
-			final swagRect:FlxRect = clipRect != null ? clipRect : new FlxRect(0, 0, frameWidth, frameHeight);
-
-			if (myStrum.downScroll)
-			{
-				if(y - offset.y * scale.y + height >= center)
-				{
-					swagRect.width = frameWidth;
-					swagRect.height = (center - y) / scale.y;
-					swagRect.y = frameHeight - swagRect.height;
-				}
-			}
-			else if (y + offset.y * scale.y <= center)
-			{
-				swagRect.y = (center - y) / scale.y;
-				swagRect.width = width / scale.x;
-				swagRect.height = (height / scale.y) - swagRect.y;
-			}
-			clipRect = swagRect;
-		}
-	}
-
-	// this is used for note recycling
-	public function setupNoteData(chartNoteData:PreloadedChartNote):Note
-	{
-		wasGoodHit = hitByOpponent = tooLate = false; // Don't make an update call of this for the note group
-
-		strumTime = chartNoteData.strumTime;
-		if(!inEditor) strumTime += ClientPrefs.settings.get("noteOffset");
-		noteData = Std.int(chartNoteData.noteData % 4);
-		noteType = chartNoteData.noteType;
-		noAnimation = chartNoteData.noAnimation;
-		mustPress = chartNoteData.mustPress;
-		gfNote = chartNoteData.gfNote;
-		isSustainNote = chartNoteData.isSustainNote;
-		if (chartNoteData.noteskin.length > 0 && chartNoteData.noteskin != '' && chartNoteData.noteskin != texture) texture = 'noteskins/' + chartNoteData.noteskin;
-		if (chartNoteData.texture.length > 0 && chartNoteData.texture != texture) texture = chartNoteData.texture;
-		sustainLength = chartNoteData.sustainLength;
-
-		strumToFollow = chartNoteData.strum;
-		mania = chartNoteData.mania;
-		hitHealth = chartNoteData.hitHealth;
-		missHealth = chartNoteData.missHealth;
-		hitCausesMiss = chartNoteData.hitCausesMiss;
-		spawnTimeMult = chartNoteData.spawnTimeMult;
-		isSustainEnd = chartNoteData.isSustainEnd;
-
-		if (!isSustainEnd && isSustainNote)
-		{
-			hitHealth = (0.023 / 2) / (PlayState.SONG.header.bpm / 150);
-			missHealth = (0.0475 / 2) / (PlayState.SONG.header.bpm / 150);
-		}
-
-		if (PlayState.isPixelStage) reloadNote('', texture);
-		animation.play(Note.keysShit.get(mania).get('letters')[noteData % Note.ammo[mania]]);
-		if (isSustainNote) animation.play('${Note.keysShit.get(mania).get('letters')[noteData]}' + (chartNoteData.isSustainEnd ? ' tail' : ' hold'));
-			sustainScale = chartNoteData.sustainScale;
-
-		if (isSustainNote) correctionOffset = ClientPrefs.settings.get("downScroll") ? 0 : 55;
-
-		if (ClientPrefs.settings.get("noteColor") == 'Rainbow') colorSwap.hue = ((strumTime / 5000 * 360) / 360) % 1;
-
-		return this;
 	}
 
 	override function destroy() {
