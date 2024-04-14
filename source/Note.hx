@@ -529,7 +529,7 @@ class Note extends FlxSprite
 
 		strumTime = chartNoteData.strumTime;
 		if(!inEditor) strumTime += ClientPrefs.settings.get("noteOffset");
-		noteData = Std.int(chartNoteData.noteData % PlayState.mania);
+		noteData = Std.int(chartNoteData.noteData % ammo[PlayState.mania]);
 		noteType = chartNoteData.noteType;
 		noAnimation = chartNoteData.noAnimation;
 		mustPress = chartNoteData.mustPress;
