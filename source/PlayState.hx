@@ -2300,7 +2300,7 @@ class PlayState extends MusicBeatState
 					mustPress: gottaHitNote,
 					noteType: songNotes[3],
 					animSuffix: (songNotes[3] == 'Alt Animation' || section.altAnim ? '-alt' : ''),
-					gfNote: songNotes[3] == 'GF Sing' || (section.gfSection && songNotes[1] < 4),
+					gfNote: songNotes[3] == 'GF Sing' || (section.gfSection && songNotes[1] < mania),
 					noAnimation: songNotes[3] == 'No Animation',
 					isSustainNote: false,
 					isSustainEnd: false,
@@ -3518,8 +3518,8 @@ class PlayState extends MusicBeatState
 						if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
 							noteMiss(daNote);
 
-						group.remove(daNote, true);
-						daNote.destroy();
+						//group.remove(daNote, true); feel free to uncomment this out if you like
+						daNote.exists = false;
 					}
 				});
 			}
@@ -5515,8 +5515,7 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 		{
-			notes.remove(note, true);
-			note = FlxDestroyUtil.destroy(note);
+			note.exists = false;
 			
 			//Main.requestCollect();
 		}
@@ -5716,8 +5715,7 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 		{
-			notes.remove(note, true);
-			note = FlxDestroyUtil.destroy(note);
+			note.exists = false;
 		}
 	}
 
