@@ -452,7 +452,7 @@ class Note extends FlxSprite
 		{
 			
 			flipY = strum.downScroll;
-			offsetX = 36.5;
+			offsetX = 50 * Note.scales[PlayState.mania];
 			scale.set(Note.scales[PlayState.mania], isSustainEnd ? 1 : Conductor.stepCrochet * 0.0105 * (songSpeed / spawnTimeMult) * sustainScale);
 			if (PlayState.isPixelStage) 
 			{
