@@ -3509,9 +3509,6 @@ class PlayState extends MusicBeatState
 						if(daNote.strumTime <= Conductor.songPosition)
 							goodNoteHit(daNote);
 					}
-					if (daNote.isSustainNote && daNote.strumTime <= Conductor.songPosition - 20)
-						sustains.remove(daNote, true);
-
 					// Kill extremely late notes and cause misses
 					if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 					{
@@ -3522,6 +3519,7 @@ class PlayState extends MusicBeatState
 						daNote.exists = false;
 					}
 				});
+				for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
 			}
 		}
 		
