@@ -1,6 +1,7 @@
 @echo off
 color 0a
 cd ..
+haxelib newrepo
 echo Installing and updating libraries.
 haxelib install flixel-addons 3.0.2
 haxelib install flixel-ui 2.5.0

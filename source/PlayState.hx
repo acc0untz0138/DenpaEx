@@ -3491,6 +3491,7 @@ class PlayState extends MusicBeatState
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
 					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
+					else daNote.strum = 0;
                     switch (daNote.strum) {
                         case 0: strumGroup = playerStrums;
                     	case 1: strumGroup = opponentStrums;
@@ -5511,12 +5512,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 		callOnHscripts('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 
-		if (!note.isSustainNote)
-		{
-			note.exists = false;
-			
-			//Main.requestCollect();
-		}
+		note.exists = false;
 	}
 
 	public function goodNoteHit(note:Note) {
@@ -5711,10 +5707,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 		callOnHscripts('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 
-		if (!note.isSustainNote)
-		{
-			note.exists = false;
-		}
+		note.exists = false;
 	}
 
 	public function spawnNoteSplashOnNote(note:Note) {
