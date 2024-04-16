@@ -2300,7 +2300,7 @@ class PlayState extends MusicBeatState
 					mustPress: gottaHitNote,
 					noteType: songNotes[3],
 					animSuffix: (songNotes[3] == 'Alt Animation' || section.altAnim ? '-alt' : ''),
-					gfNote: songNotes[3] == 'GF Sing' || (section.gfSection && songNotes[1] < 4),
+					gfNote: songNotes[3] == 'GF Sing' || (section.gfSection && songNotes[1] < mania),
 					noAnimation: songNotes[3] == 'No Animation',
 					isSustainNote: false,
 					isSustainEnd: false,
@@ -3491,6 +3491,7 @@ class PlayState extends MusicBeatState
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
 					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
+					else daNote.strum = 0;
                     switch (daNote.strum) {
                         case 0: strumGroup = playerStrums;
                     	case 1: strumGroup = opponentStrums;
@@ -3509,19 +3510,21 @@ class PlayState extends MusicBeatState
 						if(daNote.strumTime <= Conductor.songPosition)
 							goodNoteHit(daNote);
 					}
-					if (daNote.isSustainNote && daNote.strumTime <= Conductor.songPosition - 20)
-						sustains.remove(daNote, true);
-
 					// Kill extremely late notes and cause misses
 					if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 					{
 						if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
 							noteMiss(daNote);
 
-						group.remove(daNote, true);
-						daNote.destroy();
+						//group.remove(daNote, true); feel free to uncomment this out if you like
+						daNote.exists = false;
 					}
 				});
+				if(!ClientPrefs.settings.get("downScroll")) {
+					for (group in [notes, sustains]) inline group.members.sort((a:Note, b:Note) -> inline Std.int(a.y - b.y));
+				} else {
+					for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
+				}
 			}
 		}
 		
@@ -5513,13 +5516,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 		callOnHscripts('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 
-		if (!note.isSustainNote)
-		{
-			notes.remove(note, true);
-			note = FlxDestroyUtil.destroy(note);
-			
-			//Main.requestCollect();
-		}
+		note.exists = false;
 	}
 
 	public function goodNoteHit(note:Note) {
@@ -5714,11 +5711,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 		callOnHscripts('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 
-		if (!note.isSustainNote)
-		{
-			notes.remove(note, true);
-			note = FlxDestroyUtil.destroy(note);
-		}
+		note.exists = false;
 	}
 
 	public function spawnNoteSplashOnNote(note:Note) {

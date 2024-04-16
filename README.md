@@ -77,7 +77,7 @@ Shygee - Additional Programmer
 05) Added blank character (name is "null").
 06) Restored easy charts.
 07) Custom noteskin colors (Default, Greyscale & Rainbow).
-08) Render Mode for showcasing charts.
+08) Render Mode for showcasing charts (Requires ffmpeg).
 09) Optimized Auto Play (list coming soon).
 10) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
 11) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).

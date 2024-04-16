@@ -452,7 +452,7 @@ class Note extends FlxSprite
 		{
 			
 			flipY = strum.downScroll;
-			offsetX = 36.5;
+			offsetX = 50 * Note.scales[PlayState.mania];
 			scale.set(Note.scales[PlayState.mania], isSustainEnd ? 1 : Conductor.stepCrochet * 0.0105 * (songSpeed / spawnTimeMult) * sustainScale);
 			if (PlayState.isPixelStage) 
 			{
@@ -529,7 +529,7 @@ class Note extends FlxSprite
 
 		strumTime = chartNoteData.strumTime;
 		if(!inEditor) strumTime += ClientPrefs.settings.get("noteOffset");
-		noteData = Std.int(chartNoteData.noteData % 4);
+		noteData = Std.int(chartNoteData.noteData % ammo[PlayState.mania]);
 		noteType = chartNoteData.noteType;
 		noAnimation = chartNoteData.noAnimation;
 		mustPress = chartNoteData.mustPress;
