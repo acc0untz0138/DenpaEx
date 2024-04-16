@@ -3491,7 +3491,7 @@ class PlayState extends MusicBeatState
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
 					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
-					else daNote.strum = 0;
+					else if (daNote.mustPress && daNote.strum < 2) daNote.strum = 0;
                     switch (daNote.strum) {
                         case 0: strumGroup = playerStrums;
                     	case 1: strumGroup = opponentStrums;
@@ -5460,7 +5460,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(ClientPrefs.settings.get("noteSplashes") && !ClientPrefs.settings.get("hideHud") && note != null) {
+		if(ClientPrefs.settings.get("noteSplashes") && !ClientPrefs.settings.get("hideHud") && note != null && !note.isSustainNote) {
 			var strum:StrumNote = opponentStrums.members[note.noteData];
 			if(strum != null) {
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
