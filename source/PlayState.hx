@@ -3492,6 +3492,7 @@ class PlayState extends MusicBeatState
 					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
 					else if (daNote.mustPress && daNote.strum < 2) daNote.strum = 0;
+					else daNote.strum = 0;
                     switch (daNote.strum) {
                         case 0: strumGroup = playerStrums;
                     	case 1: strumGroup = opponentStrums;
@@ -3521,6 +3522,11 @@ class PlayState extends MusicBeatState
 					}
 				});
 				for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
+				if(!ClientPrefs.settings.get("downScroll")) {
+					for (group in [notes, sustains]) inline group.members.sort((a:Note, b:Note) -> inline Std.int(a.y - b.y));
+				} else {
+					for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
+				}
 			}
 		}
 		
