@@ -5464,7 +5464,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(ClientPrefs.settings.get("noteSplashes") && !ClientPrefs.settings.get("hideHud") && note != null) {
+		if(ClientPrefs.settings.get("noteSplashes") && !ClientPrefs.settings.get("hideHud") && note != null && !note.isSustainNote) {
 			var strum:StrumNote = opponentStrums.members[note.noteData];
 			if(strum != null) {
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
