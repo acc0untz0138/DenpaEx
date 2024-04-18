@@ -3521,7 +3521,6 @@ class PlayState extends MusicBeatState
 						daNote.exists = false;
 					}
 				});
-				for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
 				if(!ClientPrefs.settings.get("downScroll")) {
 					for (group in [notes, sustains]) inline group.members.sort((a:Note, b:Note) -> inline Std.int(a.y - b.y));
 				} else {
