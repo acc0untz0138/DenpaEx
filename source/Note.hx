@@ -512,7 +512,7 @@ class Note extends FlxSprite
 	}
 
 	// this is used for note recycling
-	public function setupNoteData(chartNoteData:PreloadedChartNote):Void
+	public function setupNoteData(chartNoteData:PreloadedChartNote):Note
 	{
 		wasGoodHit = hitByOpponent = tooLate = false; // Don't make an update call of this for the note group
 
@@ -560,6 +560,7 @@ class Note extends FlxSprite
 			default:
 				
 		}
+		return this;
 	}
 
 	override function destroy() {
