@@ -526,7 +526,7 @@ class Note extends FlxSprite
 		isSustainNote = chartNoteData.isSustainNote;
 		if (chartNoteData.noteskin.length > 0 && chartNoteData.noteskin != '' && chartNoteData.noteskin != texture) texture = 'noteskins/' + chartNoteData.noteskin;
 		if (chartNoteData.texture.length > 0 && chartNoteData.texture != texture) texture = chartNoteData.texture;
-		if (chartNoteData.noteskin.length < 1 && texture != Paths.defaultSkin) texture = Paths.defaultSkin;
+		if (chartNoteData.texture.length < 1 && texture != Paths.defaultSkin) texture = Paths.defaultSkin;
 		sustainLength = chartNoteData.sustainLength;
 
 		strumToFollow = chartNoteData.strum;
