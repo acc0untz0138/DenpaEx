@@ -26,6 +26,23 @@ class Paths
 	public static var noteSkinFramesMap:Map<String, FlxFramesCollection> = new Map();
 	public static var noteSkinAnimsMap:Map<String, FlxAnimationController> = new Map();
 
+	public static var defaultSkin:String = 'NOTE_assets';
+
+	//ok this initializes the default noteskin
+	public static function initDefaultSkin(keys:Int = 4, noteSkin:String)
+	{
+		if(ClientPrefs.settings.get("noteColor") == 'Default') {
+			defaultSkin = 'NOTE_assets';
+		}
+		if(ClientPrefs.settings.get("noteColor") == 'Greyscale') {
+			defaultSkin = 'GREYSCALE_NOTE_assets';
+		}
+		if(ClientPrefs.settings.get("noteColor") == 'Rainbow') {
+			defaultSkin = 'RED_NOTE_assets';
+		}
+		if (noteSkin != null && noteSkin.length > 1) defaultSkin = noteSkin;
+	}
+
 	//Function that initializes the first note. This way, we can recycle the notes
 	public static function initNote(noteSkin:String = 'NOTE_assets')
 	{

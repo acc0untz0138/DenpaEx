@@ -619,6 +619,8 @@ class PlayState extends MusicBeatState
 		GameOverSubstate.resetVariables();
 		var songName:String = Paths.formatToSongPath(SONG.header.song);
 
+		Paths.initDefaultSkin(4, SONG.assets.arrowSkin);
+
 		//set some shit
 		curStage = SONG.assets.stage;
 		if(SONG.assets.stage == null || SONG.assets.stage.length < 1) {
