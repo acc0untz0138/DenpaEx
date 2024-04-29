@@ -328,6 +328,8 @@ class ChartingState extends MusicBeatState
 			PlayState.SONG = _song;
 		}
 
+		Paths.initDefaultSkin(4, _song.assets.arrowSkin);
+
 		PlayState.mania = _song.options.mania;
 
 		difficultyString = CoolUtil.toTitleCase(CoolUtil.difficultyString().toLowerCase());
@@ -934,6 +936,7 @@ class ChartingState extends MusicBeatState
 	
 		var reloadNotesButton:FlxButton = new FlxButton(340, 360, 'Reload Notes', function() {
 			selectionArrow.texture = _song.assets.arrowSkin = noteSkinInputText.text;
+			Paths.initDefaultSkin(4, _song.assets.arrowSkin);
 			updateGrid();
 		});
 		reloadNotesButton.color = FlxColor.RED;

@@ -74,6 +74,7 @@ class ClientPrefs {
         "pauseMusic" => "Breakfast",
         "cutscenes" => "Story Mode Only",
 		"colorblindMode" => "None",
+		"videoEncoder" => "libx264rgb",
 		//Arrays
 		"crossFadeData" => ['Default', 'Healthbar', [255, 255, 255], 0.3, 0.35]
 	];
