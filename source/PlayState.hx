@@ -618,6 +618,8 @@ class PlayState extends MusicBeatState
 		//reset some shit
 		GameOverSubstate.resetVariables();
 		var songName:String = Paths.formatToSongPath(SONG.header.song);
+		
+		Paths.initDefaultSkin(4, SONG.assets.arrowSkin);
 
 		Paths.initDefaultSkin(4, SONG.assets.arrowSkin);
 
@@ -7353,7 +7355,7 @@ class PlayState extends MusicBeatState
 
 		ffmpegExists = true;
 		
-		process = new sys.io.Process('ffmpeg', ['-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', lime.app.Application.current.window.width + 'x' + lime.app.Application.current.window.height, '-r', Std.string(targetFPS), '-i', '-', '-c:v', 'libx264rgb', '-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 'assets/renders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4']);
+		process = new sys.io.Process('ffmpeg', ['-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', lime.app.Application.current.window.width + 'x' + lime.app.Application.current.window.height, '-r', Std.string(targetFPS), '-i', '-', '-c:v', Std.string(ClientPrefs.settings.get("videoEncoder")), '-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 'assets/renders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4']);
 		FlxG.autoPause = false;
 	}
 

@@ -1092,6 +1092,14 @@ class GameRendererSettingsSubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+		
+		var option:Option = new Option('Video Encoder',
+			"Which encoder would you like to use?",
+			'videoEncoder',
+			'string',
+			'libx264rgb',
+			['libsvtav1', 'libx264', 'libx264rgb', 'libx265', 'libxvid']);
+		addOption(option);
 
         	var option:Option = new Option('Show Debug Info',
 			"If checked, the Botplay text will show how long it took to render 1 frame.",
