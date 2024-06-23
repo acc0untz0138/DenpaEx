@@ -208,10 +208,10 @@ class Paths
 		return getPath('update/$key', TEXT, library);
 
 	inline static public function frag(key:String, ?library:String)
-		return File.getContent(getPath('data/shaders/$key.frag', TEXT, library));
+		return File.getContent(getPath('shaders/$key.frag', TEXT, library));
 
 	inline static public function vert(key:String, ?library:String)
-		return File.getContent(getPath('data/shaders/$key.vert', TEXT, library));
+		return File.getContent(getPath('shaders/$key.vert', TEXT, library));
 
 	inline static public function lua(key:String, ?library:String)
 		return getPath('$key.lua', TEXT, library);
