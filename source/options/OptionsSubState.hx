@@ -744,6 +744,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 {
 	var canZoom:Bool = false;
 	var shouldZoom:Bool = false;
+	var shadersEnabled:Bool = true;
 	var floatyTxt:FlxText;
 	var icon:HealthIcon;
 	var noteColor:String = 'Default';
@@ -773,6 +774,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.showBoyfriend = true;
 		option.onChange = changeOption; //Changing onChange is only needed if you want to make a special interaction after it changes the value
 		addOption(option);
+
+		var option:Option = new Option('Shaders', 
+			'If unchecked, disables shaders.\nIt\'s used for some visual effects, and also CPU intensive for weaker PCs.', //Description
+			'shaders', 
+			'bool', 
+			true);
+		addOption(option);
+		option.onChange = changeOption;
 
 		var option:Option = new Option('Watermarks',
 			"If checked, Denpa Engine Watermarks will be enabled, as well as the Song Credits.",
