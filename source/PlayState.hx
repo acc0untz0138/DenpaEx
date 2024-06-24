@@ -622,6 +622,8 @@ class PlayState extends MusicBeatState
 		
 		Paths.initDefaultSkin(4, SONG.assets.arrowSkin);
 
+		Paths.initDefaultSkin(4, SONG.assets.arrowSkin);
+
 		//set some shit
 		curStage = SONG.assets.stage;
 		if(SONG.assets.stage == null || SONG.assets.stage.length < 1) {
@@ -1864,77 +1866,6 @@ class PlayState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 	}
 
-	#if (!flash && sys)
-	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
-	public function createRuntimeShader(name:String):FlxRuntimeShader
-	{
-
-		if(!ClientPrefs.settings.get("shaders")) return new FlxRuntimeShader();
-
-		#if (!flash && MODS_ALLOWED && sys)
-		if(!runtimeShaders.exists(name) && !initLuaShader(name))
-		{
-			FlxG.log.warn('Shader $name is missing!');
-			return new FlxRuntimeShader();
-		}
-
-		var arr:Array<String> = runtimeShaders.get(name);
-		return new FlxRuntimeShader(arr[0], arr[1]);
-		#else
-		FlxG.log.warn("Platform unsupported for Runtime Shaders!");
-		return null;
-		#end
-	}
-
-	public function initLuaShader(name:String, ?glslVersion:Int = 120)
-	{
-
-		if(!ClientPrefs.settings.get("shaders")) return false;
-
-		if(runtimeShaders.exists(name))
-		{
-			FlxG.log.warn('Shader $name was already initialized!');
-			return true;
-		}
-
-		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
-		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
-		
-		for (folder in foldersToCheck)
-		{
-			if(FileSystem.exists(folder))
-			{
-				var frag:String = folder + name + '.frag';
-				var vert:String = folder + name + '.vert';
-				var found:Bool = false;
-				if(FileSystem.exists(frag))
-				{
-					frag = File.getContent(frag);
-					found = true;
-				}
-				else frag = null;
-
-				if (FileSystem.exists(vert))
-				{
-					vert = File.getContent(vert);
-					found = true;
-				}
-				else vert = null;
-
-				if(found)
-				{
-					runtimeShaders.set(name, [frag, vert]);
-					//trace('Found shader $name!');
-					return true;
-				}
-			}
-		}
-		FlxG.log.warn('Missing shader $name .frag AND .vert files!');
-		return false;
-	}
-	#end
-
 	function makeEffectOverlay(image:String, targetGroup:FlxTypedGroup<FlxSprite>) {
 		for (i in 0...4) {
 			var corner:FlxSprite = new FlxSprite().loadGraphic(Paths.image('effectSprites/$image'));
@@ -1967,6 +1898,8 @@ class PlayState extends MusicBeatState
 
 	//WOO YEAH BABY
 	//THATS WHAT IVE BEEN WAITING FOR
+	//THATS WHAT ITS ALL ABOUT
+	//WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 	public function cacheDeath()
 	{
 		var characterPath:String = 'data/characters/' + GameOverSubstate.characterName + '.json';
@@ -2004,6 +1937,75 @@ class PlayState extends MusicBeatState
 		Paths.music(GameOverSubstate.loopSoundName);
 		Paths.sound(GameOverSubstate.endSoundName);
 	}
+
+	#if (!flash && sys)
+	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
+	public function createRuntimeShader(name:String):FlxRuntimeShader
+	{
+		if(!ClientPrefs.settings.get("shaders")) return new FlxRuntimeShader();
+
+		#if (!flash && MODS_ALLOWED && sys)
+		if(!runtimeShaders.exists(name) && !initLuaShader(name))
+		{
+			FlxG.log.warn('Shader $name is missing!');
+			return new FlxRuntimeShader();
+		}
+
+		var arr:Array<String> = runtimeShaders.get(name);
+		return new FlxRuntimeShader(arr[0], arr[1]);
+		#else
+		FlxG.log.warn("Platform unsupported for Runtime Shaders!");
+		return null;
+		#end
+	}
+
+	public function initLuaShader(name:String, ?glslVersion:Int = 120)
+	{
+		if(!ClientPrefs.settings.get("shaders")) return false;
+
+		if(runtimeShaders.exists(name))
+		{
+			FlxG.log.warn('Shader $name was already initialized!');
+			return true;
+		}
+
+		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
+		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
+			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
+
+		for (folder in foldersToCheck)
+		{
+			if(FileSystem.exists(folder))
+			{
+				var frag:String = folder + name + '.frag';
+				var vert:String = folder + name + '.vert';
+				var found:Bool = false;
+				if(FileSystem.exists(frag))
+				{
+					frag = File.getContent(frag);
+					found = true;
+				}
+				else frag = null;
+
+				if (FileSystem.exists(vert))
+				{
+					vert = File.getContent(vert);
+					found = true;
+				}
+				else vert = null;
+
+				if(found)
+				{
+					runtimeShaders.set(name, [frag, vert]);
+					//trace('Found shader $name!');
+					return true;
+				}
+			}
+		}
+		FlxG.log.warn('Missing shader $name .frag AND .vert files!');
+		return false;
+	}
+	#end
 
 	public function set_playbackRate(value:Single):Single
 	{
@@ -3565,6 +3567,7 @@ class PlayState extends MusicBeatState
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
 					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
+					else if (daNote.mustPress && daNote.strum < 2) daNote.strum = 0;
 					else daNote.strum = 0;
                     switch (daNote.strum) {
                         case 0: strumGroup = playerStrums;

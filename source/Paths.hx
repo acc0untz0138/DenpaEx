@@ -42,7 +42,7 @@ class Paths
 		}
 		if (noteSkin != null && noteSkin.length > 1) defaultSkin = noteSkin;
 	}
-	
+
 	//Function that initializes the first note. This way, we can recycle the notes
 	public static function initNote(noteSkin:String = 'NOTE_assets')
 	{

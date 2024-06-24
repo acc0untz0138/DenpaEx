@@ -80,11 +80,13 @@ Shygee - Additional Programmer
 08) Render Mode for showcasing charts (Requires ffmpeg).
 09) Optimized Auto Play (list coming soon).
 10) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
-11) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
-12) Total notes counter in ChartingState.
-13) Custom max BPM, speed, zoom & note density.
-14) Restored the miss sound toggle (literally the easiest thing).
-15) Fixed some text here and there in some states.
+11) GLSL Shader Compatibility (wasnt that impossible after all...).
+12) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
+13) 202-minute long song support (also wasnt as difficult lmao).
+14) Total notes counter in ChartingState.
+15) Custom max BPM, speed, zoom & note density.
+16) Restored the miss sound toggle (literally the easiest thing).
+17) Fixed some text here and there in some states.
 
 ### Customization Options
 
@@ -98,13 +100,11 @@ Shygee - Additional Programmer
 
 ## Upcoming Features
 
-01) Add long song support (will be hard as SHIT).
-02) Add search box in FreeplayState.
-03) Add keybind reminders on the start of songs.
-04) Add Character and Quant-Based Note Colors.
-05) Add "Play as Opponent" option in GameplayChangersSubstate.
-06) Add a toggle for OG & denpa icons.
-07) Add compatibility for .frag files/shaders (prolly not possible).
+01) Add search box in FreeplayState.
+02) Add keybind reminders on the start of songs.
+03) Add Character and Quant-Based Note Colors.
+04) Add "Play as Opponent" option in GameplayChangersSubstate.
+05) Add a toggle for OG & denpa icons.
 
 ## License Summary
 

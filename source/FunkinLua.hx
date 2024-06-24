@@ -1,5 +1,6 @@
 package;
 
+import openfl.display.BitmapData;
 #if LUA_ALLOWED
 import llua.Convert;
 import llua.Lua;
@@ -25,6 +26,9 @@ import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import Shaders;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.display.BlendMode;
+
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -524,7 +528,10 @@ class FunkinLua {
 
 			var killMe:Array<String> = obj.split('.');
 			var leObj:FlxSprite = getObjectDirectly(killMe[0]);
-			
+			if(killMe.length > 1) {
+				leObj = Reflect.getProperty(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
+			}
+
 			if(leObj != null) {
 				var arr:Array<String> = PlayState.instance.runtimeShaders.get(shader);
 				leObj.shader = new FlxRuntimeShader(arr[0], arr[1]);
@@ -538,7 +545,9 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "removeSpriteShader", function(obj:String) {
 			var killMe:Array<String> = obj.split('.');
 			var leObj:FlxSprite = getObjectDirectly(killMe[0]);
-			
+			if(killMe.length > 1) {
+				leObj = Reflect.getProperty(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
+			}
 
 			if(leObj != null) {
 				leObj.shader = null;
@@ -2552,6 +2561,9 @@ class FunkinLua {
 	{
 		var killMe:Array<String> = obj.split('.');
 		var leObj:FlxSprite = getObjectDirectly(killMe[0]);
+		if(killMe.length > 1) {
+			leObj = Reflect.getProperty(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
+		}
 
 		if(leObj != null) {
 			var shader:Dynamic = leObj.shader;
@@ -2576,7 +2588,6 @@ class FunkinLua {
 		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
-		
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
@@ -2728,6 +2739,26 @@ class FunkinLua {
 			theTimer.destroy();
 			PlayState.instance.modchartTimers.remove(tag);
 		}
+	}
+
+	function blendModeFromString(blend:String):BlendMode {
+		switch(blend.toLowerCase().trim()) {
+			case 'add': return ADD;
+			case 'alpha': return ALPHA;
+			case 'darken': return DARKEN;
+			case 'difference': return DIFFERENCE;
+			case 'erase': return ERASE;
+			case 'hardlight': return HARDLIGHT;
+			case 'invert': return INVERT;
+			case 'layer': return LAYER;
+			case 'lighten': return LIGHTEN;
+			case 'multiply': return MULTIPLY;
+			case 'overlay': return OVERLAY;
+			case 'screen': return SCREEN;
+			case 'shader': return SHADER;
+			case 'subtract': return SUBTRACT;
+		}
+		return NORMAL;
 	}
 
 	function cameraFromString(cam:String):FlxCamera {
