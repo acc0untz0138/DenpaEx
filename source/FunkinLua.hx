@@ -2648,17 +2648,14 @@ class FunkinLua {
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
 		for (folder in foldersToCheck)
 		{
-			trace(folder);
 			if(FileSystem.exists(folder))
 			{
 				trace(folder);
 				var frag:String = folder + name + '.frag';
 				var vert:String = folder + name + '.vert';
-				trace(frag);
 				var found:Bool = false;
 				if(FileSystem.exists(frag))
 				{
-					trace('POG');
 					frag = File.getContent(frag);
 					found = true;
 				}
