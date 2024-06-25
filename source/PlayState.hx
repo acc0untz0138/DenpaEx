@@ -116,6 +116,7 @@ class PlayState extends MusicBeatState
 	public var dadMap:Map<String, Character> = new Map();
 	public var player4Map:Map<String, Character> = new Map();
 	public var gfMap:Map<String, Character> = new Map();
+	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
 
 	//important character switcher
 	public static var characterVersion = 'bf';
@@ -2184,6 +2185,13 @@ class PlayState extends MusicBeatState
 		#if HSCRIPT_ALLOWED
 		addHscript('characters/$name');
 		#end
+	}
+
+	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
+		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
+		if(variables.exists(tag)) return variables.get(tag);
+		return null;
 	}
 	
 	public function startCharacterPos(char:Character, ?gfCheck:Bool = false)

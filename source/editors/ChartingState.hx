@@ -2564,7 +2564,7 @@ class ChartingState extends MusicBeatState
 	function updateZoom() {
 		if (curZoom == 0) {
 			zoomTxt.text = 'Zoom: ' + zoomList[curZoom] + 'x (Min)';
-		} else if (curZoom == #if !html5 24 #else 5 #end) {
+		} else if (curZoom == zoomList.length) { //lmao
 			zoomTxt.text = 'Zoom: ' + zoomList[curZoom] + 'x (Max)';
 		} else {
 			zoomTxt.text = 'Zoom: ' + zoomList[curZoom] + 'x';
