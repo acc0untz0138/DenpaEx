@@ -349,9 +349,11 @@ class ClientPrefs {
 							var val = cast (value, String);
 							var split = val.split("x");
 							CoolUtil.resetResolutionScaling(Std.parseInt(split[0]), Std.parseInt(split[1]));
+							#if !mobile
 							FlxG.resizeGame(Std.parseInt(split[0]), Std.parseInt(split[1]));
 							Application.current.window.width = Std.parseInt(split[0]);
 							Application.current.window.height = Std.parseInt(split[1]);
+							#end
 						#if !html5
 						case "autoPause": FlxG.autoPause = value;
 						#end

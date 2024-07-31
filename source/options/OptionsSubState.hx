@@ -399,7 +399,8 @@ class GeneralSettingsSubState extends BaseOptionsMenu
 		title = 'General Settings';
 		rpcTitle = 'General Settings Menu'; //for Discord Rich Presence
 
-		#if (!html5 || !mobile)
+		#if !html5
+		#if !mobile
 		//different res cant really be done on browser lol
 		var option:Option = new Option('Resolution:',
 			"What resolution do you want the game in?",
@@ -410,6 +411,7 @@ class GeneralSettingsSubState extends BaseOptionsMenu
 			['128x72', '214x120', '256x144', '480x270', '640x360', '960x540', '1280x720', '1920x1080', '2560x1440', '3840x2160']);
 		addOption(option);
 		option.onChange = changeOption;
+		#end
 
 		//Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		var option:Option = new Option('Framerate:',
@@ -497,9 +499,11 @@ class GeneralSettingsSubState extends BaseOptionsMenu
 				var val = cast (ClientPrefs.settings.get("resolution"), String);
 				var split = val.split("x");
 				CoolUtil.resetResolutionScaling(Std.parseInt(split[0]), Std.parseInt(split[1]));
+				#if !mobile
 				FlxG.resizeGame(Std.parseInt(split[0]), Std.parseInt(split[1]));
 				Application.current.window.width = Std.parseInt(split[0]);
 				Application.current.window.height = Std.parseInt(split[1]);
+				#end
 				//OptionsState.reopen(this);
 			case 'Framerate:':
 				if(ClientPrefs.settings.get("framerate") > FlxG.drawFramerate) {

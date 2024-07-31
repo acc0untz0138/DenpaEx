@@ -529,9 +529,11 @@ class PlayState extends MusicBeatState
 				var val = cast (ClientPrefs.settings.get("resolution"), String);
 				var split = val.split("x");
 				CoolUtil.resetResolutionScaling(Std.parseInt(split[0]), Std.parseInt(split[1]));
+				#if !mobile
 				FlxG.resizeGame(Std.parseInt(split[0]), Std.parseInt(split[1]));
 				Application.current.window.width = Std.parseInt(split[0]);
 				Application.current.window.height = Std.parseInt(split[1]);
+				#end
 		}
 
 		Paths.clearUnusedCache();

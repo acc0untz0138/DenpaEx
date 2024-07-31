@@ -102,7 +102,16 @@ class MusicBeatState extends FlxUIState
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyPress);
         FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, keyRelease);
 		disableManual = false;
-        super.destroy();
+        if (trackedInputsVirtualPad.length > 0)
+			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
+
+		super.destroy();
+
+		if (virtualPad != null)
+			virtualPad = FlxDestroyUtil.destroy(virtualPad);
+
+		if (hitbox != null)
+			hitbox = FlxDestroyUtil.destroy(hitbox);
     }
 
 	override function create() {
