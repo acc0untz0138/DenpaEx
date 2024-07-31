@@ -13,9 +13,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.events.KeyboardEvent;
-#if desktop
 import editors.*;
-#end
 
 /**
 * Class used to create the splash screen on startup.
@@ -32,9 +30,7 @@ class DenpaState extends MusicBeatState
 
 	override public function create():Void
 	{
-		#if desktop
 		Application.current.window.focus();
-		#end
 
 		CoolUtil.precacheSound('denpa', 'splash');
 		if (chooseYerIntroMate == 9) {
@@ -46,7 +42,6 @@ class DenpaState extends MusicBeatState
 			CoolUtil.precacheSound('explosion', 'splash');
 		} 
 
-		#if desktop
 		if (FlxG.random.bool(0.01)) {
 			chooseYerIntroMate = 666;
 			CoolUtil.precacheSound('JON_JUIMPSCARE', 'splash');
@@ -54,8 +49,7 @@ class DenpaState extends MusicBeatState
 			CoolUtil.precacheSound('wasted', 'splash');
 			CoolUtil.precacheSound('soulbreak', 'splash');
 			CoolUtil.precacheSound('ourple', 'splash');
-		} 
-		#end
+		}
 
 		logo = new FlxSprite().loadGraphic(Paths.image('logo', 'splash', false));
 		logo.scrollFactor.set();
@@ -183,7 +177,6 @@ class DenpaState extends MusicBeatState
 								});
 							}
 						});
-					#if desktop
 					case 666:
 						FlxG.sound.play(Paths.sound('denpa', 'splash'));
 						FlxTween.tween(logo, {alpha: 1}, 0.95, {
@@ -343,7 +336,6 @@ class DenpaState extends MusicBeatState
 								});
 							}
 						});
-					#end
 					case 5:
 						FlxG.sound.play(Paths.sound('denpa', 'splash'));
 						logo.scale.set(8,8);
@@ -515,7 +507,6 @@ class DenpaState extends MusicBeatState
 				}
 				Conductor.changeBPM(100);
 				MusicBeatState.switchState(new PatchState());
-			#if desktop
 			case FlxKey.M:
 				if(FlxG.sound.music == null) {
 					FlxG.sound.playMusic(Paths.music('funkyMenu'), 0);
@@ -530,7 +521,6 @@ class DenpaState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new ChartingState(), false);
 			case FlxKey.ESCAPE:
 				System.exit(0);
-			#end
 			#end
 			default:
 				//do NOTHING

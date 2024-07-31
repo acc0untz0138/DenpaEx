@@ -4770,7 +4770,9 @@ class PlayState extends MusicBeatState
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
 				}
+				#if desktop
 				discordUpdateTimer.cancel();
+				#end
 				MusicBeatState.switchState(new StoryMenuState(), 0.35);
 				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);

@@ -28,6 +28,9 @@ import Discord.DiscordClient;
 #if cpp
 import cpp.vm.Gc;
 #end
+#if mobile
+import mobile.CopyState;
+#end
 
 class Main extends Sprite
 {
@@ -36,6 +39,12 @@ class Main extends Sprite
 
 	public function new()
 	{
+		#if android
+		Sys.setCwd(android.content.Context.getObbDir() + '/');
+		#else
+		Sys.setCwd(lime.system.System.documentsDirectory);
+		#end
+
 		super();
 		#if windows
 		@:functionCode('
@@ -100,7 +109,7 @@ class Main extends Sprite
 		final startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
 		//do not "funkingame" me, it is slower
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(gameWidth, gameHeight, #if mobile !CopyState.checkExistingFiles() ? CopyState : #end initialState, framerate, framerate, skipSplash, startFullscreen));
 
 		fpsCounter = new FramerateDisplay(6, 3, 0xFFFFFF);
 		FlxG.addChildBelowMouse(fpsCounter, 1);
@@ -310,8 +319,12 @@ class Main extends Sprite
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
+		#if desktop
 		DiscordClient.shutdown();
+		#if windows
 		new Process("./crshhndlr/DENPACRASHHANDLER.exe", [errMsg]);
+		#end
+		#end
 		Sys.exit(1);
 	}
 	#end

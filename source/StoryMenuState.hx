@@ -278,7 +278,7 @@ class StoryMenuState extends MusicBeatState
 						}
 					});
 				}
-				#if desktop
+				#if sys
 				if(sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
 					selectWeek();
 				else

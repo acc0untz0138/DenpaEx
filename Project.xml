@@ -14,13 +14,16 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
+	<window width="1280" height="720" background="#000000" hardware="true" vsync="false" />
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="true" />
 
 	<!--Desktop-specific-->
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
+
+	<!--Mobile-specific-->
+	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -32,15 +35,12 @@
 	<classpath name="source" />
 	
 	<!-- DENPA ENGINE CUSTOMIZATION -->
-	<section if="desktop">
-		<define name="MODS_ALLOWED" /> <!-- COMMENT OUT TO DISABLE MODS -->
-		<define name="LUA_ALLOWED" if="cpp"/> <!-- COMMENT OUT TO DISABLE LUA -->
-		<define name="HSCRIPT_ALLOWED" /> <!-- COMMENT OUT TO DISABLE HSCRIPT -->
-	</section>
-
-	<define name="VIDEOS_ALLOWED" if="desktop || web" unless="32bits"/> <!-- COMMENT OUT TO DISABLE VIDEOS -->
+	<define name="MODS_ALLOWED" if="cpp"/> <!-- COMMENT OUT TO DISABLE MODS -->
+	<define name="LUA_ALLOWED" if="cpp"/> <!-- COMMENT OUT TO DISABLE LUA -->
+	<define name="HSCRIPT_ALLOWED" /> <!-- COMMENT OUT TO DISABLE HSCRIPT -->
+	<define name="VIDEOS_ALLOWED" if="desktop || android || web" unless="32bits"/> <!-- COMMENT OUT TO DISABLE VIDEOS -->
 	<define name="DENPA_WATERMARKS"/> <!-- COMMENT OUT THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
-	<define name="CRASH_HANDLER" if="desktop release" /> <!-- COMMENT OUT TO DISABLE CRASH HANDLER -->
+	<define name="CRASH_HANDLER" /> <!-- COMMENT OUT TO DISABLE CRASH HANDLER -->
 	<!-- <define name="DSIABLE_OPTIMIZE"/> --> <!-- DO NOT UNCOMMENT THIS! -->
 
 	<!-- <define name="PRELOAD_ALL" unless="web" /> --> <!-- UNCOMMENT THIS TO DISABLE LOADING SCREEN -->
@@ -79,7 +79,7 @@
 
 	<assets path="assets/videos" library="videos" if="VIDEOS_ALLOWED"/>
 	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
-	<assets path='crshhndlr/export/release/windows/bin' rename='crshhndlr' if="CRASH_HANDLER"/>
+	<assets path='crshhndlr/export/release/windows/bin' rename='crshhndlr' if="CRASH_HANDLER windows"/>
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
@@ -107,6 +107,7 @@
 	<haxelib name="flixel-studio" if="FLIXEL_STUDIO"/>
 	<haxelib name="hxcpp-debug-server" if="debug"/>
 	<haxelib name="flxanimate" />
+	<haxelib name="extension-androidtools" if="android"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -120,9 +121,9 @@
 	</section> -->
 
 	<!-- Disables Touch inputs on desktop (excluding mac) targets -->
-	<section if="desktop" unless="mac">
+	<!-- <section if="desktop" unless="mac">
 		<haxedef name="FLX_NO_TOUCH" />
-	</section>
+	</section> -->
 
 	<!-- Automatically gets set when compiling source to with the debug flag -->
 	<section if="debug">
@@ -137,7 +138,7 @@
 	</section>
 
 	<!-- Allows "Big Blocks" for HxCpp GC, allowing WRAM greater than 1 GB. -->
-	<haxedef name="HXCPP_GC_BIG_BLOCKS" if="cpp"/>
+	<!-- <haxedef name="HXCPP_GC_BIG_BLOCKS" if="cpp"/> -->
 
 	<haxedef name="hscriptPos" if="HSCRIPT_ALLOWED"/>
 
@@ -158,12 +159,6 @@
 		<haxedef name="HXCPP_STACK_LINE" />
 	</section>
 
-	<!-- Throws an exception if you are using the wrong luajit version. -->
-	<error value="You're not using NebulaZoruas github fork of luajit, install it instead." 
-		if="${linc_luajit == 0.0.1} ||
-		${linc_luajit == 0.0.2} ||
-		${linc_luajit == 0.0.3} ||
-		${linc_luajit == 0.0.4}" />
 	<!-- Throws an exception if you are using the wrong haxe version. -->
 	<error value="You're using an outdated Haxe, update to 4.2.5." 
 		if="${haxe == 4.1.0} ||

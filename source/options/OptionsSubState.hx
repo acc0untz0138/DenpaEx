@@ -399,7 +399,7 @@ class GeneralSettingsSubState extends BaseOptionsMenu
 		title = 'General Settings';
 		rpcTitle = 'General Settings Menu'; //for Discord Rich Presence
 
-		#if !html5
+		#if (!html5 || !mobile)
 		//different res cant really be done on browser lol
 		var option:Option = new Option('Resolution:',
 			"What resolution do you want the game in?",
@@ -510,7 +510,6 @@ class GeneralSettingsSubState extends BaseOptionsMenu
 					FlxG.updateFramerate = ClientPrefs.settings.get("framerate");
 				}
 				FlxG.game.focusLostFramerate = Math.ceil(ClientPrefs.settings.get("framerate")/2);
-			#if !mobile
 			case 'FPS Counter':
 				Main.toggleFPS(ClientPrefs.settings.get("showFPS"));
 				if (Main.ramCount.visible || Main.ramPie.visible) {
@@ -522,7 +521,6 @@ class GeneralSettingsSubState extends BaseOptionsMenu
 					Main.setDisplayColors(0xffFFFFFF);
 			case 'Auto Pause':
 				FlxG.autoPause = ClientPrefs.settings.get("autoPause");
-			#end
 			case 'Colorblind Mode:' | 'Colorblind Intensity:':
 				var index = ['Deutranopia', 'Protanopia', 'Tritanopia'].indexOf(ClientPrefs.settings.get("colorblindMode"));
 				Main.updateColorblindFilter(index, ClientPrefs.settings.get("colorblindIntensity"));

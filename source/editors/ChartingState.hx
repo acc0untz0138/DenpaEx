@@ -517,9 +517,7 @@ class ChartingState extends MusicBeatState
 		addEventsUI();
 		addChartingUI();
 		updateHeads();
-		#if desktop
 		updateWaveform();
-		#end
 		UI_box.selected_tab_id = 'Song';
 
 		add(curRenderedSustains);
@@ -611,9 +609,7 @@ class ChartingState extends MusicBeatState
 			currentSongName = Paths.formatToSongPath(UI_songTitle.text);
 			loadSong();
 			loadAudioBuffer();
-			#if desktop
 			updateWaveform();
-			#end
 		});
 		reloadSong.color = FlxColor.YELLOW;
 		reloadSong.label.color = FlxColor.WHITE;
@@ -1540,11 +1536,9 @@ class ChartingState extends MusicBeatState
 	var metronomeStepper:FlxUINumericStepper;
 	var metronomeOffsetStepper:FlxUINumericStepper;
 	var disableAutoScrolling:FlxUICheckBox;
-	#if desktop
 	var waveformEnabled:FlxUICheckBox;
 	var waveformUseInstrumental:FlxUICheckBox;
 	var waveformUseSec:FlxUICheckBox;
-	#end
 	var instVolume:FlxUINumericStepper;
 	var voicesVolume:FlxUINumericStepper;
 	var sliderRate:FlxUISlider;
@@ -1552,7 +1546,6 @@ class ChartingState extends MusicBeatState
 		var tab_group_chart = new FlxUI(null, UI_box);
 		tab_group_chart.name = 'Charting';
 		
-		#if desktop
 		waveformEnabled = new FlxUICheckBox(10, 90, null, null, "Waveform", 100);
 		if (FlxG.save.data.chart_waveform == null) FlxG.save.data.chart_waveform = false;
 		waveformEnabled.checked = FlxG.save.data.chart_waveform;
@@ -1579,7 +1572,6 @@ class ChartingState extends MusicBeatState
 		};
 		waveformUseInstrumental.setClickable(waveformEnabled.checked, true);
 		waveformUseSec.setClickable(waveformEnabled.checked, true);
-		#end
 
 		check_mute_inst = new FlxUICheckBox(10, 310, null, null, "Mute Inst", 100);
 		check_mute_inst.checked = false;
@@ -1725,11 +1717,9 @@ class ChartingState extends MusicBeatState
 		tab_group_chart.add(disableAutoScrolling);
 		tab_group_chart.add(metronomeStepper);
 		tab_group_chart.add(metronomeOffsetStepper);
-		#if desktop
 		tab_group_chart.add(waveformEnabled);
 		tab_group_chart.add(waveformUseInstrumental);
 		tab_group_chart.add(waveformUseSec);
-		#end
 		tab_group_chart.add(instVolume);
 		tab_group_chart.add(voicesVolume);
 		tab_group_chart.add(check_mute_inst);
@@ -2642,10 +2632,8 @@ class ChartingState extends MusicBeatState
 		gridBG.active = false;
 		gridLayer.add(gridBG);
 
-		#if desktop
 		if(waveformEnabled != null)
 			updateWaveform();
-		#end
 
 		var gridBlack:FlxSprite = new FlxSprite(0, gridBG.height / 2).makeGraphic(Std.int(GRID_SIZE + GRID_SIZE * Note.ammo[_song.options.mania] * 2), Std.int(gridBG.height / 2), FlxColor.BLACK);
 		gridBlack.alpha = 0.4;
@@ -2702,7 +2690,6 @@ class ChartingState extends MusicBeatState
 
 	var waveformPrinted:Bool = true;
 	var audioBuffers:Array<AudioBuffer> = [null, null, null];
-	#if desktop
 	function updateWaveform() {
 		if(waveformPrinted) {
 			waveformSprite.makeGraphic(Std.int(GRID_SIZE * (Note.ammo[_song.options.mania] * 2)), Std.int(gridBG.height), 0x00FFFFFF);
@@ -2765,7 +2752,6 @@ class ChartingState extends MusicBeatState
 		}
 		waveformPrinted = true;
 	}
-	#end
 
 	function changeNoteSustain(value:Float):Void
 	{
@@ -2820,9 +2806,7 @@ class ChartingState extends MusicBeatState
 		updateBpmText();
 		updateGrid();
 		updateSectionUI();
-		#if desktop
 		updateWaveform();
-		#end
 	}
 
 	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
@@ -2855,9 +2839,7 @@ class ChartingState extends MusicBeatState
 		updateSongPos();
 		recalculateSteps();
 		updateBpmText();
-		#if desktop
 		updateWaveform();
-		#end
 	}
 
 	function updateSectionUI():Void
@@ -3567,7 +3549,7 @@ class ChartingState extends MusicBeatState
 				}
 			});
 		}
-		#if desktop
+		#if sys
 		if(sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
 			theMostFittingNameEverConcieved();
 		else

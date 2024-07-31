@@ -538,7 +538,7 @@ class FreeplayState extends MusicBeatState
 					}
 				});
 			}
-			#if desktop
+			#if sys
 			if(instPlaying != curSelected)
 			{
 				if(sys.FileSystem.exists(Paths.inst(songLowercase + '/'  + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)))
@@ -610,7 +610,7 @@ class FreeplayState extends MusicBeatState
 					}
 				});
 			}
-			#if desktop
+			#if sys
 			if(sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
 				fittingName();
 			else
