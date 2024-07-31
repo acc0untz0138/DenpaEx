@@ -354,6 +354,14 @@ class TitleState extends MusicBeatState
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
 
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.justPressed)
+			{
+				pressedEnter = true;
+			}
+		}
+
 		if (newTitle) {
 			titleTimer += CoolUtil.clamp(elapsed, 0, 1);
 			if (titleTimer > 2) titleTimer -= 2;
