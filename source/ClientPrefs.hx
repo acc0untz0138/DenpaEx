@@ -65,6 +65,7 @@ class ClientPrefs {
         "safeFrames" => 10,
 		"colorblindIntensity" => 1,
 	"renderBitrate" => 5.00,
+		"mobileCAlpha" => (FlxG.onMobile) ? 0.6 : 0,
         //Strings
 		"resolution" => "1280x720",
         "uiSkin" => "Kade",

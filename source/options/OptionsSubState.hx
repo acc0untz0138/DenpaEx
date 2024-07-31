@@ -682,6 +682,19 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		addOption(option);
 
+		var option:Option = new Option('Mobile Controls Opacity',
+			'Selects the opacity for the mobile buttons (be careful not to put it at 0 and lose track of your buttons).',
+			'mobileCAlpha',
+			'percent',
+			null);
+		option.scrollSpeed = 1;
+		option.minValue = 0.0;
+		option.maxValue = 1;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+		option.onChange = changeOption;
+		addOption(option);
+
 		super();
 
 		windowBar = new FlxSprite((FlxG.width/4) * 3 - 40, FlxG.height/4 - 100).makeGraphic(80, 220, 0x00ffffff);
@@ -731,6 +744,9 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 					}
 					prevLine = option.getValue() / pixels.height;
 				}
+			case 'Mobile Controls Opacity':
+					virtualPad.alpha = 0; // what? that fixed somehow
+					virtualPad.alpha = curOption.getValue();
 		}
 	}
 }

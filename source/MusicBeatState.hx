@@ -8,6 +8,11 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
+import mobile.flixel.FlxHitbox;
+import mobile.flixel.FlxVirtualPad;
+import flixel.FlxCamera;
+import flixel.input.actions.FlxActionInput;
+import flixel.util.FlxDestroyUtil;
 
 /**
 * Basic state to use for states in the game.
@@ -28,6 +33,70 @@ class MusicBeatState extends FlxUIState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+
+	var hitbox:FlxHitbox;
+	var virtualPad:FlxVirtualPad;
+	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
+
+	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode, visible:Bool = true):Void
+	{
+		if (virtualPad != null)
+			removeVirtualPad();
+
+		virtualPad = new FlxVirtualPad(DPad, Action);
+		virtualPad.visible = visible;
+		add(virtualPad);
+
+		controls.setVirtualPad(virtualPad, DPad, Action);
+		trackedInputsVirtualPad = controls.trackedInputs;
+		controls.trackedInputs = [];
+	}
+
+	public function addVirtualPadCamera(DefaultDrawTarget:Bool = false):Void
+	{
+		if (virtualPad != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
+			virtualPad.cameras = [camControls];
+		}
+	}
+
+	public function removeVirtualPad():Void
+	{
+		if (trackedInputsVirtualPad.length > 0)
+			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
+
+		if (virtualPad != null)
+			remove(virtualPad);
+	}
+
+	public function addHitbox(visible:Bool = true):Void
+	{
+		final ammo:Int = PlayState.mania;
+		if (hitbox != null)
+			removeHitbox();
+
+		hitbox = new FlxHitbox(ammo, Std.int(FlxG.width / ammo), FlxG.height);
+		hitbox.visible = visible;
+		add(hitbox);
+	}
+
+	public function addHitboxCamera(DefaultDrawTarget:Bool = false):Void
+	{
+		if (hitbox != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
+			hitbox.cameras = [camControls];
+		}
+	}
+
+	public function removeHitbox():Void
+		if (hitbox != null)
+			remove(hitbox);
 
 	override function destroy() {
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyPress);

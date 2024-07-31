@@ -202,6 +202,8 @@ class MainMenuState extends MusicBeatState
 		gradient.color = SoundTestState.getDaColor();
 
 		hscript.call("onCreatePost", []);
+
+		addVirtualPad(LEFT_RIGHT, A_B);
 		
 		super.create();
 	}
