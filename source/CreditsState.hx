@@ -225,6 +225,7 @@ class CreditsState extends MusicBeatState
 		gradient.color = getCurrentBGColor();
 		intendedColor = bg.color;
 		changeSelection();
+		addVirtualPad(UP_DOWN, A_B);
 		super.create();
 	}
 
@@ -255,8 +256,8 @@ class CreditsState extends MusicBeatState
 				var shiftMult:Int = 1;
 				if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-				var upP = control('ui_up_p');
-				var downP = control('ui_down_p');
+				var upP = controls.UI_UP_P;
+				var downP = controls.UI_DOWN_P;
 
 				if (upP)
 				{
@@ -274,7 +275,7 @@ class CreditsState extends MusicBeatState
 						changeSelection(-shiftMult * FlxG.mouse.wheel);
 					}
 
-				if(control('ui_down') || control('ui_up'))
+				if(controls.UI_DOWN || controls.UI_UP)
 				{
 					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 					holdTime += elapsed;
@@ -282,17 +283,17 @@ class CreditsState extends MusicBeatState
 
 					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
 					{
-						changeSelection((checkNewHold - checkLastHold) * (control('ui_up') ? -shiftMult : shiftMult));
+						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
 					}
 				}
 			}
 
-			if(control('accept')) {
+			if(controls.ACCEPT) {
 				if (creditsStuff[curSelected][5] != null && creditsStuff[curSelected][5].length > 0) {
 					CoolUtil.browserLoad(creditsStuff[curSelected][5]);
 				}
 			}
-			if (control('back'))
+			if (controls.BACK)
 			{
 				if(colorTween != null) {
 					colorTween.cancel();

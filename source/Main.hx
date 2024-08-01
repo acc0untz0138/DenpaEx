@@ -161,6 +161,11 @@ class Main extends Sprite
 			gc();
 		});
 
+		FlxG.signals.gameResized.add(function (w, h) {
+			if(fpsCounter != null)
+				fpsCounter.positionFPS(10, 3, Math.min(w / FlxG.width, h / FlxG.height));
+		});
+
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;

@@ -163,18 +163,19 @@ class MainMenuState extends MusicBeatState
 		FlxG.camera.follow(camFollowPos, null, 1);
 
 		#if !html5
-		var prompt:FlxText = new FlxText(6, FlxG.height - #if !html5 64 #else 64 #end, 0, "R - Clear Save Data", 12);
+		final R:String = controls.mobileC ? 'X' : 'R';
+		var prompt:FlxText = new FlxText(6, FlxG.height - 64, 0, '$R - Clear Save Data', 12);
 		prompt.scrollFactor.set();
 		prompt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		prompt.alpha = 0.5;
 		prompt.active = false;
 		add(prompt);
-		var versionShit2:FlxText = new FlxText(6, FlxG.height - #if !html5 44 #else 44 #end, 0, 'DenpaEx v${Main.denpaEngineVersion.version}', 12);
+		var versionShit2:FlxText = new FlxText(6, FlxG.height - 44, 0, 'DenpaEx v${Main.denpaEngineVersion.version}', 12);
 		versionShit2.scrollFactor.set();
 		versionShit2.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionShit2.active = false;
 		add(versionShit2);
-		var versionShit:FlxText = new FlxText(6, FlxG.height - #if !html5 24 #else 24 #end, 0, 'Friday Night Funkin${"'"} v${Application.current.meta.get('version')}', 12);
+		var versionShit:FlxText = new FlxText(6, FlxG.height - 24, 0, 'Friday Night Funkin${"'"} v${Application.current.meta.get('version')}', 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionShit.active = false;
@@ -203,7 +204,7 @@ class MainMenuState extends MusicBeatState
 
 		hscript.call("onCreatePost", []);
 
-		addVirtualPad(LEFT_RIGHT, A_B);
+		addVirtualPad(LEFT_RIGHT, A_B_X_Y);
 		
 		super.create();
 	}
@@ -267,13 +268,13 @@ class MainMenuState extends MusicBeatState
 			{
 				doTheThingHouston();
 			}
-			else if (FlxG.keys.anyJustPressed(debugKeys))
+			else if (virtualPad.buttonY.justPressed || FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#if !html5
-			if (controls.RESET)
+			if (virtualPad.buttonX.justPressed || controls.RESET)
 			{
 				FlxG.mouse.visible = true;
 				openSubState(new Prompt('This will clear all save data.\n\nProceed?', 0, () -> {

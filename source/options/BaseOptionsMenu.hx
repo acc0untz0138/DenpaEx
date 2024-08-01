@@ -145,6 +145,8 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		}
 		gradient.color = SoundTestState.getDaColor();
 
+		addVirtualPad(LEFT_FULL, A_B_C);
+
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
@@ -296,7 +298,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				}
 			}
 
-			if(controls.RESET)
+			if(virtualPad.buttonC.justPressed || controls.RESET)
 			{
 				if (FlxG.keys.pressed.SHIFT) {
 					for (i in 0...optionsArray.length)

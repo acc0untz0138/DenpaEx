@@ -131,6 +131,8 @@ class OptionsState extends MusicBeatState
 		}
 		gradient.color = SoundTestState.getDaColor();
 
+		addVirtualPad(UP_DOWN, A_B);
+
 		super.create();
 	}
 

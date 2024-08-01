@@ -27,18 +27,24 @@ class FlashingState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
+		final ACCEPT:String = controls.mobileC ? 'A' : 'ACCEPT';
+		final ESCAPE:String = controls.mobileC ? 'B' : 'ESCAPE';
+
 		warnText = new FlxText(0, 0, FlxG.width,
-			"There are flashing lights in this mod!\n
-			Press ACCEPT to disable them.\n
-			Press ESCAPE to enable them.\n",
+			'There are flashing lights in this mod!\n
+			Press $ACCEPT to disable them.\n
+			Press $ESCAPE to enable them.\n',
 			32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);
+
+		addVirtualPad(NONE, A_B);
 	}
 
 	override function update(elapsed:Float)
 	{
+		if (virtualPad.buttonA.justPressed) yep(); else if (virtualPad.buttonB.justPressed) nope();
 		super.update(elapsed);
 	}
 
@@ -56,21 +62,31 @@ class FlashingState extends MusicBeatState
 		FlxTransitionableState.skipNextTransOut = true;
 		switch (eventKey) {
             case ESCAPE | BACKSPACE:
-                FlxG.sound.play(Paths.sound('cancelMenu'));
-				FlxTween.tween(warnText, {alpha: 0}, 1, {
-					onComplete: function (twn:FlxTween) {
-						MusicBeatState.switchState(new TitleState());
-					}
-				});
+                nope();
 			default:
-				ClientPrefs.settings.set("flashing", false);
-				ClientPrefs.saveSettings();
-				FlxG.sound.play(Paths.sound('confirmMenu'));
-				FlxFlicker.flicker(warnText, 1, 0.1, false, true, function(flk:FlxFlicker) {
-					new FlxTimer().start(0.5, function (tmr:FlxTimer) {
-						MusicBeatState.switchState(new TitleState());
-					});
-				});
+				yep();
         }
     }
+
+	private function nope():Void
+	{
+		FlxG.sound.play(Paths.sound('cancelMenu'));
+		FlxTween.tween(warnText, {alpha: 0}, 1, {
+			onComplete: function (twn:FlxTween) {
+				MusicBeatState.switchState(new TitleState());
+			}
+		});	
+	}
+
+	private function yep():Void
+	{
+		ClientPrefs.settings.set("flashing", false);
+		ClientPrefs.saveSettings();
+		FlxG.sound.play(Paths.sound('confirmMenu'));
+		FlxFlicker.flicker(warnText, 1, 0.1, false, true, function(flk:FlxFlicker) {
+			new FlxTimer().start(0.5, function (tmr:FlxTimer) {
+				MusicBeatState.switchState(new TitleState());
+			});
+		});
+	}
 }

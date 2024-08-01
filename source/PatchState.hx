@@ -201,6 +201,7 @@ class PatchState extends MusicBeatState
 		gradient.color = getCurrentBGColor();
 		intendedColor = bg.color;
 		changeSelection();
+		addVirtualPad(UP_DOWN, A_B);
 		super.create();
 	}
 
