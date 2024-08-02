@@ -514,7 +514,7 @@ class Note extends FlxSprite
 	// this is used for note recycling
 	public function setupNoteData(chartNoteData:PreloadedChartNote):Note
 	{
-		wasGoodHit = hitByOpponent = tooLate = false; // Don't make an update call of this for the note group
+		wasGoodHit = hitByOpponent = tooLate = canBeHit = false; // Don't make an update call of this for the note group
 
 		strumTime = chartNoteData.strumTime;
 		if(!inEditor) strumTime += ClientPrefs.settings.get("noteOffset");
