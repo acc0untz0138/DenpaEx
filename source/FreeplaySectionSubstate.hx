@@ -150,6 +150,8 @@ class FreeplaySectionSubstate extends MusicBeatSubstate {
 		#if desktop
 		DiscordClient.changePresence("Selecting a Freeplay Section", '${sectionArray.length} Sections');
 		#end
+
+		addVirtualPad(LEFT_RIGHT, A_B);
 	}
 
 	override function update(elapsed:Float)

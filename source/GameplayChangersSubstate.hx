@@ -189,6 +189,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		changeSelection();
 		reloadCheckboxes();
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		addVirtualPad(LEFT_FULL, A_B_C);
+		FlxTween.tween(virtualPad, {x: 0, angle: 0, alpha: 1}, 0.22, {ease: FlxEase.quadOut});
 	}
 
 	override function destroy() {
@@ -221,6 +223,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		if (controls.BACK) {
 			ClientPrefs.saveSettings();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxTween.tween(virtualPad, {x: -1280, angle: 27, alpha: 0}, 0.22, {ease: FlxEase.quadOut, onComplete: function(_) {}});
 			FlxTween.tween(bg, {x: -1280, angle: 27, alpha: 0}, 0.22, {ease: FlxEase.quadOut, onComplete: function(_) {
 				close();
 			}});
@@ -338,7 +341,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 				}
 			}
 
-			if(controls.RESET && FlxG.keys.pressed.SHIFT)
+			if(virtualPad.buttonC.justPressed || controls.RESET && FlxG.keys.pressed.SHIFT)
 			{
 				for (i in 0...optionsArray.length)
 				{

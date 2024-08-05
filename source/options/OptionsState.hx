@@ -22,6 +22,10 @@ class OptionsState extends MusicBeatState
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
+		if (label != "Offsets"){
+			removeVirtualPad();
+			persistentUpdate = false;
+		}
 		switch(label) {
 			case 'General': openSubState(new options.OptionsSubState.GeneralSettingsSubState());
 			case 'Gameplay': openSubState(new options.OptionsSubState.GameplaySettingsSubState());
@@ -139,6 +143,7 @@ class OptionsState extends MusicBeatState
 	override function openSubState(subState:FlxSubState) {
 		super.openSubState(subState);
 		if (!(subState is CustomFadeTransition)) {
+			addVirtualPad(UP_DOWN, A_B);
 			persistentDraw = false;
 			persistentUpdate = false;
 		}

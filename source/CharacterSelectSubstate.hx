@@ -102,6 +102,8 @@ class CharacterSelectSubstate extends MusicBeatSubstate
         icon.trackerOffsets = [0, -30];
         add(icon);
         Paths.setModsDirectoryFromType(NONE, '', true);
+
+        addVirtualPad(LEFT_RIGHT, A_B);
 	}
 
     var blockInput:Bool = false;

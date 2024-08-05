@@ -181,11 +181,15 @@ class StoryMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Story Menu", '${loadedWeeks.length} Weeks');
 		#end
 
+		addVirtualPad(LEFT_FULL, A_B_X_Y);
+
 		super.create();
 	}
 
 	override function closeSubState() {
 		persistentUpdate = true;
+		removeVirtualPad();
+		addVirtualPad(LEFT_FULL, A_B_X_Y);
 		changeWeek();
 		super.closeSubState();
 	}
@@ -239,12 +243,12 @@ class StoryMenuState extends MusicBeatState
 			else if (upP || downP)
 				changeDifficulty();
 
-			if(FlxG.keys.justPressed.CONTROL)
+			if(virtualPad.buttonY.justPressed || FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
 			}
-			else if(controls.RESET)
+			else if(virtualPad.buttonX.justPressed || controls.RESET)
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));

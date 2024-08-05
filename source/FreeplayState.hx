@@ -248,8 +248,8 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 
 		final leTextSplit:Array<String> = [ //easier to read
-			"SPACE - Listen to the Song / CTRL - Open the Gameplay Changers Menu",
-			"COMMA - Change the Section / R - Reset Score & Accuracy / ALT - Change the player Character"
+			'${controls.mobileC ? 'X' : 'SPACE'} - Listen to the Song / ${controls.mobileC ? 'C' : 'CTRL'} - Open the Gameplay Changers Menu',
+			'${controls.mobileC ? 'D' : 'COMMA'} - Change the Section / ${!controls.mobileC ? 'R - Reset Score & Accuracy / ' : ''} ${controls.mobileC ? 'V' : 'ALT'} - Change the player Character'
 		];
 		final leText:String = '${leTextSplit[0]}\n${leTextSplit[1]}';
 		var size:Int = 16;
@@ -271,12 +271,16 @@ class FreeplayState extends MusicBeatState
 
 		hscript.call("onCreatePost", []);
 
+		addVirtualPad(LEFT_FULL, A_B_C_D_V_X_Y_Z);
+
 		super.create();
 	}
 
 	override function closeSubState() {
 		changeSelection(0, false);
 		persistentUpdate = true;
+		removeVirtualPad();
+		addVirtualPad(LEFT_FULL, A_B_C_D_V_X_Y_Z);
 		super.closeSubState();
 	}
 
@@ -399,11 +403,11 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
-		var space = FlxG.keys.justPressed.SPACE;
-		var ctrl = FlxG.keys.justPressed.CONTROL;
+		var space = virtualPad.buttonX.justPressed || FlxG.keys.justPressed.SPACE;
+		var ctrl = virtualPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL;
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+		if(virtualPad.buttonZ.justPressed || FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 		if(songs.length > 1)
 		{
@@ -476,7 +480,7 @@ class FreeplayState extends MusicBeatState
 			updateSongPlaylist();
 		}
 
-		if (FlxG.keys.justPressed.COMMA) {
+		if (virtualPad.buttonD.justPressed || FlxG.keys.justPressed.COMMA) {
 			persistentUpdate = false;
 			openSubState(new FreeplaySectionSubstate());
 			FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -630,7 +634,7 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 
-		if(FlxG.keys.justPressed.ALT)
+		if(virtualPad.buttonV.justPressed || FlxG.keys.justPressed.ALT)
 		{
 			persistentUpdate = false;
 			openSubState(new CharacterSelectSubstate());
