@@ -166,6 +166,8 @@ class SoundTestState extends MusicBeatState
 
 		reloadDisk(disk, track, true);
 
+		addVirtualPad(LEF_FULL, B);
+
 		super.create();
 	}
 
