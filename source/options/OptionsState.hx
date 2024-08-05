@@ -153,6 +153,8 @@ class OptionsState extends MusicBeatState
 
 	override function closeSubState() {
 		super.closeSubState();
+		virtualPad.alpha = 0;
+		virtualPad.alpha = ClientPrefs.settings.get("mobileCAlpha");
 		ClientPrefs.saveSettings();
 		persistentDraw = true;
 		persistentUpdate = true;

@@ -71,7 +71,7 @@ class MusicBeatSubstate extends FlxSubState
 
 	public function addHitbox(visible:Bool = true):Void
 	{
-		final ammo:Int = PlayState.mania;
+		final ammo:Int = PlayState.mania + 1;
 		if (hitbox != null)
 			removeHitbox();
 

@@ -342,6 +342,14 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		super.update(elapsed);
 	}
 
+	override function closeSubState() {
+		super.closeSubState();
+		removeVirtualPad();
+		addVirtualPad(LEFT_FULL, A_B_C);
+		persistentDraw = true;
+		persistentUpdate = true;
+	}
+
 	function updateTextFrom(option:Option) {
 		var text:String = option.displayFormat;
 		var val:Dynamic = option.getValue();
