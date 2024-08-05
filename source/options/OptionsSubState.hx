@@ -1259,6 +1259,7 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = changeOption;
 
+		#if !mobile
 		var option:Option = new Option('Render Options',
 			"Open the Render Options menu.",
 			'gameRenderOptions',
@@ -1266,6 +1267,7 @@ class MiscSettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 		option.onChange = changeOption;
+		#end
 
 		var option:Option = new Option('Secret Options',
 			"Open the secret options submenu.",
@@ -1472,10 +1474,18 @@ class CrossFadeSettingsSubState extends MusicBeatSubstate
 
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 
+		addVirtualPad(LEFT_FULL, B_C);
+
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];
 	}
 
 	override function update(elapsed:Float) {
+		if (controls.BACK) close();
+		if (controls.UI_LEFT_P) changeOption(-1);
+		if (controls.UI_RIGHT_P) changeOption(1);
+		if (controls.UI_UP_P) changeVertical(-1);
+		if (controls.UI_DOWN_P) changeVertical(1);
+		if (virtualPad.buttonC.justPressed || controls.RESET && selectedVertical > 0) reset();
 		Conductor.songPosition = FlxG.sound.music.time;
 		final lerpVal:Float = CoolUtil.clamp(elapsed * 9.6, 0, 1);
 		grpOptions.forEach(alphabet -> {
@@ -1512,12 +1522,6 @@ class CrossFadeSettingsSubState extends MusicBeatSubstate
 	}
 
 	function checkInputs() {
-		if (control('back')) close();
-		if (control('ui_left_p')) changeOption(-1);
-		if (control('ui_right_p')) changeOption(1);
-		if (control('ui_up_p')) changeVertical(-1);
-		if (control('ui_down_p')) changeVertical(1);
-		if (control('reset') && selectedVertical > 0) reset();
 		/*if (control('accept') && selectedVertical == 2) {
 			changingRGB = !changingRGB;
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
