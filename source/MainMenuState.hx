@@ -163,7 +163,7 @@ class MainMenuState extends MusicBeatState
 		FlxG.camera.follow(camFollowPos, null, 1);
 
 		#if !html5
-		final R:String = controls.mobileC ? 'X' : 'R';
+		final R:String = controls.mobileC ? 'C' : 'R';
 		var prompt:FlxText = new FlxText(6, FlxG.height - 64, 0, '$R - Clear Save Data', 12);
 		prompt.scrollFactor.set();
 		prompt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -204,7 +204,7 @@ class MainMenuState extends MusicBeatState
 
 		hscript.call("onCreatePost", []);
 
-		addVirtualPad(LEFT_RIGHT, A_B_X_Y);
+		addVirtualPad(LEFT_RIGHT, A_B_C);
 		
 		super.create();
 	}
@@ -268,13 +268,13 @@ class MainMenuState extends MusicBeatState
 			{
 				doTheThingHouston();
 			}
-			else if (virtualPad.buttonY.justPressed || FlxG.keys.anyJustPressed(debugKeys))
+			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#if !html5
-			if (virtualPad.buttonX.justPressed || controls.RESET)
+			if (virtualPad.buttonC.justPressed || controls.RESET)
 			{
 				FlxG.mouse.visible = true;
 				openSubState(new Prompt('This will clear all save data.\n\nProceed?', 0, () -> {

@@ -131,6 +131,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		hscript.call("onCreatePost", []);
 
 		Paths.clearUnusedCache();
+
+		addVirtualPad(NONE, A_B);
+		addVirtualPadCamera();
 	}
 
 	var isFollowingAlready:Bool = false;

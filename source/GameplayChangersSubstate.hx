@@ -190,6 +190,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		reloadCheckboxes();
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		addVirtualPad(LEFT_FULL, A_B_C);
+		addVirtualPadCamera(); // wtf?
 		FlxTween.tween(virtualPad, {x: 0, angle: 0, alpha: 1}, 0.22, {ease: FlxEase.quadOut});
 	}
 

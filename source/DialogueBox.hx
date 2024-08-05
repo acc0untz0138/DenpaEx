@@ -196,7 +196,12 @@ class DialogueBox extends FlxSpriteGroup
 
 		if(!canControl) return;
 
-		if(PlayerSettings.player1.controls.ACCEPT)
+		var justTouched:Bool = false;
+		for (touch in FlxG.touches.list)
+			if (touch.justPressed)
+				justTouched = true;
+
+		if(justTouched || PlayerSettings.player1.controls.ACCEPT)
 		{
 			if (dialogueEnded)
 			{

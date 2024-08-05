@@ -1435,6 +1435,16 @@ class PlayState extends MusicBeatState
 
 		generateSong();
 
+		addHitbox();
+		addHitboxCamera();
+		hitbox.visible = false;
+		hitbox.screenCenter();
+		#if !android
+		addVirtualPad(NONE, P);
+		addVirtualPadCamera();
+		virtualPad.visible = true;
+		#end
+
 		add(hud);
 
 		camFollow = FlxPoint.get();
@@ -2563,7 +2573,7 @@ class PlayState extends MusicBeatState
 				});
 			}
 
-			startedCountdown = true;
+			startedCountdown = hitbox.visible = true;
 			Conductor.songPosition = 0;
 			Conductor.songPosition = -Conductor.crochet * 5;
 			setOnLuas('startedCountdown', true);
@@ -3399,7 +3409,7 @@ class PlayState extends MusicBeatState
 		if (oppAnimsFrame > 0) oppAnimsFrame = 0;
 		if (strumAnimsPerFrame[0] > 0 || strumAnimsPerFrame[1] > 0) strumAnimsPerFrame = [0, 0];
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (#if android FlxG.android.justReleased.BACK #else virtualPad.buttonP.justPressed #end || controls.PAUSE && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', []);
 			if(ret != FunkinLua.Function_Stop) {
@@ -4705,7 +4715,7 @@ class PlayState extends MusicBeatState
 
 		camZooming = false;
 		updateTime = false;
-		canPause = false;
+		canPause = hitbox.visible = #if !android virtualPad.visible = #end false;	
 		hud.timeBarBG.visible = false;
 		hud.timeBar.visible = false;
 		hud.timeTxt.visible = false;
