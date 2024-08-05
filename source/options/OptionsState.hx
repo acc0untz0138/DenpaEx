@@ -106,6 +106,8 @@ class OptionsState extends MusicBeatState
 		gradient.scrollFactor.set(0, 0);
 		add(gradient);
 
+		if (controls.mobileC) options.remove("Keybinds");
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 

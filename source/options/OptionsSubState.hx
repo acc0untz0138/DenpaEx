@@ -94,7 +94,7 @@ class NotesSubState extends MusicBeatSubstate
 		add(titleBG);
 		add(titleText);
 	
-		var resetText:FlxText = new FlxText(10, FlxG.height - 32.5, "R - Reset selected arrow", 80);
+		var resetText:FlxText = new FlxText(10, FlxG.height - 32.5, '${controls.mobileC ? 'C' : 'R'} - Reset selected arrow', 80);
 		resetText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(resetText);
 
@@ -132,6 +132,8 @@ class NotesSubState extends MusicBeatSubstate
 		add(hsbText);
 
 		changeSelection();
+
+		addVirtualPad(LEFT_FULL, A_B_C);
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
@@ -225,7 +227,7 @@ class NotesSubState extends MusicBeatSubstate
 				changeType(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-			if(controls.RESET) {
+			if(virtualPad.buttonC.justPressed || controls.RESET) {
 				for (i in 0...3) {
 					resetValue(curSelected, i);
 				}
