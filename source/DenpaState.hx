@@ -425,6 +425,13 @@ class DenpaState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+		for (touch in FlxG.touches.list)
+			if (touch.justPressed)
+				justTouched = true;
+
+		if (justTouched) goToTitle();
+
 		if (jonScare != null) {
 			jonScare.x = FlxG.random.int(-10, 10);
 		}
