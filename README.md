@@ -8,8 +8,6 @@
 [![Denpa Engine Discord](https://img.shields.io/discord/993277169876873326?label=discord)](https://discord.gg/BFaMfmTNaa)
 [![DenpaEx Discord](https://img.shields.io/discord/993277169876873326?label=DenpaEx%20Discord)](https://discord.gg/9yzdrdDjdB)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=acc0untz0138/DenpaEx&type=Timeline)](https://star-history.com/#acc0untz0138/DenpaEx&Timeline)
-
 # Friday Night Funkin': DenpaEx
 
 ## WARNING!
