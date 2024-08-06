@@ -106,6 +106,7 @@ Shygee - Additional Programmer
 03) Add Character and Quant-Based Note Colors.
 04) Add "Play as Opponent" option in GameplayChangersSubstate.
 05) Add a toggle for OG & Denpa icons.
+06) Add Away3D Support (maybe).
 
 ## Issues
 
