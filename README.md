@@ -1,5 +1,5 @@
 ![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20linux%2C%20android%20(soon)-blue)
-![GitHub Commits](https://img.shields.io/github/commits/acc0untz0138/DenpaEx/latest)
+![GitHub Commits](https://img.shields.io/github/commits-since/acc0untz0138/DenpaEx/latest)
 [![Repo Size](https://img.shields.io/github/repo-size/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx)
 [![GitHub Issues](https://img.shields.io/github/issues/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/pulls)
