@@ -248,7 +248,7 @@ class ClientPrefs {
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
-	public static var controllerEnabled:Bool = false; //we use this shit to make sure not to check for controller inputs unless needed
+	public static var controllerEnabled:Bool = FlxG.onMobile; //we use this shit to make sure not to check for controller inputs unless needed
 	private static var controlsPostfix:String = '_';
 	private static var FORCE_CASE_SENSITIVITY:Bool = false;
 	/**

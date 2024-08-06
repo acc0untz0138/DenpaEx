@@ -30,7 +30,9 @@ class DenpaState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if desktop
 		Application.current.window.focus();
+		#end
 
 		CoolUtil.precacheSound('denpa', 'splash');
 		if (chooseYerIntroMate == 9) {
