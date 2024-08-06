@@ -29,7 +29,7 @@ Jordan Santiago - Co-Developer (Huge Help! :heart:)
 
 ![mcagabe19](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/lily.png)
 
-Lily - Android & Linux Porter
+Lily - Mobile Porter
 
 ## Denpa Engine Team
 
