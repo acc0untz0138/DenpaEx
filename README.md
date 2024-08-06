@@ -87,7 +87,7 @@ Shygee - Additional Programmer
 14) Total notes counter in ChartingState.
 15) Custom max BPM, speed, zoom & note density.
 16) Restored the miss sound toggle (literally the easiest thing).
-17) Fixed some text here and there in some states.
+17) Fixed some text here and there in the game
 
 ### Customization Options
 
