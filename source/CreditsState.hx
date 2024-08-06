@@ -110,7 +110,8 @@ class CreditsState extends MusicBeatState
 		var denpaCredits = [ //Username - Icon name - Name - Role - Description - Link - BG Color
 			["DenpaEx Team"],
 			['justAMZ',			'amz',			"AMZ",		"Creator of DenpaEx",				"\"real :100:\"", 																					'https://youtube.com/@justamz', 									'408080'],
-			['Jordan Santiago',	'jordan',		"Jordan Santiago","Co-Developer of DenpaEx",	"\"i helped with porting some JS Engine features and shaders onto here\"", 							'https://youtube.com/jordansantiago',								'00FFFF'],
+			['JordanSantiagoYT','jordan',		"Jordan Santiago","Co-Developer of DenpaEx",	"\"i helped with porting many JS Engine features onto here\"", 										'https://youtube.com/@jordansantiago', 								'00FFFF'],
+			['mcagabe19',		'lily',			"Lily",		"Android & Linux Porter",			"\"i ported denpaex to android and linux :cool:\"", 												'https://github.com/mcagabe19',										'FF7F7F'],
 			[''],
 			["Denpa Team"],
 			['BlueVapor1234',	'at',			"AT", 		"Main Programmer & Creator", 		"\"What am i doing with my life\"",																	'https://twitter.com/BlueVapor1234', 								'34343C'],
