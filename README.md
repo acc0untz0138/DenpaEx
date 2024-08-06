@@ -1,20 +1,17 @@
-![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20linux-blue)
-![GitHub Commits Since Latest (By Date)](https://img.shields.io/github/commits-since/UmbratheUmbreon/PublicDenpaEngine/latest)
-[![Repo Size](https://img.shields.io/github/repo-size/acc0untz0138/DenpaEx)](https://github.com/justAMZ/DenpaEx)
-[![GitHub Issues](https://img.shields.io/github/issues/acc0untz0138/DenpaEx)](https://github.com/justAMZ/DenpaEx/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/UmbratheUmbreon/PublicDenpaEngine)](https://github.com/UmbratheUmbreon/PublicDenpaEngine/pulls)
-![GitHub All Downloads](https://img.shields.io/github/downloads/justAMZ/DenpaEx/total)
-![GitHub Latest (Including Pre-releases)](https://img.shields.io/github/v/release/UmbratheUmbreon/PublicDenpaEngine?include_prereleases&label=latest%20version)
+![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20linux%2C%20android%20(soon)-blue)
+![GitHub Commits](https://img.shields.io/github/commits-since/acc0untz0138/DenpaEx/latest)
+[![Repo Size](https://img.shields.io/github/repo-size/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx)
+[![GitHub Issues](https://img.shields.io/github/issues/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/pulls)
+![GitHub All Downloads](https://img.shields.io/github/downloads/acc0untz0138/DenpaEx/total)
 [![Denpa Engine Discord](https://img.shields.io/discord/993277169876873326?label=discord)](https://discord.gg/BFaMfmTNaa)
-[![DenpaEx Discord](https://img.shields.io/discord/993277169876873326?label=DenpaEx%20Discord)](https://discord.gg/9yzdrdDjdB)
-
-[![Star History Chart](https://api.star-history.com/svg?repos=UmbratheUmbreon/PublicDenpaEngine&type=Timeline)](https://star-history.com/#UmbratheUmbreon/PublicDenpaEngine&Timeline)
+[![DenpaEx Discord](https://img.shields.io/discord/993277169876873326?label=denpaex%20discord)](https://discord.gg/9yzdrdDjdB)
 
 # Friday Night Funkin': DenpaEx
 
 ## WARNING!
 
-ALL CREDIT GOES TO THE DENPA ENGINE & JS ENGINE DEVELOPERS! THIS FORK ONLY HAS A HANDFUL OF FEATURES THAT WOULDNT BE DONE WITHOUT THEIR HELP! THANKS TO UMBRA AND JORDAN SANTIAGO FOR EVERYTHING!
+ALL CREDIT GOES TO THE DENPA, JS, CODENAME ENGINE, AND MANY OTHER DEVELOPERS! THIS FORK ONLY HAS A HANDFUL OF FEATURES THAT WOULDNT BE DONE WITHOUT THEIR HELP! MANY THANKS AND MUCH LOVE TO THEM FOR EVERYTHING!
 
 ## Synopsis
 
@@ -29,6 +26,10 @@ justAMZ - Creator of DenpaEx
 ![jordansantiagoyt](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/jordan.png)
 
 Jordan Santiago - Co-Developer (Huge Help! :heart:)
+
+![mcagabe19](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/lily.png)
+
+Lily - Android & Linux Porter
 
 ## Denpa Engine Team
 
@@ -77,7 +78,7 @@ Shygee - Additional Programmer
 05) Added blank character (name is "null").
 06) Restored easy charts.
 07) Custom noteskin colors (Default, Greyscale & Rainbow).
-08) Render Mode for showcasing charts (Requires ffmpeg).
+08) Render Mode for showcasing charts (requires ffmpeg).
 09) Optimized Auto Play (list coming soon).
 10) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
 11) GLSL Shader Compatibility (wasnt that impossible after all...).
@@ -104,7 +105,11 @@ Shygee - Additional Programmer
 02) Add keybind reminders on the start of songs.
 03) Add Character and Quant-Based Note Colors.
 04) Add "Play as Opponent" option in GameplayChangersSubstate.
-05) Add a toggle for OG & denpa icons.
+05) Add a toggle for OG & Denpa icons.
+
+## Issues
+
+01) Problems with GLSL Shaders (on the HUD) working in-game only in the first song you coose, meaning you have to close and reopen the game every time to have them working. 
 
 ## License Summary
 
