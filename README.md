@@ -1,12 +1,11 @@
 ![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20linux%2C%20android%20(soon)-blue)
-![GitHub Commits Since Latest (By Date)](https://img.shields.io/github/commits-since/acc0untz0138/DenpaEx/latest)
+![GitHub Commits](https://img.shields.io/github/commits/acc0untz0138/DenpaEx/latest)
 [![Repo Size](https://img.shields.io/github/repo-size/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx)
 [![GitHub Issues](https://img.shields.io/github/issues/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/pulls)
 ![GitHub All Downloads](https://img.shields.io/github/downloads/acc0untz0138/DenpaEx/total)
-![GitHub Latest (Including Pre-releases)](https://img.shields.io/github/v/release/acc0untz0138/DenpaEx?include_prereleases&label=latest%20version)
 [![Denpa Engine Discord](https://img.shields.io/discord/993277169876873326?label=discord)](https://discord.gg/BFaMfmTNaa)
-[![DenpaEx Discord](https://img.shields.io/discord/993277169876873326?label=DenpaEx%20Discord)](https://discord.gg/9yzdrdDjdB)
+[![DenpaEx Discord](https://img.shields.io/discord/993277169876873326?label=denpaex%20discord)](https://discord.gg/9yzdrdDjdB)
 
 # Friday Night Funkin': DenpaEx
 
