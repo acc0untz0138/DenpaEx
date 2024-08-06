@@ -892,8 +892,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		rating.updateHitbox();
 		add(rating);
 
-		bgScroll.visible = !ClientPrefs.settings.get("lowQuality");
-		bgScroll2.visible = !ClientPrefs.settings.get("lowQuality");
+		if (bgScroll != null) bgScroll.visible = !ClientPrefs.settings.get("lowQuality");
+		if (bgScroll2 != null) bgScroll2.visible = !ClientPrefs.settings.get("lowQuality");
 	}
 
 	var exiting = false;
@@ -1003,8 +1003,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 				flixel.input.mouse.FlxMouse.antialiasing = ClientPrefs.settings.get("globalAntialiasing");
 				FlxG.mouse.load();
 			case 'Low Quality':
-				bgScroll.visible = !ClientPrefs.settings.get("lowQuality");
-				bgScroll2.visible = !ClientPrefs.settings.get("lowQuality");
+				if (bgScroll != null) bgScroll.visible = !ClientPrefs.settings.get("lowQuality");
+				if (bgScroll2 != null) bgScroll2.visible = !ClientPrefs.settings.get("lowQuality");
 		}
 	}
 }
