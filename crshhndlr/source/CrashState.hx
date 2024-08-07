@@ -17,8 +17,7 @@ class CrashState extends flixel.FlxState {
 
         function onClose() {
             FlxG.autoPause = false;
-            openURL('https://github.com/UmbratheUmbreon/PublicDenpaEngine/issues');
-            openURL('https://discord.gg/BFaMfmTNaa');
+            openURL('https://github.com/acc0untz0138/DenpaEx/issues');
         }
 
         Application.current.window.focus();
