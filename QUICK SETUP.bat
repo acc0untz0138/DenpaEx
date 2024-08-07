@@ -7,6 +7,7 @@ haxelib install flixel-ui 2.5.0
 haxelib install flxanimate 3.0.4
 haxelib install hscript
 haxelib install hxCodec 2.6.1
+haxelib install hxcpp-debug-server
 haxelib remove discord_rpc
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 haxelib remove hxcpp
