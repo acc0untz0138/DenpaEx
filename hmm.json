@@ -62,7 +62,7 @@
     {
       "name": "openfl",
       "type": "haxelib",
-      "version": "9.3.3"
+      "version": "9.2.1"
     }
   ]
 }
