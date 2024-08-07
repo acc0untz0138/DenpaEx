@@ -17,7 +17,7 @@ echo Libraries installed and updated.
 pause
 echo Setting up Flixel.
 haxelib install lime 8.1.0
-haxelib install openfl 9.3.2
+haxelib install openfl 9.2.1
 haxelib install flixel 5.2.2
 haxelib run lime setup
 echo Flixel setup complete.
