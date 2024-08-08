@@ -8,6 +8,7 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.geom.Matrix;
 import mobile.flixel.FlxButton;
+import mobile.HitboxNotesList;
 
 /**
  * A zone with 4 hints (A hitbox).
@@ -34,7 +35,7 @@ class FlxHitbox extends FlxSpriteGroup {
 	 */
 	public function new(ammo:UInt, perHintWidth:Int, perHintHeight:Int, ?colors:Array<FlxColor>):Void {
 		super();
-
+		var notesList:Array<HitboxNotesList> = HitboxNotesList.createAll();
 		hints = new Array<FlxButton>();
 
 		if (colors == null)
@@ -70,7 +71,7 @@ class FlxHitbox extends FlxSpriteGroup {
 			}
 
 		for (i in 0...ammo)
-			add(hints[i] = createHint(i * perHintWidth, 0, perHintWidth, perHintHeight, colors[i]));
+			add(hints[i] = createHint(i * perHintWidth, 0, perHintWidth, perHintHeight, colors[i], notesList[i));
 
 		scrollFactor.set();
 	}
@@ -97,8 +98,8 @@ class FlxHitbox extends FlxSpriteGroup {
 	 * @param Color The color of the hint.
 	 * @return The created FlxButton representing the hint.
 	 */
-	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF):FlxButton {
-		var hint:FlxButton = new FlxButton(X, Y);
+	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF,  ?bindedNote:HitboxNotesList):FlxButton {
+		var hint:FlxButton = new FlxButton(X, Y, null, bindedNote);
 		hint.loadGraphic(createHintGraphic(Width, Height, Color));
 		hint.solid = false;
 		hint.multiTouch = true;
