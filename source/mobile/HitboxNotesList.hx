@@ -1,3 +1,5 @@
+package mobile;
+
 enum HitboxNotesList
 {
   NOTE_1;
