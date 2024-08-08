@@ -95,7 +95,7 @@ class FlxHitbox extends FlxSpriteGroup {
 
 		onHintUp.removeAll();
 		onHintUp = null;
-		onHintDown.removeALl();
+		onHintDown.removeAll();
 		onHintDown = null;
 		
 		for (i in 0...hints.length)

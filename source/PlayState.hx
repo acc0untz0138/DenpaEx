@@ -16,6 +16,7 @@ import Shaders;
 import Song;
 import StageData;
 import VanillaBG;
+import mobile.flixel.FlxButton;
 import animateatlas.AtlasFrameMaker;
 import editors.CharacterEditorState;
 import editors.ChartingState;
