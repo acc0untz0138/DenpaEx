@@ -8,7 +8,6 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.geom.Matrix;
 import mobile.flixel.FlxButton;
-import mobile.HitboxNotesList;
 import flixel.util.FlxSignal.FlxTypedSignal;
 
 /**
@@ -46,7 +45,6 @@ class FlxHitbox extends FlxSpriteGroup {
 	 */
 	public function new(ammo:UInt, perHintWidth:Int, perHintHeight:Int, ?colors:Array<FlxColor>):Void {
 		super();
-		var notesList:Array<HitboxNotesList> = HitboxNotesList.createAll();
 		hints = new Array<FlxButton>();
 
 		if (colors == null)
@@ -82,7 +80,7 @@ class FlxHitbox extends FlxSpriteGroup {
 			}
 
 		for (i in 0...ammo)
-			add(hints[i] = createHint(i * perHintWidth, 0, perHintWidth, perHintHeight, colors[i], i, notesList[i]));
+			add(hints[i] = createHint(i * perHintWidth, 0, perHintWidth, perHintHeight, colors[i], i));
 
 		scrollFactor.set();
 	}
@@ -112,31 +110,30 @@ class FlxHitbox extends FlxSpriteGroup {
 	 * @param Color The color of the hint.
 	 * @return The created FlxButton representing the hint.
 	 */
-	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF, hintID:Int,  ?bindedNote:HitboxNotesList):FlxButton {
-		var hidden:Bool = ClientPrefs.settings.get("hitboxType") == "Hidden";
-		var hint:FlxButton = new FlxButton(X, Y, null, bindedNote);
+	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF, hintID:Int) {
+		var hint:FlxButton = new FlxButton(X, Y);
 		hint.loadGraphic(createHintGraphic(Width, Height, Color));
 		hint.solid = false;
 		hint.multiTouch = true;
 		hint.immovable = true;
 		hint.moves = false;
-		hint.antialiasing = ClientPrefs.settings.get("antialiasing");
+		hint.antialiasing = ClientPrefs.settings.get("globalAntialiasing");
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 		hint.active = !ClientPrefs.settings.get("botplay");
 		hint.onDown.callback = function() {
 			onHintDown.dispatch(hint, hintID);
-			if (hint.alpha != guh && !hidden)
+			if (hint.alpha != guh)
 				hint.alpha = guh;
 		}
 		hint.onUp.callback = function() {
 			onHintUp.dispatch(hint, hintID);
-			if (hint.alpha != guh2 && !hidden)
+			if (hint.alpha != guh2)
 				hint.alpha = guh2;
 		}
 		hint.onOut.callback = function() {
 			onHintUp.dispatch(hint, hintID);
-			if (hint.alpha != guh2 && !hidden)
+			if (hint.alpha != guh2)
 				hint.alpha = guh2;
 		}
 		#if FLX_DEBUG
