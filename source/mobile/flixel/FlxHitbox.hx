@@ -9,6 +9,7 @@ import openfl.display.Shape;
 import openfl.geom.Matrix;
 import mobile.flixel.FlxButton;
 import mobile.HitboxNotesList;
+import flixel.util.FlxSignal.FlxTypedSignal;
 
 /**
  * A zone with 4 hints (A hitbox).
@@ -21,6 +22,16 @@ class FlxHitbox extends FlxSpriteGroup {
 	 * Array of FlxButton representing the hints.
 	 */
 	public var hints(default, null):Array<FlxButton>;
+
+	/**
+	 * Signal that's dispatched whenever a hint is pressed down.
+	 */
+	public var onHintDown:FlxTypedSignal<(FlxButton, Int)->Void> = new FlxTypedSignal<(FlxButton, Int)->Void>();
+
+	/**
+	 * Signal that's dispatched whenever a hint is released
+	 */
+	public var onHintUp:FlxTypedSignal<(FlxButton, Int)->Void> = new FlxTypedSignal<(FlxButton, Int)->Void>();
 
 	final guh2:Float = 0.00001;
 	final guh:Float = ClientPrefs.settings.get("mobileCAlpha") >= 0.9 ? ClientPrefs.settings.get("mobileCAlpha") - 0.2 : ClientPrefs.settings.get("mobileCAlpha");
@@ -71,7 +82,7 @@ class FlxHitbox extends FlxSpriteGroup {
 			}
 
 		for (i in 0...ammo)
-			add(hints[i] = createHint(i * perHintWidth, 0, perHintWidth, perHintHeight, colors[i], notesList[i]));
+			add(hints[i] = createHint(i * perHintWidth, 0, perHintWidth, perHintHeight, colors[i], i, notesList[i]));
 
 		scrollFactor.set();
 	}
@@ -98,7 +109,8 @@ class FlxHitbox extends FlxSpriteGroup {
 	 * @param Color The color of the hint.
 	 * @return The created FlxButton representing the hint.
 	 */
-	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF,  ?bindedNote:HitboxNotesList):FlxButton {
+	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF, hintID:Int,  ?bindedNote:HitboxNotesList):FlxButton {
+		var hidden:Bool = ClientPrefs.settings.get("hitboxType") == "Hidden";
 		var hint:FlxButton = new FlxButton(X, Y, null, bindedNote);
 		hint.loadGraphic(createHintGraphic(Width, Height, Color));
 		hint.solid = false;
@@ -109,19 +121,20 @@ class FlxHitbox extends FlxSpriteGroup {
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 		hint.active = !ClientPrefs.settings.get("botplay");
-		if (ClientPrefs.settings.get("hitboxType") != "Hidden") {
-			hint.onDown.callback = function() {
-				if (hint.alpha != guh)
-					hint.alpha = guh;
-			}
-			hint.onUp.callback = function() {
-				if (hint.alpha != guh2)
-					hint.alpha = guh2;
-			}
-			hint.onOut.callback = function() {
-				if (hint.alpha != guh2)
-					hint.alpha = guh2;
-			}
+		hint.onDown.callback = function() {
+			onHintDown.dispatch(hint, hintID);
+			if (hint.alpha != guh && !hidden)
+				hint.alpha = guh;
+		}
+		hint.onUp.callback = function() {
+			onHintUp.dispatch(hint, hintID);
+			if (hint.alpha != guh2 && !hidden)
+				hint.alpha = guh2;
+		}
+		hint.onOut.callback = function() {
+			onHintUp.dispatch(hint, hintID);
+			if (hint.alpha != guh2 && !hidden)
+				hint.alpha = guh2;
 		}
 		#if FLX_DEBUG
 		hint.ignoreDrawDebug = true;
