@@ -5397,7 +5397,7 @@ class PlayState extends MusicBeatState
 				if (missPress)
 					noteMissPress(id);
 				else
-					gsTap(key, cast ClientPrefs.settings.get("gsMiss"));
+					gsTap(id, cast ClientPrefs.settings.get("gsMiss"));
 			}
 
 			//set the time back now that we are done, which prevents note stuttering.
