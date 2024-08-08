@@ -14,6 +14,7 @@ import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxDestroyUtil;
+import mobile.HitboxNotesList;
 
 /**
  * A simple button class that calls a function when clicked by the touch.
@@ -40,6 +41,11 @@ class FlxButton extends FlxTypedButton<FlxText> {
 	public var text(get, set):String;
 
 	/**
+	 * The current note that this button is binded to
+	 */
+	public var bindedNote:Null<HitboxNotesList> = null;
+
+	/**
 	 * Creates a new `FlxButton` object with a gray background
 	 * and a callback function on the UI thread.
 	 *
@@ -48,11 +54,13 @@ class FlxButton extends FlxTypedButton<FlxText> {
 	 * @param   Text      The text that you want to appear on the button.
 	 * @param   OnClick   The function to call whenever the button is clicked.
 	 */
-	public function new(X:Float = 0, Y:Float = 0, ?Text:String, ?OnClick:Void->Void):Void {
+	public function new(X:Float = 0, Y:Float = 0, ?Text:String, ?bindedNote:HitboxNotesList, ?OnClick:Void->Void):Void {
 		super(X, Y, OnClick);
 
 		for (point in labelOffsets)
 			point.set(point.x - 1, point.y + 3);
+
+		this.bindedNote = bindedNote;
 
 		initLabel(Text);
 	}
