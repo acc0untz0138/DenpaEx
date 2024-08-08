@@ -1822,6 +1822,8 @@ class PlayState extends MusicBeatState
 		//cant use keyPress override because it would count EVERY key
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		hitbox.onHintDown.add(onHintPress);
+		hitbox.onHintUp.add(onHintRelease);
 
 		callOnLuas('onCreatePost', []);
 		callOnHscripts("onCreatePost", []);
@@ -5344,6 +5346,88 @@ class PlayState extends MusicBeatState
 		}
 
 		return hitNote;
+	}
+
+	public function onHintPress(hint:FlxButton, id:Int) {
+		if (hint == null || id == -1 || cpuControlled || paused || !hint.justPressed) return;
+
+		/*
+		hi hi it's me Karim
+		i am (not) proud of how this turned out
+		(don't) credit me if you use this :)
+		*/
+
+		//make sure we arent doing weird shit lol
+		if(generatedMusic && !boyfriend.stunned && !endingSong)
+		{
+			//and now it is time for the W A V E  I N P U T
+
+			//toggle on sustain checks for this lane
+			sustainLaneCheck[id] = true;
+
+			//we set the time to the actual current time so it's more accurate
+			final lastTime:Float = Conductor.songPosition;
+			Conductor.songPosition = FlxG.sound.music.time;
+
+			//this represents whether we should run noteMissPress or not
+			final missPress:Bool = !tappy;
+
+			var validNotes:Array<Note> = [];
+
+			//for loop is faster than forEach
+			for (note in notes.members) {
+				//check if its in the lane, if it wasnt already hit, that its not late, and that it can be hit
+				if (note.noteData != id || note.wasGoodHit || note.tooLate || !note.canBeHit) continue;
+
+				//add it to the list
+				validNotes.push(note);
+			}
+
+			//check if we actually have any valid notes
+			if (validNotes.length > 0) {
+				//sort by strum time
+				validNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
+
+				goodNoteHit(validNotes[0]);
+			} else if (!sustainInputCheck()) {
+				//dont want you hitting sustains if you just miss pressed/ghost tapped
+				sustainLaneCheck[id] = false;
+
+				//if misspress is true, then we wanna do the function, otherwise do the ghost tapping animation 
+				if (missPress)
+					noteMissPress(id);
+				else
+					gsTap(key, cast ClientPrefs.settings.get("gsMiss"));
+			}
+
+			//set the time back now that we are done, which prevents note stuttering.
+			Conductor.songPosition = lastTime;
+		}
+
+		callOnLuas('onKeyPress', [id]);
+		callOnHscripts('onKeyPress', [id]);
+
+		//make sure we arent calling a null strum, or a strum that just pressed a valid note
+		if (playerStrums.members[id] == null) return;
+		if (playerStrums.members[id].animation.curAnim.name == 'confirm') return;
+			
+		//play the no note press animation
+		playerStrums.members[id].playAnim('pressed');
+		playerStrums.members[id].resetAnim = 0;
+	}
+
+	public function onHintRelease(hint:FlxButton, id:Int) {
+		if (hint == null || id == -1 || cpuControlled || paused) return;
+
+		sustainLaneCheck[id] = false;
+
+		if (playerStrums.members[id] == null) return;
+
+		playerStrums.members[id].playAnim('static');
+		playerStrums.members[id].resetAnim = 0;
+
+		callOnLuas('onKeyRelease', [id]);
+		callOnHscripts('onKeyRelease', [id]);
 	}
 
 	public function noteMiss(daNote:Note) { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
