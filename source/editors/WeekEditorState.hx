@@ -619,14 +619,18 @@ class WeekEditorFreeplayState extends MusicBeatState
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, weekFile.songs[i][0], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
-			songText.altRotation = true;
-			songText.xAdd = 100;
+			if(ClientPrefs.settings.get("coolFreeplay")) {
+				songText.altRotation = true;
+				songText.xAdd = 100;
+			}
 			grpSongs.add(songText);
 
 			var icon:HealthIcon = new HealthIcon(weekFile.songs[i][1]);
 			icon.sprTracker = songText;
-			icon.trackerOffsets = [-songText.width + -icon.width -25, 0];
-
+			if(ClientPrefs.settings.get("coolFreeplay")) {
+				icon.trackerOffsets = [-songText.width + -icon.width -25, 0];
+			}
+			
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);

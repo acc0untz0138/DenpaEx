@@ -3,7 +3,8 @@
 	<!-- _________________________ Application Settings _________________________ -->
 
 	<app title="DENPAEX CRASH HANDLER" file="DENPAEXCRASHHANDLER" packageName="com.detean.denpaengine" package="com.deteam.denpaengine" main="Main" version="0.1.1" company="DExTeam" />
-
+	<app title="DENPAEX CRASH HANDLER (debug)" file="DEBUGEXCRASHHANDLER" if="debug" />
+	
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
