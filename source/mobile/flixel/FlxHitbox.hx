@@ -93,6 +93,9 @@ class FlxHitbox extends FlxSpriteGroup {
 	override public function destroy():Void {
 		super.destroy();
 
+		onHintUp.destroy();
+		onHintDown.destroy();
+		
 		for (i in 0...hints.length)
 			hints[i] = FlxDestroyUtil.destroy(hints[i]);
 
