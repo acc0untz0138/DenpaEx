@@ -28,7 +28,7 @@ class CopyState extends MusicBeatState
 {
 	public static var locatedFiles:Array<String> = [];
 	public static var maxLoopTimes:Int = 0;
-	public static final IGNORE_FOLDER_FILE_NAME:String = "ignore.txt";
+	public static final IGNORE_FOLDER_FILE_NAME:String = "CopyStateIgnore.txt";
 
 	public var loadingImage:FlxSprite;
 	public var bottomBG:FlxSprite;
