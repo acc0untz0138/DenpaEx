@@ -29,8 +29,7 @@ class DebugDisplay extends TextField
 	{
 		super();
 
-		x = inX;
-		y = inY;
+		positionMEM(inX, inY);
 
 		selectable = false;
 
@@ -123,5 +122,11 @@ class DebugDisplay extends TextField
 		}
 
 		forceUpdate = false;
+	}
+
+	public inline function positionMEM(X:Float, Y:Float, ?scale:Float = 1){
+		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
+		x = FlxG.game.x + X;
+		y = FlxG.game.y + Y;
 	}
 }

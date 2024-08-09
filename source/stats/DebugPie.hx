@@ -11,8 +11,7 @@ class DebugPie extends TextField
 	{
 		super();
 
-		x = inX;
-		y = inY;
+		positionPIE(inX, inY);
 
 		selectable = false;
 
@@ -44,5 +43,11 @@ class DebugPie extends TextField
 		text = 'BMP: ${Math.fround(cast (bmpArr[0], Float) * 100)/100} ${bmpArr[1]}' +
 			'\nSND: ${Math.fround(cast (sndArr[0], Float) * 100)/100} ${sndArr[1]}' +
 			'\nMUS: ${Math.fround(cast (musArr[0], Float) * 100)/100} ${musArr[1]}';
+	}
+
+	public inline function positionPIE(X:Float, Y:Float, ?scale:Float = 1){
+		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
+		x = FlxG.game.x + X;
+		y = FlxG.game.y + Y;
 	}
 }

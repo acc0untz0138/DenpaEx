@@ -161,10 +161,18 @@ class Main extends Sprite
 			gc();
 		});
 
+		#if (openfl >= "9.2.0" && mobile)
 		FlxG.signals.gameResized.add(function (w, h) {
 			if(fpsCounter != null)
 				fpsCounter.positionFPS(10, 3, Math.min(w / FlxG.width, h / FlxG.height));
+
+			if(ramCount != null)
+				ramCount.positionMEM(10, 13, Math.min(w / FlxG.width, h / FlxG.height));
+
+			if(ramPie != null)
+				ramPie.positionPIE(10, 156, Math.min(w / FlxG.width, h / FlxG.height));
 		});
+		#end
 
 		#if html5
 		FlxG.autoPause = false;
