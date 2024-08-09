@@ -56,7 +56,7 @@
     {
       "name": "lime",
       "type": "git",
-      "ref": "main",
+      "ref": "develop",
       "url": "https://github.com/mcagabe19-stuff/lime.git"
     },
     {
