@@ -41,7 +41,7 @@ class Main extends Sprite
 	{
 		#if android
 		Sys.setCwd(android.content.Context.getObbDir() + '/');
-		#else
+		#elseif ios
 		Sys.setCwd(lime.system.System.documentsDirectory);
 		#end
 
