@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': DenpaEx" file="DenpaEx" packageName="com.detean.denpaengine" package="com.deteam.denpaengine" main="Main" version="0.2.8" company="DExTeam" />
+	<app title="Friday Night Funkin': DenpaEx" file="DenpaEx" packageName="com.deteam.denpaengine" package="com.deteam.denpaengine" main="Main" version="0.2.8" company="DExTeam" />
 	<app title="Friday Night Funkin': DenpaEx (debug)" file="DebugEx" if="debug" />
 	<app preloader="flixel.system.FlxPreloader" />
 
