@@ -118,7 +118,7 @@ class Main extends Sprite
 		//me on my way to perfectly position this fucking debug display so it doesnt piss me off:
 		ramCount = new DebugDisplay(6, 13, 0xffffff);
 		addChild(ramCount);
-		toggleMEM(false);
+		toggleMEM(#if mobile true #else false #end);
 
 		ramPie = new DebugPie(1080, 3, 0xffffff);
 		addChild(ramPie);
