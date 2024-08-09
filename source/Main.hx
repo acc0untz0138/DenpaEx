@@ -312,10 +312,10 @@ class Main extends Sprite
 		}
 
 		final errorLinesSorted:Array<String> = [
-			'\nUncaught Error: ${e.error}!',
+			'\nUncaught Error: ${e.error}!' #if (!mobile),
 			'\nPlease report this error to the GitHub page\n(Will automatically open when exiting!)',
 			'\nAlternatively, report it in the official server\n(Will also be opened automatically!)',
-			'\n\nOriginal CrashHandler code written by squirra-rng (https://github.com/gedehari)'
+			'\n\nOriginal CrashHandler code written by squirra-rng (https://github.com/gedehari)' #end
 		];
 		for(line in errorLinesSorted) { errMsg += line; }
 
@@ -324,7 +324,7 @@ class Main extends Sprite
 		File.saveContent(path, errMsg + "\n");
 
 		Sys.println(errMsg);
-		FlxG.stage.window.alert(errMsg);
+		#if mobile FlxG.stage.window.alert(errMsg, "Uncaught Error!"); #end
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		#if desktop
