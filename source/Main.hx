@@ -324,6 +324,7 @@ class Main extends Sprite
 		File.saveContent(path, errMsg + "\n");
 
 		Sys.println(errMsg);
+		FlxG.stage.window.alert(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		#if desktop
