@@ -44,8 +44,9 @@
     },
     {
       "name": "hxCodec",
-      "type": "haxelib",
-      "version": "2.6.1"
+      "type": "git",
+      "ref": "main",
+      "url": "https://github.com/MobilePorting/hxCodec-0.6.3.git"
     },
     {
       "name": "hxcpp",
