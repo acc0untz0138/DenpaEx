@@ -209,6 +209,9 @@ class NoteOffsetState extends MusicBeatState
 		Conductor.changeBPM(128.0);
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 
+		addVirtualPad(LEFT_FULL, A_B_C);
+		addVirtualPadCamera();
+
 		super.create();
 	}
 
@@ -242,10 +245,10 @@ class NoteOffsetState extends MusicBeatState
 				FlxG.keys.justPressed.W,
 				FlxG.keys.justPressed.S,
 
-				FlxG.keys.justPressed.I,
-				FlxG.keys.justPressed.K,
-				FlxG.keys.justPressed.L,
-				FlxG.keys.justPressed.J
+				virtualPad.buttonUp.justPressed || FlxG.keys.justPressed.I,
+				virtualPad.buttonDown.justPressed ||FlxG.keys.justPressed.K,
+				virtualPad.buttonRight.justPressed || FlxG.keys.justPressed.L,
+				virtualPad.buttonLeft.justPressed || FlxG.keys.justPressed.J
 			];
 
 			if(controlArray.contains(true))
@@ -364,7 +367,7 @@ class NoteOffsetState extends MusicBeatState
 				updateNoteDelay();
 			}
 
-			if(controls.RESET)
+			if(virtualPad.buttonC.justPressed || controls.RESET)
 			{
 				holdTime = 0;
 				barPercent = 0;
@@ -477,21 +480,37 @@ class NoteOffsetState extends MusicBeatState
 	{
 		for (i in 0...dumbTexts.length)
 		{
-			switch(i)
+			if (controls.mobileC)
 			{
-				case 0: dumbTexts.members[i].text = 'Rating Offset:';
-				case 1: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[0] + ', ' + ClientPrefs.comboOffset[1] + ']';
-				case 2: dumbTexts.members[i].text = 'Numbers Offset:';
-				case 3: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[2] + ', ' + ClientPrefs.comboOffset[3] + ']';
-				case 4: dumbTexts.members[i].text = 'Healthbar Offset:';
-				case 5: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[4] + ', ' + ClientPrefs.comboOffset[5] + ']';
-				case 6: dumbTexts.members[i].text = 'Controls:';
-				case 7: dumbTexts.members[i].text = 'LEFT RIGHT UP DOWN:';
-				case 8: dumbTexts.members[i].text = 'Move Rating Offset';
-				case 9: dumbTexts.members[i].text = 'A D W S:';
-				case 10: dumbTexts.members[i].text = 'Move Combo Offset';
-				case 11: dumbTexts.members[i].text = 'J L I K:';
-				case 12: dumbTexts.members[i].text = 'Move Healthbar Offset';
+				switch(i)
+				{
+					case 0: dumbTexts.members[i].text = 'Rating Offset:';
+					case 1: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[0] + ', ' + ClientPrefs.comboOffset[1] + ']';
+					case 2: dumbTexts.members[i].text = 'Numbers Offset:';
+					case 3: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[2] + ', ' + ClientPrefs.comboOffset[3] + ']';
+					case 4: dumbTexts.members[i].text = 'Healthbar Offset:';
+					case 5: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[4] + ', ' + ClientPrefs.comboOffset[5] + ']';
+					case 6: dumbTexts.members[i].text = 'Controls:';
+					case 7: dumbTexts.members[i].text = 'LEFT RIGHT UP DOWN:';
+					case 8: dumbTexts.members[i].text = 'Move Healthbar Offset';
+				}
+			} else {
+				switch(i)
+				{
+					case 0: dumbTexts.members[i].text = 'Rating Offset:';
+					case 1: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[0] + ', ' + ClientPrefs.comboOffset[1] + ']';
+					case 2: dumbTexts.members[i].text = 'Numbers Offset:';
+					case 3: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[2] + ', ' + ClientPrefs.comboOffset[3] + ']';
+					case 4: dumbTexts.members[i].text = 'Healthbar Offset:';
+					case 5: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[4] + ', ' + ClientPrefs.comboOffset[5] + ']';
+					case 6: dumbTexts.members[i].text = 'Controls:';
+					case 7: dumbTexts.members[i].text = 'LEFT RIGHT UP DOWN:';
+					case 8: dumbTexts.members[i].text = 'Move Rating Offset';
+					case 9: dumbTexts.members[i].text = 'A D W S:';
+					case 10: dumbTexts.members[i].text = 'Move Combo Offset';
+					case 11: dumbTexts.members[i].text = 'J L I K:';
+					case 12: dumbTexts.members[i].text = 'Move Healthbar Offset';
+				}
 			}
 		}
 	}
@@ -517,9 +536,9 @@ class NoteOffsetState extends MusicBeatState
 		beatText.visible = !onComboMenu;
 
 		if(onComboMenu)
-			changeModeText.text = '< Combo Offset (Press Accept to Switch) >';
+			changeModeText.text = '< Combo Offset (Press ${controls.mobileC ? 'A' : 'ACCEPT'} to Switch) >';
 		else
-			changeModeText.text = '< Note/Beat Delay (Press Accept to Switch) >';
+			changeModeText.text = '< Note/Beat Delay (Press ${controls.mobileC ? 'A' : 'ACCEPT'} to Switch) >';
 
 		changeModeText.text = changeModeText.text.toUpperCase();
 		FlxG.mouse.visible = onComboMenu;
