@@ -39,10 +39,11 @@ class Main extends Sprite
 
 	public function new()
 	{
+		#if mobile
 		#if android
-		Sys.setCwd(android.content.Context.getObbDir() + '/');
-		#elseif ios
-		Sys.setCwd(lime.system.System.documentsDirectory);
+		SUtil.doPermissionsShit();
+		#end
+		Sys.setCwd(SUtil.getStorageDirectory());
 		#end
 
 		super();

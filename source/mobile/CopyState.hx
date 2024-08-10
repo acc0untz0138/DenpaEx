@@ -10,7 +10,6 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import openfl.utils.ByteArray;
 import haxe.io.Path;
-import mobile.SUtil;
 #if sys
 import sys.io.File;
 import sys.FileSystem;

@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.util.FlxDestroyUtil;
 using CoolUtil.MapUtil;
+import mobile.SUtil;
 #end
 
 import haxe.*;

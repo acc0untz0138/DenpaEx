@@ -3,6 +3,7 @@ package mobile;
 import lime.system.System as LimeSystem;
 import lime.app.Application;
 #if android
+import android.content.Context as AndroidContext;
 import android.os.Environment as AndroidEnvironment;
 import android.Permissions as AndroidPermissions;
 import android.Settings as AndroidSettings;
@@ -21,6 +22,22 @@ using StringTools;
 class SUtil
 {
 	#if sys
+	public static function getStorageDirectory(?force:Bool = false):String
+	{
+		var daPath:String = '';
+		#if android
+		if (!FileSystem.exists(LimeSystem.applicationStorageDirectory + 'storagetype.txt'))
+			File.saveContent(LimeSystem.applicationStorageDirectory + 'storagetype.txt', ClientPrefs.settings.get("storageType"));
+		var curStorageType:String = File.getContent(LimeSystem.applicationStorageDirectory + 'storagetype.txt');
+		daPath = force ? StorageType.fromStrForce(curStorageType) : StorageType.fromStr(curStorageType);
+		daPath = haxe.io.Path.addTrailingSlash(daPath);
+		#elseif ios
+		daPath = LimeSystem.documentsDirectory;
+		#end
+
+		return daPath;
+	}
+
 	public static function mkDirs(directory:String):Void
 	{
 		try {
@@ -58,21 +75,6 @@ class SUtil
 		}
 	}
 
-	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json',
-			fileData:String = 'You forgor to add somethin\' in yo code :3'):Void
-	{
-		try
-		{
-			if (!FileSystem.exists('saves'))
-				FileSystem.createDirectory('saves');
-
-			File.saveContent('saves/' + fileName + fileExtension, fileData);
-			Application.current.window.alert(fileName + " file has been saved.", "Success!");
-		}
-		catch (e:haxe.Exception)
-			trace('File couldn\'t be saved. (${e.message})');
-	}
-
 	#if android
 	public static function doPermissionsShit():Void
 	{
@@ -90,16 +92,75 @@ class SUtil
 		{
 			try
 			{
-				if (!FileSystem.exists(Sys.getCwd()))
-					FileSystem.createDirectory(Sys.getCwd());
+				if (!FileSystem.exists(SUtil.getStorageDirectory()))
+					FileSystem.createDirectory(SUtil.getStorageDirectory());
 			}
 			catch (e:Dynamic)
 			{
-				Application.current.window.alert('Please create folder to\n' + Sys.getCwd() + '\nPress OK to close the game', 'Error!');
+				Application.current.window.alert('Please create folder to\n' + SUtil.getStorageDirectory(true) + '\nPress OK to close the game', 'Error!');
 				LimeSystem.exit(1);
 			}
 		}
 	}
+
+	public static function checkExternalPaths(?splitStorage = false):Array<String> {
+		var process = new sys.io.Process('grep -o "/storage/....-...." /proc/mounts | paste -sd \',\'');
+		var paths:String = process.stdout.readAll().toString();
+		if (splitStorage) paths = paths.replace('/storage/', '');
+		return paths.split(',');
+	}
+
+	public static function getExternalDirectory(external:String):String {
+		var daPath:String = '';
+		for (path in checkExternalPaths())
+			if (path.contains(external)) daPath = path;
+
+		daPath = haxe.io.Path.addTrailingSlash(daPath.endsWith("\n") ? daPath.substr(0, daPath.length - 1) : daPath);
+		return daPath;
+	}
 	#end
 	#end
 }
+
+#if android
+enum abstract StorageType(String) from String to String
+{
+	final forcedPath = '/storage/emulated/0/';
+	final packageNameLocal = 'com.shadowmario.psychengine';
+	final fileLocal = 'PsychEngine';
+
+	public static function fromStr(str:String):StorageType
+	{
+		final EXTERNAL_DATA = AndroidContext.getExternalFilesDir();
+		final EXTERNAL_OBB = AndroidContext.getObbDir();
+		final EXTERNAL_MEDIA = AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + lime.app.Application.current.meta.get('packageName');
+		final EXTERNAL = AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file');
+
+		return switch (str)
+		{
+			case "EXTERNAL_DATA": EXTERNAL_DATA;
+			case "EXTERNAL_OBB": EXTERNAL_OBB;
+			case "EXTERNAL_MEDIA": EXTERNAL_MEDIA;
+			case "EXTERNAL": EXTERNAL;
+			default: SUtil.getExternalDirectory(str) + '.' + fileLocal;
+		}
+	}
+
+	public static function fromStrForce(str:String):StorageType
+	{
+		final EXTERNAL_DATA = forcedPath + 'Android/data/' + packageNameLocal + '/files';
+		final EXTERNAL_OBB = forcedPath + 'Android/obb/' + packageNameLocal;
+		final EXTERNAL_MEDIA = forcedPath + 'Android/media/' + packageNameLocal;
+		final EXTERNAL = forcedPath + '.' + fileLocal;
+
+		return switch (str)
+		{
+			case "EXTERNAL_DATA": EXTERNAL_DATA;
+			case "EXTERNAL_OBB": EXTERNAL_OBB;
+			case "EXTERNAL_MEDIA": EXTERNAL_MEDIA;
+			case "EXTERNAL": EXTERNAL;
+			default: SUtil.getExternalDirectory(str) + '.' + fileLocal;
+		}
+	}
+}
+#end

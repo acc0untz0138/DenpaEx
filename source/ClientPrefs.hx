@@ -76,6 +76,7 @@ class ClientPrefs {
         "pauseMusic" => "Breakfast",
         "cutscenes" => "Story Mode Only",
 		"colorblindMode" => "None",
+		#if android "storageType" => "EXTERNAL_DATA", #end
 		//Arrays
 		"crossFadeData" => ['Default', 'Healthbar', [255, 255, 255], 0.3, 0.35]
 	];

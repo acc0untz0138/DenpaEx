@@ -1173,9 +1173,15 @@ class GameRendererSettingsSubState extends BaseOptionsMenu
 */
 class MiscSettingsSubState extends BaseOptionsMenu
 {
+	#if android
+	var storageTypes:Array<String> = ["EXTERNAL_DATA", "EXTERNAL_OBB", "EXTERNAL_MEDIA", "EXTERNAL"];
+	var externalPaths:Array<String> = SUtil.checkExternalPaths(true);
+	final lastStorageType:String = ClientPrefs.settings.get("storageType");
+	#end
 	public static var instance:MiscSettingsSubState;
 	public function new()
 	{
+		#if android if (!externalPaths.contains('\n')) storageTypes = storageTypes.concat(externalPaths); #end
 		title = 'Misc Settings';
 		rpcTitle = 'Misc Settings Menu'; //for Discord Rich Presence
 
@@ -1252,6 +1258,16 @@ class MiscSettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		#if android
+		var option:Option = new Option('Storage Type',
+			'Which folder Psych Engine should use?\n(CHANGING THIS MAKES DELETE YOUR OLD FOLDER!!)',
+			'storageType',
+			'string',
+			null,
+			storageTypes);
+			addOption(option);
+		#end
+
 		//! Unfinished (Still needs colour functionality fixed)
 		var option:Option = new Option('CrossFade Options',
 			"Open the CrossFade options submenu.",
@@ -1322,8 +1338,31 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		}
 	}
 
+	#if android
+	function onStorageChange():Void
+	{
+		File.saveContent(lime.system.System.applicationStorageDirectory + 'storagetype.txt', ClientPrefs.settings.get("storageType"));
+	
+		var lastStoragePath:String = StorageType.fromStrForce(lastStorageType) + '/';
+	
+		try
+		{
+			Sys.command('rm', ['-rf', lastStoragePath]);
+		}
+		catch (e:haxe.Exception)
+			trace('Failed to remove last directory. (${e.message})');
+	}
+	#end
+
 	override function destroy()
 	{
+		#if android
+		if (ClientPrefs.settings.get("storageType") != lastStorageType) {
+			onStorageChange();
+			Application.current.window.alert('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
+			lime.system.System.exit(0);
+		}
+		#end
 		if(changedMusic) FlxG.sound.playMusic(Paths.music('msm'));
 		instance = null;
 		super.destroy();
