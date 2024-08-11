@@ -434,7 +434,7 @@ class Paths
 	
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '')
-		return 'mods/$key';
+		return Sys.getCwd() + 'mods/$key';
 	
     inline static public function modsHscript(key:String)
 		return modFolders('$key.hscript');
@@ -473,7 +473,7 @@ class Paths
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
 			if(FileSystem.exists(mods('$currentModDirectory/$key'))) return mods('$currentModDirectory/$key');
 		}
-		return 'mods/$key';
+		return Sys.getCwd() + 'mods/$key';
 	}
 
 	inline static public function getModDirectories():Array<String> {
