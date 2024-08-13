@@ -26,7 +26,6 @@ import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import Shaders;
-import flixel.addons.display.FlxRuntimeShader;
 import openfl.display.BlendMode;
 import flixel.tweens.FlxEase;
 
