@@ -1,10 +1,84 @@
 {
   "dependencies": [
     {
+      "name": "lime",
+      "type": "git",
+      "ref": "develop",
+      "url": "https://github.com/mcagabe19-stuff/lime.git"
+    },
+    {
+      "name": "openfl",
+      "type": "haxelib",
+      "version": "9.2.1"
+    },
+    {
+      "name": "flixel",
+      "type": "haxelib",
+      "version": "5.2.2"
+    },
+    {
+      "name": "flixel-addons",
+      "type": "haxelib",
+      "version": "3.0.2"
+    },
+    {
+      "name": "flixel-tools",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "flixel-ui",
+      "type": "haxelib",
+      "version": "2.5.0"
+    },
+    {
+      "name": "hxcpp",
+      "type": "git",
+      "ref": "master",
+      "url": "https://github.com/mcagabe19-stuff/hxcpp.git"
+    },
+    {
+      "name": "hxcpp-debug-server",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "hxCodec",
+      "type": "git",
+      "ref": "main",
+      "url": "https://github.com/MobilePorting/hxCodec-0.6.3.git"
+    },
+    {
+      "name": "hscript",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "SScript",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "away3d", 
+      "type": "git", 
+      "ref": "master",
+      "url": "https://github.com/FNF-CNE-Devs/away3d"
+    },
+    {
+      "name": "tjson",
+      "type": "haxelib",
+      "version": null
+    },
+    {
       "name": "discord_rpc",
       "type": "git",
       "ref": "master",
       "url": "https://github.com/Aidan63/linc_discord-rpc"
+    },
+    {
+      "name": "flxanimate",
+      "type": "haxelib",
+      "version": "3.0.4"
     },
     {
       "name": "linc_luajit",
@@ -16,54 +90,6 @@
       "name": "extension-androidtools",
       "type": "haxelib",
       "version": null
-    },
-    {
-      "name": "flixel",
-      "type": "haxelib",
-      "version": "5.2.2"
-    },
-    {
-      "name": "flxanimate",
-      "type": "haxelib",
-      "version": "3.0.4"
-    },
-    {
-      "name": "flixel-addons",
-      "type": "haxelib",
-      "version": "3.0.2"
-    },
-    {
-      "name": "flixel-ui",
-      "type": "haxelib",
-      "version": "2.5.0"
-    },
-    {
-      "name": "hscript",
-      "type": "haxelib",
-      "version": null
-    },
-    {
-      "name": "hxCodec",
-      "type": "git",
-      "ref": "main",
-      "url": "https://github.com/MobilePorting/hxCodec-0.6.3.git"
-    },
-    {
-      "name": "hxcpp",
-      "type": "git",
-      "ref": "master",
-      "url": "https://github.com/mcagabe19-stuff/hxcpp.git"
-    },
-    {
-      "name": "lime",
-      "type": "git",
-      "ref": "develop",
-      "url": "https://github.com/mcagabe19-stuff/lime.git"
-    },
-    {
-      "name": "openfl",
-      "type": "haxelib",
-      "version": "9.2.1"
     }
   ]
 }

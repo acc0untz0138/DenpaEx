@@ -28,6 +28,7 @@ import lime.app.Application;
 import Shaders;
 import openfl.display.BlendMode;
 import flixel.tweens.FlxEase;
+import flixel.system.FlxAssets.FlxShader;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -548,7 +549,7 @@ class FunkinLua {
 			#if (!flash && MODS_ALLOWED && sys)
 			return initLuaShader(name, glslVersion);
 			#else
-			luaTrace("initLuaShader: Platform unsupported for Runtime Shaders!", false, false);
+			luaTrace("initLuaShader: Platform unsupported for Runtime Shaders!", false, false, FlxColor.RED);
 			#end
 			return false;
 		});
@@ -559,14 +560,14 @@ class FunkinLua {
 			#if (!flash && MODS_ALLOWED && sys)
 			if(!PlayState.instance.runtimeShaders.exists(shader) && !initLuaShader(shader))
 			{
-				luaTrace('setSpriteShader: Shader $shader is missing!', false, false);
+				luaTrace('setSpriteShader: Shader $shader is missing!', false, false, FlxColor.RED);
 				return false;
 			}
 
 			var killMe:Array<String> = obj.split('.');
 			var leObj:FlxSprite = getObjectDirectly(killMe[0]);
 			if(killMe.length > 1) {
-				leObj = Reflect.getProperty(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
+				leObj = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
 			}
 
 			if(leObj != null) {
@@ -583,7 +584,7 @@ class FunkinLua {
 			var killMe:Array<String> = obj.split('.');
 			var leObj:FlxSprite = getObjectDirectly(killMe[0]);
 			if(killMe.length > 1) {
-				leObj = Reflect.getProperty(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
+				leObj = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
 			}
 
 			if(leObj != null) {
@@ -2608,6 +2609,39 @@ class FunkinLua {
 		return null;
 	}
 
+	public static function getVarInArray(instance:Dynamic, variable:String):Any
+	{
+		var shit:Array<String> = variable.split('[');
+		if(shit.length > 1)
+		{
+			var blah:Dynamic = null;
+			if(PlayState.instance.variables.exists(shit[0]))
+			{
+				var retVal:Dynamic = PlayState.instance.variables.get(shit[0]);
+				if(retVal != null)
+					blah = retVal;
+			}
+			else
+				blah = Reflect.getProperty(instance, shit[0]);
+	
+			for (i in 1...shit.length)
+			{
+				var leNum:Dynamic = shit[i].substr(0, shit[i].length - 1);
+				blah = blah[leNum];
+			}
+			return blah;
+		}
+	
+		if(PlayState.instance.variables.exists(variable))
+		{
+			var retVal:Dynamic = PlayState.instance.variables.get(variable);
+			if(retVal != null)
+				return retVal;
+		}
+	
+		return Reflect.getProperty(instance, variable);
+	}
+
 	inline static function getTextObject(name:String):FlxText
 	{
 		return PlayState.instance.modchartTexts.exists(name) ? PlayState.instance.modchartTexts.get(name) : Reflect.getProperty(PlayState.instance, name);
@@ -2634,22 +2668,22 @@ class FunkinLua {
 	function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
 		if(!ClientPrefs.settings.get("shaders")) return false;
-
+	
 		#if (!flash && sys)
 		if(PlayState.instance.runtimeShaders.exists(name))
 		{
 			luaTrace('Shader $name was already initialized!');
 			return true;
 		}
-
+	
 		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
+
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
 			{
-				trace(folder);
 				var frag:String = folder + name + '.frag';
 				var vert:String = folder + name + '.vert';
 				var found:Bool = false;
@@ -2659,14 +2693,14 @@ class FunkinLua {
 					found = true;
 				}
 				else frag = null;
-
+	
 				if(FileSystem.exists(vert))
 				{
 					vert = File.getContent(vert);
 					found = true;
 				}
 				else vert = null;
-
+	
 				if(found)
 				{
 					PlayState.instance.runtimeShaders.set(name, [frag, vert]);
@@ -2675,9 +2709,9 @@ class FunkinLua {
 				}
 			}
 		}
-		luaTrace('Missing shader $name .frag AND .vert files!', false, false);
+		luaTrace('Missing shader $name .frag AND .vert files!', false, false, FlxColor.RED);
 		#else
-		luaTrace('This platform doesn\'t support Runtime Shaders!', false, false);
+		luaTrace('This platform doesn\'t support Runtime Shaders!', false, false, FlxColor.RED);
 		#end
 		return false;
 	}
@@ -2829,7 +2863,7 @@ class FunkinLua {
 		return PlayState.instance.camGame;
 	}
 
-	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false) {
+	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:FlxColor = FlxColor.WHITE) {
 		#if LUA_ALLOWED
 		if(ignoreCheck || getBool('luaDebugMode')) {
 			if(deprecated && !getBool('luaDeprecatedWarnings')) {

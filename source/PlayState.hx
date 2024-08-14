@@ -2070,7 +2070,7 @@ class PlayState extends MusicBeatState
 		luaDebugGroup.forEachAlive(spr -> {
 			spr.y += 20;
 		});
-
+	
 		if(luaDebugGroup.members.length > 34) {
 			var blah = luaDebugGroup.members[34];
 			luaDebugGroup.remove(blah, true);
