@@ -59,12 +59,6 @@
       "version": null
     },
     {
-      "name": "away3d", 
-      "type": "git", 
-      "ref": "master",
-      "url": "https://github.com/FNF-CNE-Devs/away3d"
-    },
-    {
       "name": "tjson",
       "type": "haxelib",
       "version": null
