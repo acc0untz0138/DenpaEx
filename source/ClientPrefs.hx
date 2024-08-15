@@ -50,6 +50,7 @@ class ClientPrefs {
 		"ffmpegInfo" => false,
 		"coolFreeplay" => true,
 		"shadersEnabled" => true,
+		"modifierVisibility" => true,
         //Ints
         "framerate" => 60,
         "noteOffset" => 0,

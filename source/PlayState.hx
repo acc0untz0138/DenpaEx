@@ -1576,6 +1576,7 @@ class PlayState extends MusicBeatState
 		for (data in modifierDatas) {
 			if (!data.condition) continue;
 			var spr:ModifierSprite = new ModifierSprite(data.name, camHUD, data.xPos, data.yPos);
+			spr.visible = (!ClientPrefs.settings.get("hideHud")) && ClientPrefs.settings.get("modifierVisibility");
 			add(spr);
 			FlxTween.tween(spr, {alpha: 0}, 0.5, {
 				ease: FlxEase.quadInOut,
@@ -1583,7 +1584,7 @@ class PlayState extends MusicBeatState
 				onComplete: _ -> {
 					remove(spr, true);
 					spr.destroy();
-				}
+				}	
 			});
 		}
 

@@ -1060,6 +1060,13 @@ class CustomizationSettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Modifier Icons',
+			'If checked, the modifier icons will pop up during the start of the song.',
+			'modifierVisibility',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('Ratings Display',
 			"If checked, a display showing how many Perfects, Sicks, Etc. will be enabled.",
 			'ratingsDisplay',
