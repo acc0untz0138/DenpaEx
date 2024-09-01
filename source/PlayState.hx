@@ -234,6 +234,7 @@ class PlayState extends MusicBeatState
 	public var maxHealth:Float = 2;
 	public var bfNotes:Int = 0;
 	public var combo:Int = 0;
+	public var opCombo:Int = 0;
 	public var highestCombo:Int = 0;
 
 	//this is for hard coded glitch shaders
@@ -3180,7 +3181,8 @@ class PlayState extends MusicBeatState
 	{
 		#if debug Debug.instance.onUpdate(); #end
 
-		if (ffmpegMode) elapsed = 1 / targetFPS;
+		// It doesn't need cuz elapsed can have decimals in fixedTimeStep
+		// if (ffmpegMode) elapsed = 1 / targetFPS;
 		
 		if (screenshader.Enabled)
 		{
@@ -3218,7 +3220,7 @@ class PlayState extends MusicBeatState
 			} else {
 				quartizRoutine();
 			}
-			quartizTime = FlxG.elapsed*40000 * FlxG.random.float(1, 10);
+			quartizTime = FlxG.elapsed * 40000 * FlxG.random.float(1, 10);
 		}
 
 		elapsedtime += elapsed;
@@ -3548,35 +3550,9 @@ class PlayState extends MusicBeatState
 		if (!ClientPrefs.settings.get("noReset") && controls.RESET && !inCutscene && !endingSong)
 			doDeathCheck(true);
 
-		//NOTE SPAWNING BABY!!
-		//swap to recylcing soon
-		if (unspawnNotes[0] != null)
-		{
-			final spawnTime:Float = (1750/songSpeed)/(FlxMath.bound(camHUD.zoom, null, 1)); //spawns within [time] ms (btw this BARELY edges close enough to the screen to not be too far ahead and not spawning on screen)
-
-			var notesAddedCount = 0;
-
-			if (notesAddedCount > unspawnNotes.length)
-				notesAddedCount -= (notesAddedCount - unspawnNotes.length);
-
-			while (unspawnNotes.length > 0 && unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (1700 / songSpeed / unspawnNotes[notesAddedCount].spawnTimeMult)) {
-				{
-					final dunceNote:Note = (unspawnNotes[notesAddedCount].isSustainNote ? sustains : notes)
-						.recycle(Note).setupNoteData(unspawnNotes[notesAddedCount]);
-
-					if(ghostMode) ghostModeRoutine(dunceNote);
-					dunceNote.scrollFactor.set();
-
-						unspawnNotes[notesAddedCount].wasSpawned = true;
-					notesAddedCount++;
-				}
-			}
-			if (notesAddedCount > 0)
-				unspawnNotes.splice(0, notesAddedCount);
-		}
-
+		// Swapping Process of notes main process and note spawning process
+		// for Prevent new instances do main process
 		checkEventNote();
-
 		if (generatedMusic)
 		{
 			if (!inCutscene) {
@@ -3586,39 +3562,55 @@ class PlayState extends MusicBeatState
 			}
 
 			var fakeCrochet:Float = (60 / Conductor.bpm) * 1000;
+			var tooLate:Null<Bool> = false;
+
 			//fuck off man
 			if (!inCutscene && !cutsceneHandlerCutscene) {
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
 					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
-					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
-					else if (daNote.mustPress && daNote.strum < 2) daNote.strum = 0;
-					else daNote.strum = 0;
-                    switch (daNote.strum) {
-                        case 0: strumGroup = playerStrums;
-                    	case 1: strumGroup = opponentStrums;
-                        case 2:
-							strumGroup = thirdStrums;
-							daNote.cameras = [camGame];
-							daNote.scrollFactor.set(1,1);
-                    }
-							inline daNote.followStrum(strumGroup.members[daNote.noteData], (60 / SONG.header.bpm) * 1000, songSpeed);
-							if(daNote.isSustainNote && daNote.strumToFollow != null && daNote.strumToFollow.sustainReduce) inline daNote.clipToStrumNote(daNote.strumToFollow);
 
-					if (!daNote.mustPress && !daNote.hitByOpponent && daNote.strumTime <= Conductor.songPosition)
-						opponentNoteHit(daNote, daNote.strum == 2);
+					tooLate = Conductor.songPosition - daNote.strumTime > noteKillOffset;
 
-					if(daNote.mustPress && cpuControlled) {
-						if(daNote.strumTime <= Conductor.songPosition)
-							goodNoteHit(daNote);
-					}
 					// Kill extremely late notes and cause misses
-					if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
+					if (tooLate)
 					{
-						if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
-							noteMiss(daNote);
+						if (!endingSong) {
+							if (!daNote.mustPress) {
+								if (!daNote.hitByOpponent) opponentNoteHit(daNote, daNote.strum == 2);
+							}
+							else {
+								if(cpuControlled)
+									goodNoteHit(daNote);
+								else if (daNote.tooLate || !daNote.wasGoodHit)
+									noteMiss(daNote);
+							}
+						}
 
 						//group.remove(daNote, true); feel free to uncomment this out if you like
 						daNote.exists = false;
+					} else {
+						if (daNote.strum < 2) {
+							if (!daNote.mustPress) daNote.strum = 1;
+							else daNote.strum = 0;
+						} else daNote.strum = 0;
+
+						switch (daNote.strum) {
+							case 0: strumGroup = playerStrums;
+							case 1: strumGroup = opponentStrums;
+							case _:
+								strumGroup = thirdStrums;
+								daNote.cameras = [camGame];
+								daNote.scrollFactor.set(1,1);
+						}
+
+						if (daNote.strumTime <= Conductor.songPosition && !daNote.isSustainNote) {
+							if (!daNote.mustPress) {
+								if (!daNote.hitByOpponent)
+									opponentNoteHit(daNote, daNote.strum == 2);
+							} else if(daNote.strumTime <= Conductor.songPosition && cpuControlled && !daNote.ignoreNote)
+								goodNoteHit(daNote);
+						} else daNote.followStrum(strumGroup.members[daNote.noteData], (60 / SONG.header.bpm) * 1000, songSpeed);
+						if (daNote.isSustainNote && daNote.strumToFollow != null && daNote.strumToFollow.sustainReduce) inline daNote.clipToStrumNote(daNote.strumToFollow);
 					}
 				});
 				if(!ClientPrefs.settings.get("downScroll")) {
@@ -3628,7 +3620,52 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
-		
+
+		//NOTE SPAWNING BABY!!
+		//swap to recylcing soon
+		var timeout = Timer.stamp();
+		var spawnNote:PreloadedChartNote = null;
+		var unLength:Int = 0;
+		if (unspawnNotes[0] != null)
+		{
+			final spawnTime:Float = 1750 / songSpeed / FlxMath.bound(camHUD.zoom, null, 1); //spawns within [time] ms (btw this BARELY edges close enough to the screen to not be too far ahead and not spawning on screen)
+			final spawnRealTime:Float = spawnTime / 1000; //converts seconds.
+
+			var notesAddedCount = 0;
+			spawnNote = unspawnNotes[notesAddedCount];
+			unLength = unspawnNotes.length;
+
+			if (notesAddedCount > unLength)
+				notesAddedCount -= (notesAddedCount - unLength);
+
+			while (spawnNote.strumTime - Conductor.songPosition < spawnTime / spawnNote.spawnTimeMult)
+			{
+				if (spawnNote != null)
+				{
+					if (Timer.stamp() - timeout <= spawnRealTime) {
+						final dunceNote:Note = (spawnNote.isSustainNote ? sustains : notes)
+							.recycle(Note).setupNoteData(spawnNote);
+
+						if(ghostMode) ghostModeRoutine(dunceNote);
+						dunceNote.scrollFactor.set();
+
+						spawnNote.wasSpawned = true;
+					} else {
+						if (spawnNote.mustPress) {
+							++combo; songScore += 600;
+						}
+						strumPlayAnim(spawnNote.mustPress ? 1 : 0, spawnNote.noteData, spawnNote.strumTime);
+					}
+					
+					++notesAddedCount; --unLength;
+					if (unLength <= 0) break;
+					spawnNote = unspawnNotes[notesAddedCount];
+				}
+			}
+			if (notesAddedCount > 0)
+				unspawnNotes.splice(0, notesAddedCount);
+		}
+
 		#if debug
 		if(!endingSong && !startingSong) {
 			if (FlxG.keys.justPressed.ONE) {
@@ -5589,7 +5626,7 @@ class PlayState extends MusicBeatState
 
 		if(note.noteType == 'Hey!') {
 			final char:Character = !note.gfNote ? (!p4 ? dad : player4) : gf;
- 			if (char.animOffsets.hasKey('hey'))
+			if (char.animOffsets.hasKey('hey'))
 			{
 				char.playAnim('hey', true);
 				char.specialAnim = true;
@@ -5603,11 +5640,11 @@ class PlayState extends MusicBeatState
 			var cfgrp:FlxTypedGroup<CrossFade> = (p4 && player4 != null ? grpP4CrossFade : grpCrossFade);
 			/* might uncomment this lol
 			if (p4 && player4 != null) {
-           			switch (note.strum) {
-               		 		case 2: 
-				    	char = player4;
-				    	cfgrp = grpP4CrossFade;
-          			}
+    			switch (note.strum) {
+            		case 2: 
+					char = player4;
+					cfgrp = grpP4CrossFade;
+				}
 			}
 			*/
 
@@ -5674,7 +5711,6 @@ class PlayState extends MusicBeatState
 					if (intendedHealth >= oppChar.drainFloor)
 						intendedHealth -= oppChar.drainAmount;
 				}
-					
 			}
 
 			if(oppChar.shakeScreen) {
@@ -5697,6 +5733,7 @@ class PlayState extends MusicBeatState
 		}
 
 		note.hitByOpponent = true;
+		++opCombo;
 
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 		callOnHscripts('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
@@ -5752,20 +5789,23 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-			if (!cpuControlled)
+		if (!cpuControlled)
+		{
+			var rate:String = 'sick';
+			if (!note.isSustainNote && !note.ratingDisabled)
 			{
-				var rate:String = 'sick';
-				if (!note.isSustainNote && !note.ratingDisabled)
-				{
-					combo += 1;
-					if(highestCombo < combo) highestCombo = combo;
-					rate = popUpScore(note);
-				}	
-	
-				if (!note.isSustainNote && !note.noteSplashDisabled && (['sick', 'perfect'].contains(rate) || note.forceNoteSplash))
-					spawnNoteSplashOnNote(note);
-			}
-			if (cpuControlled && ClientPrefs.settings.get("ratingVisibility"))
+				combo += 1;
+				if(highestCombo < combo) highestCombo = combo;
+				rate = popUpScore(note);
+			}	
+
+			if (!note.isSustainNote && !note.noteSplashDisabled && (['sick', 'perfect'].contains(rate) || note.forceNoteSplash))
+				spawnNoteSplashOnNote(note);
+		}
+		
+		if (cpuControlled)
+		{
+			if(ClientPrefs.settings.get("ratingVisibility"))
 			{
 				if (!note.isSustainNote && !note.ratingDisabled)
 				{
@@ -5781,7 +5821,7 @@ class PlayState extends MusicBeatState
 				if (!note.isSustainNote && !note.noteSplashDisabled)
 					spawnNoteSplashOnNote(note);
 			}
-			if (cpuControlled && !ClientPrefs.settings.get("ratingVisibility"))
+			else
 			{
 				if (!note.isSustainNote)
 				{
@@ -5793,6 +5833,7 @@ class PlayState extends MusicBeatState
 				if (!note.isSustainNote && !note.noteSplashDisabled && ClientPrefs.settings.get("noteSplashes") || note.forceNoteSplash && ClientPrefs.settings.get("noteSplashes"))
 					spawnNoteSplashOnNote(note);
 			}
+		} 
 	
 		if (!note.isSustainNote || (note.isSustainNote && ClientPrefs.settings.get("sustainsAreNotes"))) intendedHealth += note.hitHealth * healthGain;
 

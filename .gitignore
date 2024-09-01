@@ -1,5 +1,6 @@
 export/*
 .haxelib/*
+.vscode/
 vscode-project.hxml
 crshhndlr/export/*
 crshhndlr/export/debug/*
