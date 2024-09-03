@@ -138,7 +138,7 @@
 	</section>
 
 	<!-- Allows "Big Blocks" for HxCpp GC, allowing WRAM greater than 1 GB. -->
-	<!-- <haxedef name="HXCPP_GC_BIG_BLOCKS" if="cpp"/> -->
+	<haxedef name="HXCPP_GC_BIG_BLOCKS" if="cpp"/>
 
 	<haxedef name="hscriptPos" if="HSCRIPT_ALLOWED"/>
 

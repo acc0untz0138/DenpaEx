@@ -1,6 +1,8 @@
 @echo off
-cd ..
 echo Installing and updating libraries.
+cd crshhndlr
+lime build windows
+cd ..
 haxelib install hmm
 haxelib run hmm install
 echo Libraries installed and updated.
