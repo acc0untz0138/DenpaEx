@@ -10,7 +10,7 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.5
+          haxe-version: 4.3.6
 
       - name: Install Libraries
         run: |
@@ -38,7 +38,7 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.5
+          haxe-version: 4.3.6
 
       - name: Install Libraries
         run: |
@@ -67,7 +67,7 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.5
+          haxe-version: 4.3.6
 
       - name: Install Libraries
         run: |
@@ -89,16 +89,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@main
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.5
+          haxe-version: 4.3.6
 
       - name: Install Libraries
         run: |
@@ -109,7 +103,7 @@ jobs:
         run: |
           haxelib run lime config ANDROID_SDK $ANDROID_HOME
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME
-          haxelib run lime config JAVA_HOME $JAVA_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME_17_X64
           haxelib run lime config ANDROID_SETUP true 
 
       - name: Compile
@@ -130,7 +124,7 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.5
+          haxe-version: 4.3.6
 
       - name: Install Libraries
         run: |
