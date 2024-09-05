@@ -530,7 +530,6 @@ class Note extends FlxSprite
 	// this is used for note recycling
 	public function setupNoteData(chartNoteData:PreloadedChartNote):Note
 	{
-		y = -2000; // for hiding notes
 		visible = true;
 		wasGoodHit = hitByOpponent = tooLate = canBeHit = false; // Don't make an update call of this for the note group
 

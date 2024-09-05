@@ -3553,8 +3553,6 @@ class PlayState extends MusicBeatState
 		// Swapping Process of notes main process and note spawning process
 		// for Prevent new instances do main process
 		checkEventNote();
-		
-		var strumGroup:FlxTypedGroup<StrumNote>;
 		if (generatedMusic)
 		{
 			if (!inCutscene) {
@@ -3569,12 +3567,14 @@ class PlayState extends MusicBeatState
 			//fuck off man
 			if (!inCutscene && !cutsceneHandlerCutscene) {
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
+					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
+
 					tooLate = Conductor.songPosition - daNote.strumTime > noteKillOffset;
 
 					// Kill extremely late notes and cause misses
 					if (tooLate)
 					{
-						if (!endingSong && !daNote.isSustainNote) {
+						if (!endingSong) {
 							if (!daNote.mustPress) {
 								if (!daNote.hitByOpponent) opponentNoteHit(daNote, daNote.strum == 2);
 							}
@@ -3587,10 +3587,11 @@ class PlayState extends MusicBeatState
 						}
 
 						//group.remove(daNote, true); feel free to uncomment this out if you like
-						daNote.invalidateNote();
+						daNote.exists = false;
 					} else {
 						if (daNote.strum < 2) {
-							daNote.strum = daNote.mustPress ? 0 : 1;
+							if (!daNote.mustPress) daNote.strum = 1;
+							else daNote.strum = 0;
 						} else daNote.strum = 0;
 
 						switch (daNote.strum) {
@@ -3602,20 +3603,21 @@ class PlayState extends MusicBeatState
 								daNote.scrollFactor.set(1,1);
 						}
 
-						daNote.strumToFollow = strumGroup.members[daNote.noteData];
-
 						if (daNote.strumTime <= Conductor.songPosition && !daNote.isSustainNote) {
 							if (!daNote.mustPress) {
 								if (!daNote.hitByOpponent)
 									opponentNoteHit(daNote, daNote.strum == 2);
 							} else if(daNote.strumTime <= Conductor.songPosition && cpuControlled && !daNote.ignoreNote)
 								goodNoteHit(daNote);
-						} else {
-							daNote.followStrum(daNote.strumToFollow, (60 / SONG.header.bpm) * 1000, songSpeed);
-							if (daNote.isSustainNote && daNote.strumToFollow != null && daNote.strumToFollow.sustainReduce) daNote.clipToStrumNote(daNote.strumToFollow);
-						}
+						} else daNote.followStrum(strumGroup.members[daNote.noteData], (60 / SONG.header.bpm) * 1000, songSpeed);
+						if (daNote.isSustainNote && daNote.strumToFollow != null && daNote.strumToFollow.sustainReduce) inline daNote.clipToStrumNote(daNote.strumToFollow);
 					}
 				});
+				if(!ClientPrefs.settings.get("downScroll")) {
+					for (group in [notes, sustains]) inline group.members.sort((a:Note, b:Note) -> inline Std.int(a.y - b.y));
+				} else {
+					for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
+				}
 			}
 		}
 
@@ -3624,26 +3626,20 @@ class PlayState extends MusicBeatState
 		var timeout = Timer.stamp();
 		var spawnNote:PreloadedChartNote = null;
 		var unLength:Int = 0;
-		var spawnTime:Float = 100;
-		var spawnRealTime:Float = 0.1; //converts seconds.
-		var notesAddedCount = 0;
-
 		if (unspawnNotes[0] != null)
 		{
+			final spawnTime:Float = 1750 / songSpeed / FlxMath.bound(camHUD.zoom, null, 1); //spawns within [time] ms (btw this BARELY edges close enough to the screen to not be too far ahead and not spawning on screen)
+			final spawnRealTime:Float = spawnTime / 1000; //converts seconds.
+
+			var notesAddedCount = 0;
 			spawnNote = unspawnNotes[notesAddedCount];
 			unLength = unspawnNotes.length;
-
-			//spawns within [time] ms (btw this BARELY edges close enough to the screen to not be too far ahead and not spawning on screen)
-			//and it seems doesn't need to divide by songSpeed. because it occurs change value like exponentiation.
-			spawnTime = 2000 / songSpeed / FlxMath.bound(camHUD.zoom, null, 1) / spawnNote.spawnTimeMult;
-			spawnRealTime = spawnTime / 1000; //converts seconds.
 
 			if (notesAddedCount > unLength)
 				notesAddedCount -= (notesAddedCount - unLength);
 
-			while (spawnNote.strumTime - Conductor.songPosition < spawnTime)
+			while (spawnNote.strumTime - Conductor.songPosition < spawnTime / spawnNote.spawnTimeMult)
 			{
-
 				if (spawnNote != null)
 				{
 					if (Timer.stamp() - timeout <= spawnRealTime) {
@@ -3654,27 +3650,6 @@ class PlayState extends MusicBeatState
 						dunceNote.scrollFactor.set();
 
 						spawnNote.wasSpawned = true;
-
-						if (dunceNote.strumTime <= Conductor.songPosition) {
-							if (!dunceNote.mustPress) {
-								if (!dunceNote.hitByOpponent)
-									opponentNoteHit(dunceNote, dunceNote.strum == 2);
-							} else if(dunceNote.strumTime <= Conductor.songPosition && cpuControlled && !dunceNote.ignoreNote)
-								goodNoteHit(dunceNote);
-						} else {
-							switch (dunceNote.strum) {
-								case 0: strumGroup = playerStrums;
-								case 1: strumGroup = opponentStrums;
-								case _:
-									strumGroup = thirdStrums;
-									dunceNote.cameras = [camGame];
-									dunceNote.scrollFactor.set(1,1);
-							}
-
-							dunceNote.strumToFollow = strumGroup.members[dunceNote.noteData];
-							dunceNote.followStrum(dunceNote.strumToFollow, (60 / SONG.header.bpm) * 1000, songSpeed);
-							if (dunceNote.isSustainNote && dunceNote.strumToFollow != null && dunceNote.strumToFollow.sustainReduce) dunceNote.clipToStrumNote(dunceNote.strumToFollow);
-						}
 					} else {
 						if (spawnNote.mustPress) {
 							++combo; songScore += 600;
@@ -3685,17 +3660,10 @@ class PlayState extends MusicBeatState
 					++notesAddedCount; --unLength;
 					if (unLength <= 0) break;
 					spawnNote = unspawnNotes[notesAddedCount];
-					spawnTime = 1000 / songSpeed / FlxMath.bound(camHUD.zoom, null, 1) / spawnNote.spawnTimeMult;
 				}
 			}
 			if (notesAddedCount > 0)
 				unspawnNotes.splice(0, notesAddedCount);
-		}
-
-		if(!ClientPrefs.settings.get("downScroll")) {
-			for (group in [notes, sustains]) inline group.members.sort((a:Note, b:Note) -> inline Std.int(a.y - b.y));
-		} else {
-			for (group in [notes, sustains]) inline group.members.sort((b:Note, a:Note) -> inline Std.int(a.y - b.y));
 		}
 
 		#if debug
@@ -5672,8 +5640,8 @@ class PlayState extends MusicBeatState
 			var cfgrp:FlxTypedGroup<CrossFade> = (p4 && player4 != null ? grpP4CrossFade : grpCrossFade);
 			/* might uncomment this lol
 			if (p4 && player4 != null) {
-				switch (note.strum) {
-					case 2: 
+    			switch (note.strum) {
+            		case 2: 
 					char = player4;
 					cfgrp = grpP4CrossFade;
 				}
@@ -5765,13 +5733,12 @@ class PlayState extends MusicBeatState
 		}
 
 		note.hitByOpponent = true;
+		++opCombo;
 
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 		callOnHscripts('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 
-		if (!note.isSustainNote) {
-			note.invalidateNote();
-		}
+		note.exists = false;
 	}
 
 	public function goodNoteHit(note:Note) {
@@ -5834,7 +5801,10 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote && !note.noteSplashDisabled && (['sick', 'perfect'].contains(rate) || note.forceNoteSplash))
 				spawnNoteSplashOnNote(note);
-		} else {
+		}
+		
+		if (cpuControlled)
+		{
 			if(ClientPrefs.settings.get("ratingVisibility"))
 			{
 				if (!note.isSustainNote && !note.ratingDisabled)
@@ -5967,9 +5937,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 		callOnHscripts('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 
-		if (!note.isSustainNote) {
-			note.invalidateNote();
-		}
+		note.exists = false;
 	}
 
 	public function spawnNoteSplashOnNote(note:Note) {
@@ -7643,6 +7611,7 @@ class PlayState extends MusicBeatState
 }
 
 class ModifierSprite extends FlxSprite {
+
     public function new(image:String, camera:FlxCamera, gridPosX:Int, gridPosY:Int)
     {
         super();
