@@ -511,26 +511,9 @@ class Note extends FlxSprite
 		}
 	}
 
-	@:noCompletion
-	override function set_clipRect(rect:FlxRect):FlxRect
-	{
-		clipRect = rect;
-
-		if (frames != null)
-			frame = frames.frames[animation.frameIndex];
-
-		return rect;
-	}
-
-	public function invalidateNote() {
-		visible = false;
-		kill();
-	}
-
 	// this is used for note recycling
 	public function setupNoteData(chartNoteData:PreloadedChartNote):Note
 	{
-		visible = true;
 		wasGoodHit = hitByOpponent = tooLate = canBeHit = false; // Don't make an update call of this for the note group
 
 		strumTime = chartNoteData.strumTime;
@@ -574,9 +557,9 @@ class Note extends FlxSprite
 			colorSwap.hue = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][0] / 360;
 			colorSwap.saturation = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][1] / 100;
 			colorSwap.brightness = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][2] / 100;
+			default:
+					
 		}
-
-		clipRect = null;
 		return this;
 	}
 
@@ -598,7 +581,7 @@ class StrumNote extends FlxSprite
 	public var noteData:Int = 0;
 	public var direction:Float = 90;
 	public var downScroll:Bool = false;
-	public var sustainReduce:Bool = true; // is it used?
+	public var sustainReduce:Bool = true;
 	private var animationLengths:Array<Int> = [0, 0, 0];
 	public var strum:Int = 0;
 	
