@@ -48,7 +48,7 @@ class LoadingState extends MusicBeatState
 	var loadingCircSpeed = FlxG.random.int(50,200);
 	var tipTxt:FlxText;
 	var tips:Array<String> = [
-		"If you're stuck on this screen for longer than 10 seconds, your pc sucks or the game crashed.\nThe Latter is most likely, not trying to insult your PC.\n(Your PC sucks)",
+		"If you're stuck on this screen for longer than 10 seconds, your pc sucks, the game crashed or the chart is huge as shit.\nThe second Latter is most likely, not trying to insult your PC.\n(Your PC sucks)",
 		"You can access the Chart Editor by holding shift when you enter a song in Freeplay.",
 		"The Chart Editor automatically saves your progress, no need to fret.",
 		"There are several shortcuts to different menus from the Splash Screen.",
@@ -85,7 +85,8 @@ class LoadingState extends MusicBeatState
 		"oh no its returning null NOOOO",
 		"//this is the only way this terribleness will work. Why? Has i ever?",
 		"//programmers log day 52: I am slowly going insane. I have been working on this for nearly 2 months and everything keps breaking\nWhat is next in this terrible world of code?",
-		"making bugs"
+		"making bugs",
+		"any questions or issues with the engine pls dm me at @justamz on discord lmao"
 	];
 	var silent:Bool = false;
 	

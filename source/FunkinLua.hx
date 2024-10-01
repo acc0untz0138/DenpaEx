@@ -2665,6 +2665,10 @@ class FunkinLua {
 	}
 	#end
 	
+	#if (MODS_ALLOWED && !flash && sys)
+	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
+	#end
+	
 	function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
 		if(!ClientPrefs.settings.get("shaders")) return false;
