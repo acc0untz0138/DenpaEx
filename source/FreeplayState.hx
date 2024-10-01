@@ -36,7 +36,6 @@ class FreeplayState extends MusicBeatState
 	var scoreText:FlxText;
 	var ratingText:FlxText;
 	var diffText:FlxText;
-	var searchText:FlxText;
 	var lerpScore:Int = 0;
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
@@ -63,8 +62,6 @@ class FreeplayState extends MusicBeatState
 	var gradientColorTween:FlxTween;
 	//makes freeplaysection transition look better
 	public var black:FlxSprite;
-	var songSearchText:FlxUIInputText;
-	var buttonTop:FlxButton;
 
 	var section:String = '';
 
@@ -268,24 +265,6 @@ class FreeplayState extends MusicBeatState
 		black.active = false;
         add(black);
 
-		songSearchText = new FlxUIInputText(0, scoreBG.y + scoreBG.height + 5, 500, '', 16);
-		songSearchText.x = FlxG.width - songSearchText.width;
-		add(songSearchText);
-		songSearchText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-
-		buttonTop = new FlxButton(0, songSearchText.y + songSearchText.height + 5, "", function() {
-			checkForSongsThatMatch(songSearchText.text);
-		});
-		buttonTop.setGraphicSize(Std.int(songSearchText.width), 50);
-		buttonTop.updateHitbox();
-		buttonTop.label.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK, RIGHT);
-		buttonTop.x = FlxG.width - buttonTop.width;
-		add(buttonTop);
-
-		searchText = new FlxText(975, 110, 100, "Search", 24);
-		searchText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK);
-		add(searchText);
-
 		#if desktop
 		DiscordClient.changePresence("In the Freeplay Menu", '"$section" Section - ${songs.length} Songs');
 		#end
@@ -331,139 +310,6 @@ class FreeplayState extends MusicBeatState
 				num++;
 		}
 	}*/
-
-	function checkForSongsThatMatch(?start:String = '')
-	{
-		if (player.playingMusic) return;
-		
-		var foundSongs:Int = 0;
-		final txt:FlxText = new FlxText(0, 0, 0, 'No songs found matching your query', 16);
-		txt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		txt.scrollFactor.set();
-		txt.screenCenter(XY);
-		for (i in 0...WeekData.weeksList.length) {
-			if(weekIsLocked(WeekData.weeksList[i])) continue;
-
-			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
-			for (song in leWeek.songs)
-			{
-				if (start != null && start.length > 0) {
-					var songName = song[0].toLowerCase();
-					var s = start.toLowerCase();
-					if (songName.indexOf(s) != -1) foundSongs++;
-				}
-			}
-		}
-		if (foundSongs > 0 || start == ''){
-			if (txt != null)
-				remove(txt); // don't do destroy/kill on this btw
-			regenerateSongs(start);
-		}
-		else if (foundSongs <= 0){
-			add(txt);
-			new FlxTimer().start(5, function(timer) {
-				if (txt != null)
-					remove(txt);
-			});
-			return;
-		}
-	}
-
-	function regenerateSongs(?start:String = '') {
-		curPlaying = false;
-
-		songs = [];
-		for (i in 0...WeekData.weeksList.length) {
-			if(weekIsLocked(WeekData.weeksList[i])) continue;
-
-			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
-			var leSongs:Array<String> = [];
-			var leChars:Array<String> = [];
-
-			for (j in 0...leWeek.songs.length)
-			{
-				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
-			}
-			WeekData.setDirectoryFromWeek(leWeek);
-			for (song in leWeek.songs)
-			{
-				var colors:Array<Int> = song[2];
-				if(colors == null || colors.length < 3)
-				{
-					colors = [146, 113, 253];
-				}
-				if (start != null && start.length > 0) {
-					var songName = song[0].toLowerCase();
-					var s = start.toLowerCase();
-					if (songName.indexOf(s) != -1) addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
-				} else addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2])); //??????????
-			}
-		}
-		regenList();
-	}
-
-	function regenList() {
-		grpSongs.forEach(song -> {
-			grpSongs.remove(song, true);
-			song.destroy();
-		});
-		for (icon in iconArray)
-		{
-			iconArray.remove(icon);
-			icon.destroy();
-		}
-		
-		//we clear the remaining ones
-		grpSongs.clear();
-		iconArray.resize(0);
-
-		for (i in 0...WeekData.weeksList.length) {
-			if(weekIsLocked(WeekData.weeksList[i])) continue;
-
-			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
-			if (leWeek.sections != null) {
-				for (sex in leWeek.sections) {
-					if (sex != section) {
-						doFunnyContinue = true;
-					} else {
-						doFunnyContinue = false;
-						break;
-					}	
-				}
-			} else {
-				if (section != "All") {
-					doFunnyContinue = true;
-				}
-			}
-			if (doFunnyContinue) {
-				doFunnyContinue = false;
-				continue;
-			}
-			var leSongs:Array<String> = [];
-			var leChars:Array<String> = [];
-
-			for (j in 0...leWeek.songs.length)
-			{
-				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
-			}
-
-			WeekData.setDirectoryFromWeek(leWeek);
-			for (song in leWeek.songs)
-			{
-				var colors:Array<Int> = song[2];
-				if(colors == null || colors.length < 3)
-				{
-					colors = [146, 113, 253];
-				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
-			}
-		}
-				
-		changeSelection();
-		changeDiff();
-	}
 
 	var instPlaying:Int = -1;
 	private static var vocals:FlxSound = null;
@@ -563,7 +409,7 @@ class FreeplayState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(virtualPad.buttonZ.justPressed || FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		if(songs.length > 1 && !songSearchText.hasFocus)
+		if(songs.length > 1)
 		{
 			if (upP)
 			{
