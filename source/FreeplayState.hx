@@ -283,7 +283,7 @@ class FreeplayState extends MusicBeatState
 		buttonTop.label.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK, RIGHT);
 		buttonTop.x = FlxG.width - buttonTop.width;
 		add(buttonTop);
-		searchText = new FlxText(975, 110, 100, "Search", 24);
+		searchText = new FlxText(975, 142, 100, "Search", 24);
 		searchText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK);
 		add(searchText);
 
@@ -344,6 +344,24 @@ class FreeplayState extends MusicBeatState
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
 
 			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			if (leWeek.sections != null) {
+				for (sex in leWeek.sections) {
+					if (sex != section) {
+						doFunnyContinue = true;
+					} else {
+						doFunnyContinue = false;
+						break;
+					}	
+				}
+			} else {
+				if (section != "All") {
+					doFunnyContinue = true;
+				}
+			}
+			if (doFunnyContinue) {
+				doFunnyContinue = false;
+				continue;
+			}
 			for (song in leWeek.songs)
 			{
 				if (start != null && start.length > 0) {
@@ -370,54 +388,9 @@ class FreeplayState extends MusicBeatState
 
 	function regenerateSongs(?start:String = '') {
 		curPlaying = false;
+		var doFunnyContinue = false;
 
 		songs = [];
-		for (i in 0...WeekData.weeksList.length) {
-			if(weekIsLocked(WeekData.weeksList[i])) continue;
-
-			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
-			var leSongs:Array<String> = [];
-			var leChars:Array<String> = [];
-
-			for (j in 0...leWeek.songs.length)
-			{
-				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
-			}
-			WeekData.setDirectoryFromWeek(leWeek);
-			for (song in leWeek.songs)
-			{
-				var colors:Array<Int> = song[2];
-				if(colors == null || colors.length < 3)
-				{
-					colors = [146, 113, 253];
-				}
-				if (start != null && start.length > 0) {
-					var songName = song[0].toLowerCase();
-					var s = start.toLowerCase();
-					if (songName.indexOf(s) != -1) addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
-				} else addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2])); //??????????
-			}
-		}
-		regenList();
-	}
-
-	function regenList() {
-		grpSongs.forEach(song -> {
-			grpSongs.remove(song, true);
-			song.destroy();
-		});
-		for (icon in iconArray)
-		{
-			iconArray.remove(icon);
-			icon.destroy();
-		}
-		
-		//we clear the remaining ones
-		grpSongs.clear();
-		iconArray.resize(0);
-
-		var doFunnyContinue = false;
 
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
@@ -458,11 +431,65 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				if (start != null && start.length > 0) {
+					var songName = song[0].toLowerCase();
+					var s = start.toLowerCase();
+					if (songName.indexOf(s) != -1) addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				} else addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2])); //??????????
 			}
 		}
+		regenList();
+	}
+
+	function regenList() {
+		grpSongs.forEach(song -> {
+			grpSongs.remove(song, true);
+			song.destroy();
+		});
+		for (icon in iconArray)
+		{
+			icon.destroy();
+		}
+		
+		//we clear the remaining ones
+		grpSongs.clear();
+		iconArray = [];
+
+		for (i in 0...songs.length)
+		{
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			songText.targetY = i;
+			if(ClientPrefs.settings.get("coolFreeplay")) {
+			songText.altRotation = true;
+			songText.xAdd = 100;
+			}
+			lerpList.push(true);
+			grpSongs.add(songText);
+
+			if (songText.width > 980)
+			{
+				var textScale:Float = 980 / songText.width;
+				songText.scale.x = textScale;
+				for (letter in songText.lettersArray)
+				{
+					letter.x *= textScale;
+					letter.offset.x *= textScale;
+				}
+			}
+
+			Paths.currentModDirectory = songs[i].folder;
+			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
+			icon.bopMult = 0.95;
+			icon.sprTracker = songText;
+			if(ClientPrefs.settings.get("coolFreeplay")) {
+				icon.trackerOffsets = [-songText.width + -icon.width -25, 0];
+			}
+			iconArray.push(icon);
+			add(icon);
+			icon.copyState = true;
+		}
 				
-		changeSelection();
+		changeSelection(0, false, true);
 		changeDiff();
 	}
 
@@ -564,167 +591,51 @@ class FreeplayState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(virtualPad.buttonZ.justPressed || FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		if(songs.length > 1)
+		if(!songSearchText.hasFocus)
 		{
-			if (upP)
+			if (songs.length > 1)
 			{
-				changeSelection(-shiftMult);
-				holdTime = 0;
-			}
-			if (downP)
-			{
-				changeSelection(shiftMult);
-				holdTime = 0;
-			}
-
-			if(controls.UI_DOWN || controls.UI_UP)
-			{
-				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
-				holdTime += elapsed;
-				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
-
-				if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+				if (upP)
 				{
-					changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+					changeSelection(-shiftMult);
+					holdTime = 0;
+				}
+				if (downP)
+				{
+					changeSelection(shiftMult);
+					holdTime = 0;
+				}
+
+				if(controls.UI_DOWN || controls.UI_UP)
+				{
+					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+					holdTime += elapsed;
+					var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+					{
+						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+						changeDiff();
+					}
+				}
+
+				if(FlxG.mouse.wheel != 0)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
+					changeSelection(-shiftMult * FlxG.mouse.wheel, false);
 					changeDiff();
 				}
 			}
+			
+			if (controls.UI_LEFT_P)
+				changeDiff(-1);
+			else if (controls.UI_RIGHT_P)
+				changeDiff(1);
+			else if (upP || downP) changeDiff();
 
-			if(FlxG.mouse.wheel != 0)
+			if (controls.BACK)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-				changeSelection(-shiftMult * FlxG.mouse.wheel, false);
-				changeDiff();
-			}
-		}
-
-		if (controls.UI_LEFT_P)
-			changeDiff(-1);
-		else if (controls.UI_RIGHT_P)
-			changeDiff(1);
-		else if (upP || downP) changeDiff();
-
-		if (controls.BACK)
-		{
-			persistentUpdate = false;
-			if(colorTween != null) {
-				colorTween.cancel();
-			}
-			if(bgScrollColorTween != null) {
-				bgScrollColorTween.cancel();
-			}
-			if(bgScroll2ColorTween != null) {
-				bgScroll2ColorTween.cancel();
-			}
-			if(gradientColorTween != null) {
-				gradientColorTween.cancel();
-			}
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
-
-			FlxG.mouse.visible = false;
-			return;
-		}
-
-		if(FlxG.keys.justPressed.E) {
-			if(!songs[curSelected].selected) playlistSongs.push(songs[curSelected]);
-			else playlistSongs.remove(songs[curSelected]);
-
-			songs[curSelected].selected = !songs[curSelected].selected;
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-			updateSongPlaylist();
-		}
-
-		if (virtualPad.buttonD.justPressed || FlxG.keys.justPressed.COMMA) {
-			persistentUpdate = false;
-			openSubState(new FreeplaySectionSubstate());
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-		}
-
-		if(ctrl)
-		{
-			persistentUpdate = false;
-			openSubState(new GameplayChangersSubstate());
-		}
-
-		if(space)
-		{
-			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-			function playSong() {
-				destroyFreeplayVocals();
-				Paths.clearUnusedCache();
-				FlxG.sound.destroy(false);
-				Paths.currentModDirectory = songs[curSelected].folder;
-				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-				if (PlayState.SONG.header.needsVoices)
-					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.header.song));
-				else
-					vocals = new FlxSound();
-
-				secondaryVocals = new FlxSound().loadEmbedded(Paths.secVoices(PlayState.SONG.header.song));
-
-				FlxG.sound.list.add(vocals);
-				FlxG.sound.list.add(secondaryVocals);
-				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.header.song), 0.7);
-				vocals.play();
-				secondaryVocals.play();
-				vocals.persist = true;
-				secondaryVocals.persist = true;
-				vocals.looped = true;
-				secondaryVocals.looped = true;
-				vocals.volume = 0.7;
-				secondaryVocals.volume = 0.7;
-				instPlaying = curSelected;
-				Conductor.songPosition = 0;
-				Conductor.changeBPM(PlayState.SONG.header.bpm);
-			}
-			function songJsonPopup() {
-				trace(poop + '\'s .ogg does not exist!');
-				FlxG.sound.play(Paths.sound('invalidJSON'));
-				FlxG.camera.shake(0.05, 0.05);
-				var funnyText = new FlxText(12, FlxG.height - 24, 0, "Invalid Song!");
-				funnyText.scrollFactor.set();
-				funnyText.screenCenter();
-				funnyText.x = 5;
-				funnyText.y = FlxG.height/2 - 64;
-				funnyText.setFormat("VCR OSD Mono", 64, FlxColor.RED, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				add(funnyText);
-				FlxTween.tween(funnyText, {alpha: 0}, 0.9, {
-					onComplete: _ -> {
-						remove(funnyText, true);
-						funnyText.destroy();
-					}
-				});
-			}
-			#if sys
-			if(instPlaying != curSelected)
-			{
-				if(sys.FileSystem.exists(Paths.inst(songLowercase + '/'  + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)))
-					playSong();
-				else
-					songJsonPopup();
-			}
-			#else
-			if(instPlaying != curSelected)
-			{
-				if(OpenFlAssets.exists(Paths.inst(songLowercase + '/' + poop)) || OpenFlAssets.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
-					playSong();
-				else
-					songJsonPopup();
-			}
-			#end
-		} else if (accepted)
-		{
-			persistentUpdate = false;
-			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
-			function fittingName() {
-				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
-
-				PlayState.isStoryMode = false;
-				PlayState.storyDifficulty = curDifficulty;
-	
+				persistentUpdate = false;
 				if(colorTween != null) {
 					colorTween.cancel();
 				}
@@ -737,69 +648,188 @@ class FreeplayState extends MusicBeatState
 				if(gradientColorTween != null) {
 					gradientColorTween.cancel();
 				}
-				
-				if (FlxG.keys.pressed.SHIFT){
-					PlayState.chartingMode = true;
-					LoadingState.loadAndSwitchState(new ChartingState());
-				}else{
-					LoadingState.globeTrans = false;
-					LoadingState.loadAndSwitchState(new PlayState());
-				}
-	
-				FlxG.sound.music.volume = 0;
-						
-				destroyFreeplayVocals();
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				MusicBeatState.switchState(new MainMenuState());
+
 				FlxG.mouse.visible = false;
+				return;
 			}
-			function jsonPopup() {
-				trace(poop + '.json does not exist!');
-				FlxG.sound.play(Paths.sound('invalidJSON'));
-				FlxG.camera.shake(0.03, 0.03);
-				var funnyText = new FlxText(12, FlxG.height - 24, 0, "Invalid JSON!\n" + poop + ".json");
-				funnyText.scrollFactor.set();
-				funnyText.screenCenter();
-				funnyText.x = 5;
-				funnyText.y = FlxG.height/2 - 64;
-				funnyText.setFormat("VCR OSD Mono", 64, FlxColor.RED, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				add(funnyText);
-				FlxTween.tween(funnyText, {alpha: 0}, 0.9, {
-					onComplete: _ -> {
-						remove(funnyText, true);
-						funnyText.destroy();
+
+			if(FlxG.keys.justPressed.E) {
+				if(!songs[curSelected].selected) playlistSongs.push(songs[curSelected]);
+				else playlistSongs.remove(songs[curSelected]);
+
+				songs[curSelected].selected = !songs[curSelected].selected;
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				updateSongPlaylist();
+			}
+
+			if (virtualPad.buttonD.justPressed || FlxG.keys.justPressed.COMMA) {
+				persistentUpdate = false;
+				openSubState(new FreeplaySectionSubstate());
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
+
+			if(ctrl)
+			{
+				persistentUpdate = false;
+				openSubState(new GameplayChangersSubstate());
+			}
+
+			if(space)
+			{
+				var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
+				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+				function playSong() {
+					destroyFreeplayVocals();
+					Paths.clearUnusedCache();
+					FlxG.sound.destroy(false);
+					Paths.currentModDirectory = songs[curSelected].folder;
+					PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+					if (PlayState.SONG.header.needsVoices)
+						vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.header.song));
+					else
+						vocals = new FlxSound();
+
+					secondaryVocals = new FlxSound().loadEmbedded(Paths.secVoices(PlayState.SONG.header.song));
+
+					FlxG.sound.list.add(vocals);
+					FlxG.sound.list.add(secondaryVocals);
+					FlxG.sound.playMusic(Paths.inst(PlayState.SONG.header.song), 0.7);
+					vocals.play();
+					secondaryVocals.play();
+					vocals.persist = true;
+					secondaryVocals.persist = true;
+					vocals.looped = true;
+					secondaryVocals.looped = true;
+					vocals.volume = 0.7;
+					secondaryVocals.volume = 0.7;
+					instPlaying = curSelected;
+					Conductor.songPosition = 0;
+					Conductor.changeBPM(PlayState.SONG.header.bpm);
+				}
+				function songJsonPopup() {
+					trace(poop + '\'s .ogg does not exist!');
+					FlxG.sound.play(Paths.sound('invalidJSON'));
+					FlxG.camera.shake(0.05, 0.05);
+					var funnyText = new FlxText(12, FlxG.height - 24, 0, "Invalid Song!");
+					funnyText.scrollFactor.set();
+					funnyText.screenCenter();
+					funnyText.x = 5;
+					funnyText.y = FlxG.height/2 - 64;
+					funnyText.setFormat("VCR OSD Mono", 64, FlxColor.RED, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					add(funnyText);
+					FlxTween.tween(funnyText, {alpha: 0}, 0.9, {
+						onComplete: _ -> {
+							remove(funnyText, true);
+							funnyText.destroy();
+						}
+					});
+				}
+				#if sys
+				if(instPlaying != curSelected)
+				{
+					if(sys.FileSystem.exists(Paths.inst(songLowercase + '/'  + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)))
+						playSong();
+					else
+						songJsonPopup();
+				}
+				#else
+				if(instPlaying != curSelected)
+				{
+					if(OpenFlAssets.exists(Paths.inst(songLowercase + '/' + poop)) || OpenFlAssets.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
+						playSong();
+					else
+						songJsonPopup();
+				}
+				#end
+			} else if (accepted)
+			{
+				persistentUpdate = false;
+				var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
+				var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
+				function fittingName() {
+					PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+
+					PlayState.isStoryMode = false;
+					PlayState.storyDifficulty = curDifficulty;
+		
+					if(colorTween != null) {
+						colorTween.cancel();
 					}
-				});
+					if(bgScrollColorTween != null) {
+						bgScrollColorTween.cancel();
+					}
+					if(bgScroll2ColorTween != null) {
+						bgScroll2ColorTween.cancel();
+					}
+					if(gradientColorTween != null) {
+						gradientColorTween.cancel();
+					}
+					
+					if (FlxG.keys.pressed.SHIFT){
+						PlayState.chartingMode = true;
+						LoadingState.loadAndSwitchState(new ChartingState());
+					}else{
+						LoadingState.globeTrans = false;
+						LoadingState.loadAndSwitchState(new PlayState());
+					}
+		
+					FlxG.sound.music.volume = 0;
+							
+					destroyFreeplayVocals();
+					FlxG.mouse.visible = false;
+				}
+				function jsonPopup() {
+					trace(poop + '.json does not exist!');
+					FlxG.sound.play(Paths.sound('invalidJSON'));
+					FlxG.camera.shake(0.03, 0.03);
+					var funnyText = new FlxText(12, FlxG.height - 24, 0, "Invalid JSON!\n" + poop + ".json");
+					funnyText.scrollFactor.set();
+					funnyText.screenCenter();
+					funnyText.x = 5;
+					funnyText.y = FlxG.height/2 - 64;
+					funnyText.setFormat("VCR OSD Mono", 64, FlxColor.RED, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					add(funnyText);
+					FlxTween.tween(funnyText, {alpha: 0}, 0.9, {
+						onComplete: _ -> {
+							remove(funnyText, true);
+							funnyText.destroy();
+						}
+					});
+				}
+				#if sys
+				if(sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
+					fittingName();
+				else
+					jsonPopup();
+				#else
+				if(OpenFlAssets.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
+					fittingName();
+				else
+					jsonPopup();
+				#end
 			}
-			#if sys
-			if(sys.FileSystem.exists(Paths.modsJson('charts/' + songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
-				fittingName();
-			else
-				jsonPopup();
-			#else
-			if(OpenFlAssets.exists(Paths.json('charts/' + songLowercase + '/' + poop)))
-				fittingName();
-			else
-				jsonPopup();
-			#end
-		}
 
-		if(controls.RESET)
-		{
-			persistentUpdate = false;
-			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-		}
+			if(controls.RESET)
+			{
+				persistentUpdate = false;
+				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
 
-		if(virtualPad.buttonV.justPressed || FlxG.keys.justPressed.ALT)
-		{
-			persistentUpdate = false;
-			openSubState(new CharacterSelectSubstate());
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-		}
+			if(virtualPad.buttonV.justPressed || FlxG.keys.justPressed.ALT)
+			{
+				persistentUpdate = false;
+				openSubState(new CharacterSelectSubstate());
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
 
-		if(FlxG.keys.anyJustPressed([END, HOME]))
-		{
-			changeSelection((FlxG.keys.pressed.END ? (songs.length - curSelected)-1 : -curSelected), true, true);
-			changeDiff();
+			if(FlxG.keys.anyJustPressed([END, HOME]))
+			{
+				changeSelection((FlxG.keys.pressed.END ? (songs.length - curSelected)-1 : -curSelected), true, true);
+				changeDiff();
+			}
 		}
 
 		hscript.call("onUpdatePost", [elapsed]);
