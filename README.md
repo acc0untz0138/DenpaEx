@@ -73,7 +73,7 @@ Shygee - Additional Programmer
 
 01) Custom logo, name & icon.
 02) Dark Mode in the user interface.
-03) Better looking FreeplayState (toggleable in options).
+03) Better looking FreeplayState (toggleable) with a search box.
 04) Restored the Friday Night Funkin' background music.
 05) Added blank character (name is "null").
 06) Restored easy charts.
@@ -101,12 +101,11 @@ Shygee - Additional Programmer
 
 ## Upcoming Features
 
-01) Add search box in FreeplayState.
-02) Add keybind reminders on the start of songs.
-03) Add Character and Quant-Based Note Colors.
-04) Add "Play as Opponent" option in GameplayChangersSubstate.
-05) Add a toggle for OG & Denpa icons.
-06) Add Away3D Support (maybe).
+01) Add keybind reminders on the start of songs.
+02) Add Character and Quant-Based Note Colors.
+03) Add "Play as Opponent" option in GameplayChangersSubstate.
+04) Add a toggle for OG & Denpa icons.
+05) Add Away3D Support (maybe).
 
 ## Issues
 

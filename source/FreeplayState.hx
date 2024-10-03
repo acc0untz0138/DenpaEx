@@ -248,8 +248,8 @@ class FreeplayState extends MusicBeatState
 		changeSelection(0, false, true);
 		changeDiff();
 
-		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 38).makeGraphic(FlxG.width, 38, 0xFF000000);
-		textBG.alpha = 0.6;
+		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 64).makeGraphic(FlxG.width, 38, 0xFF000000);
+		textBG.alpha = 0.5;
 		textBG.active = false;
 		add(textBG);
 
@@ -271,20 +271,20 @@ class FreeplayState extends MusicBeatState
 		black.active = false;
         add(black);
 
-		songSearchText = new FlxUIInputText(0, scoreBG.y + scoreBG.height + 5, 500, '', 16);
-		songSearchText.x = FlxG.width - songSearchText.width;
+		songSearchText = new FlxUIInputText(0, 695, 1280, '', 16);
+		songSearchText.x = 0;
 		add(songSearchText);
 		songSearchText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-		buttonTop = new FlxButton(0, songSearchText.y + songSearchText.height + 5, "", function() {
+		buttonTop = new FlxButton(0, 693.5, "", function() {
 			checkForSongsThatMatch(songSearchText.text);
 		});
-		buttonTop.setGraphicSize(Std.int(songSearchText.width), 50);
+		buttonTop.setGraphicSize(107);
 		buttonTop.updateHitbox();
-		buttonTop.label.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK, RIGHT);
+		buttonTop.label.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.BLACK, RIGHT);
 		buttonTop.x = FlxG.width - buttonTop.width;
 		add(buttonTop);
-		searchText = new FlxText(975, 142, 100, "Search", 24);
-		searchText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK);
+		searchText = new FlxText(1197.5, 697.5, 100, "Search", 16);
+		searchText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.BLACK);
 		add(searchText);
 
 		#if desktop
