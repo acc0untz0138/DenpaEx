@@ -340,6 +340,9 @@ class FreeplayState extends MusicBeatState
 		txt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		txt.scrollFactor.set();
 		txt.screenCenter(XY);
+
+		var doFunnyContinue = false;
+		
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
 
