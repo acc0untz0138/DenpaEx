@@ -39,6 +39,7 @@ class FreeplayState extends MusicBeatState
 	var scoreText:FlxText;
 	var ratingText:FlxText;
 	var diffText:FlxText;
+	var searchText:FlxText;
 	var lerpScore:Int = 0;
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
@@ -65,6 +66,8 @@ class FreeplayState extends MusicBeatState
 	var gradientColorTween:FlxTween;
 	//makes freeplaysection transition look better
 	public var black:FlxSprite;
+	var songSearchText:FlxUIInputText;
+	var buttonTop:FlxButton;
 
 	var section:String = '';
 
@@ -267,6 +270,22 @@ class FreeplayState extends MusicBeatState
         black.visible = false;
 		black.active = false;
         add(black);
+
+		songSearchText = new FlxUIInputText(0, scoreBG.y + scoreBG.height + 5, 500, '', 16);
+		songSearchText.x = FlxG.width - songSearchText.width;
+		add(songSearchText);
+		songSearchText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
+		buttonTop = new FlxButton(0, songSearchText.y + songSearchText.height + 5, "", function() {
+			checkForSongsThatMatch(songSearchText.text);
+		});
+		buttonTop.setGraphicSize(Std.int(songSearchText.width), 50);
+		buttonTop.updateHitbox();
+		buttonTop.label.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK, RIGHT);
+		buttonTop.x = FlxG.width - buttonTop.width;
+		add(buttonTop);
+		searchText = new FlxText(975, 110, 100, "Search", 24);
+		searchText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.BLACK);
+		add(searchText);
 
 		#if desktop
 		DiscordClient.changePresence("In the Freeplay Menu", '"$section" Section - ${songs.length} Songs');
