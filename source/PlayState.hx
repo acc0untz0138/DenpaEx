@@ -5615,12 +5615,15 @@ class PlayState extends MusicBeatState
 
 			if(char != null)
 			{
-				if (char.animOffsets.hasKey(animToPlay + altAnim))
-					char.playAnim(animToPlay + altAnim, true);
-				else if (char.animOffsets.hasKey(animToPlay))
-					char.playAnim(animToPlay, true);
-				else
-					char.playAnim('singUP', true);
+				if (!note.isSustainNote)
+				{
+					if (char.animOffsets.hasKey(animToPlay + altAnim))
+						char.playAnim(animToPlay + altAnim, true);
+					else if (char.animOffsets.hasKey(animToPlay))
+						char.playAnim(animToPlay, true);
+					else
+						char.playAnim('singUP', true);
+				}
 				
 				char.holdTimer = 0;
 				if (ClientPrefs.settings.get("camPans")) camPanRoutine(animToPlay, (char == dad ? 'oppt' : 'p4'));
@@ -5824,16 +5827,19 @@ class PlayState extends MusicBeatState
 				char.missing = false;
 				char.color = 0xffffffff;
 			}
-			if (char.animOffsets.hasKey(animToPlay + daAlt))
-				char.playAnim(animToPlay + daAlt, true);
-			else if (char.animOffsets.hasKey(animToPlay))
-				char.playAnim(animToPlay, true);
-			else
-				char.playAnim('singUP', true);
+			if (!note.isSustainNote)
+			{
+				if (char.animOffsets.hasKey(animToPlay + daAlt))
+					char.playAnim(animToPlay + daAlt, true);
+				else if (char.animOffsets.hasKey(animToPlay))
+					char.playAnim(animToPlay, true);
+				else
+					char.playAnim('singUP', true);
+			}
 
 			char.holdTimer = 0;
 
-			if(note.noteType == 'Hey!') {
+			if(note.noteType == 'Hey!' && !note.isSustainNote) {
 				if(char.animOffsets.hasKey('hey'))
 				{
 					char.playAnim('hey', true);

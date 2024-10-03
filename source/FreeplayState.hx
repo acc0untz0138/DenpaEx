@@ -12,10 +12,13 @@ import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import flixel.util.FlxStringUtil;
 import haxescript.Hscript;
 import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;
+import flixel.ui.FlxButton;
+import flixel.addons.ui.FlxUIInputText;
 
 /**
 * State used to select and load any song to play.
@@ -310,6 +313,139 @@ class FreeplayState extends MusicBeatState
 				num++;
 		}
 	}*/
+
+	function checkForSongsThatMatch(?start:String = '')
+	{	
+		var foundSongs:Int = 0;
+		final txt:FlxText = new FlxText(0, 0, 0, 'No songs found matching your query', 16);
+		txt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		txt.scrollFactor.set();
+		txt.screenCenter(XY);
+		for (i in 0...WeekData.weeksList.length) {
+			if(weekIsLocked(WeekData.weeksList[i])) continue;
+
+			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			for (song in leWeek.songs)
+			{
+				if (start != null && start.length > 0) {
+					var songName = song[0].toLowerCase();
+					var s = start.toLowerCase();
+					if (songName.indexOf(s) != -1) foundSongs++;
+				}
+			}
+		}
+		if (foundSongs > 0 || start == ''){
+			if (txt != null)
+				remove(txt); // don't do destroy/kill on this btw
+			regenerateSongs(start);
+		}
+		else if (foundSongs <= 0){
+			add(txt);
+			new FlxTimer().start(5, function(timer) {
+				if (txt != null)
+					remove(txt);
+			});
+			return;
+		}
+	}
+
+	function regenerateSongs(?start:String = '') {
+		curPlaying = false;
+
+		songs = [];
+		for (i in 0...WeekData.weeksList.length) {
+			if(weekIsLocked(WeekData.weeksList[i])) continue;
+
+			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			var leSongs:Array<String> = [];
+			var leChars:Array<String> = [];
+
+			for (j in 0...leWeek.songs.length)
+			{
+				leSongs.push(leWeek.songs[j][0]);
+				leChars.push(leWeek.songs[j][1]);
+			}
+			WeekData.setDirectoryFromWeek(leWeek);
+			for (song in leWeek.songs)
+			{
+				var colors:Array<Int> = song[2];
+				if(colors == null || colors.length < 3)
+				{
+					colors = [146, 113, 253];
+				}
+				if (start != null && start.length > 0) {
+					var songName = song[0].toLowerCase();
+					var s = start.toLowerCase();
+					if (songName.indexOf(s) != -1) addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				} else addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2])); //??????????
+			}
+		}
+		regenList();
+	}
+
+	function regenList() {
+		grpSongs.forEach(song -> {
+			grpSongs.remove(song, true);
+			song.destroy();
+		});
+		for (icon in iconArray)
+		{
+			iconArray.remove(icon);
+			icon.destroy();
+		}
+		
+		//we clear the remaining ones
+		grpSongs.clear();
+		iconArray.resize(0);
+
+		var doFunnyContinue = false;
+
+		for (i in 0...WeekData.weeksList.length) {
+			if(weekIsLocked(WeekData.weeksList[i])) continue;
+
+			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			if (leWeek.sections != null) {
+				for (sex in leWeek.sections) {
+					if (sex != section) {
+						doFunnyContinue = true;
+					} else {
+						doFunnyContinue = false;
+						break;
+					}	
+				}
+			} else {
+				if (section != "All") {
+					doFunnyContinue = true;
+				}
+			}
+			if (doFunnyContinue) {
+				doFunnyContinue = false;
+				continue;
+			}
+			var leSongs:Array<String> = [];
+			var leChars:Array<String> = [];
+
+			for (j in 0...leWeek.songs.length)
+			{
+				leSongs.push(leWeek.songs[j][0]);
+				leChars.push(leWeek.songs[j][1]);
+			}
+
+			WeekData.setDirectoryFromWeek(leWeek);
+			for (song in leWeek.songs)
+			{
+				var colors:Array<Int> = song[2];
+				if(colors == null || colors.length < 3)
+				{
+					colors = [146, 113, 253];
+				}
+				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+			}
+		}
+				
+		changeSelection();
+		changeDiff();
+	}
 
 	var instPlaying:Int = -1;
 	private static var vocals:FlxSound = null;
