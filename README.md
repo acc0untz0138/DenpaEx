@@ -109,7 +109,7 @@ Shygee - Additional Programmer
 
 ## Issues
 
-01) Problems with GLSL Shaders (on the HUD) working in-game only in the first song you coose, meaning you have to close and reopen the game every time to have them working. 
+01) Problems with GLSL/.frag Shaders on Cameras (camHUD, camGame, camOthwr)working in-game only in the first song you choose, meaning you have to close and reopen the game every time to have them working. 
 
 ## License Summary
 
