@@ -3548,6 +3548,8 @@ class PlayState extends MusicBeatState
 		if (!ClientPrefs.settings.get("noReset") && controls.RESET && !inCutscene && !endingSong)
 			doDeathCheck(true);
 
+		var tooLate:Bool = false;
+		var tooLateSus:Bool = false;
 		//NOTE SPAWNING BABY!!
 		//swap to recylcing soon
 		if (unspawnNotes[0] != null)
@@ -3559,18 +3561,56 @@ class PlayState extends MusicBeatState
 			if (notesAddedCount > unspawnNotes.length)
 				notesAddedCount -= (notesAddedCount - unspawnNotes.length);
 
-			while (unspawnNotes.length > 0 && unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (1700 / songSpeed / unspawnNotes[notesAddedCount].spawnTimeMult)) {
-				{
-					final dunceNote:Note = (unspawnNotes[notesAddedCount].isSustainNote ? sustains : notes)
-						.recycle(Note).setupNoteData(unspawnNotes[notesAddedCount]);
+			while (unspawnNotes.length > 0 && unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (1700 / songSpeed / unspawnNotes[notesAddedCount].spawnTimeMult)) 
+			{
+				final dunceNote:Note = (unspawnNotes[notesAddedCount].isSustainNote ? sustains : notes)
+					.recycle(Note).setupNoteData(unspawnNotes[notesAddedCount]);
 
-					if(ghostMode) ghostModeRoutine(dunceNote);
-					dunceNote.scrollFactor.set();
+				if(ghostMode) ghostModeRoutine(dunceNote);
+				dunceNote.scrollFactor.set();
 
-						unspawnNotes[notesAddedCount].wasSpawned = true;
-					notesAddedCount++;
+				var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
+					
+				if(!dunceNote.mustPress && dunceNote.strum < 2) dunceNote.strum = 1;
+				else if (dunceNote.mustPress && dunceNote.strum < 2) dunceNote.strum = 0;
+				else dunceNote.strum = 0;
+				switch (dunceNote.strum) {
+					case 0: strumGroup = playerStrums;
+					case 1: strumGroup = opponentStrums;
+					case 2:
+						strumGroup = thirdStrums;
+						dunceNote.cameras = [camGame];
+						dunceNote.scrollFactor.set(1,1);
 				}
+
+				var strumNoteData = dunceNote.noteData;
+				dunceNote.strumToFollow = strumGroup.members[strumNoteData];
+				// Sys.println(dunceNote);
+
+				// judge late notes for prevent pressure ram usage and improve perfomance
+				if (cpuControlled && !dunceNote.isSustainNote) {
+					tooLate = (Conductor.songPosition > dunceNote.strumTime);
+				} else tooLate = (Conductor.songPosition > noteKillOffset + dunceNote.strumTime);
+
+				if (tooLate) {
+					if (!dunceNote.mustPress && !dunceNote.hitByOpponent)
+						opponentNoteHit(dunceNote, dunceNote.strum == 2);
+
+					if(dunceNote.mustPress && cpuControlled) {
+						goodNoteHit(dunceNote);
+					}
+
+					// Kill extremely late notes and cause misses
+					if (dunceNote.mustPress && !cpuControlled && !dunceNote.ignoreNote && !endingSong && (dunceNote.tooLate || !dunceNote.wasGoodHit))
+						noteMiss(dunceNote);
+
+					//group.remove(daNote, true); feel free to uncomment this out if you like
+					dunceNote.exists = false;
+				}
+				unspawnNotes[notesAddedCount].wasSpawned = true;
+				notesAddedCount++;
 			}
+			
 			if (notesAddedCount > 0)
 				unspawnNotes.splice(0, notesAddedCount);
 		}
@@ -3586,34 +3626,43 @@ class PlayState extends MusicBeatState
 			}
 
 			var fakeCrochet:Float = (60 / Conductor.bpm) * 1000;
+			
 			//fuck off man
 			if (!inCutscene && !cutsceneHandlerCutscene) {
 				for (group in [notes, sustains]) group.forEachAlive(daNote -> {
-					var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
-					if(!daNote.mustPress && daNote.strum < 2) daNote.strum = 1;
-					else if (daNote.mustPress && daNote.strum < 2) daNote.strum = 0;
-					else daNote.strum = 0;
-                    switch (daNote.strum) {
-                        case 0: strumGroup = playerStrums;
-                    	case 1: strumGroup = opponentStrums;
-                        case 2:
-							strumGroup = thirdStrums;
-							daNote.cameras = [camGame];
-							daNote.scrollFactor.set(1,1);
-                    }
-							inline daNote.followStrum(strumGroup.members[daNote.noteData], (60 / SONG.header.bpm) * 1000, songSpeed);
-							if(daNote.isSustainNote && daNote.strumToFollow != null && daNote.strumToFollow.sustainReduce) inline daNote.clipToStrumNote(daNote.strumToFollow);
+					
+					// judge late notes for prevent pointless following strum notes
+					if (cpuControlled && !daNote.isSustainNote) {
+						tooLate = (Conductor.songPosition > daNote.strumTime);
+					} else tooLate = (Conductor.songPosition > noteKillOffset + daNote.strumTime);
+					tooLateSus = (Conductor.songPosition > daNote.strumTime);
+					
+					if (!tooLate) {
+						// you needed set strumToFollow for clipping
+						// var strumNoteData = (daNote.mustPress ? daNote.noteData + Note.ammo[mania] : daNote.noteData) % Note.ammo[mania];
+						
+						if (!daNote.mustPress && !daNote.hitByOpponent && tooLateSus)
+							opponentNoteHit(daNote, daNote.strum == 2);
 
-					if (!daNote.mustPress && !daNote.hitByOpponent && daNote.strumTime <= Conductor.songPosition)
-						opponentNoteHit(daNote, daNote.strum == 2);
-
-					if(daNote.mustPress && cpuControlled) {
-						if(daNote.strumTime <= Conductor.songPosition)
+						if(daNote.mustPress && cpuControlled && tooLateSus) {
+							// if(daNote.strumTime <= Conductor.songPosition)
 							goodNoteHit(daNote);
-					}
-					// Kill extremely late notes and cause misses
-					if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
-					{
+						}
+
+						inline daNote.followStrum(daNote.strumToFollow, (60 / SONG.header.bpm) * 1000, songSpeed);
+						if(daNote.isSustainNote && daNote.strumToFollow != null && daNote.strumToFollow.sustainReduce) {
+							inline daNote.clipToStrumNote(daNote.strumToFollow);
+						}
+					} else {
+						if (!daNote.mustPress && !daNote.hitByOpponent)
+							opponentNoteHit(daNote, daNote.strum == 2);
+
+						if(daNote.mustPress && cpuControlled) {
+							// if(daNote.strumTime <= Conductor.songPosition)
+							goodNoteHit(daNote);
+						}
+
+						// Kill extremely late notes and cause misses
 						if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
 							noteMiss(daNote);
 
@@ -5704,7 +5753,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 		callOnHscripts('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, oppChar.curCharacter]);
 
-		note.exists = false;
+		if (!note.isSustainNote) note.exists = false;
 	}
 
 	public function goodNoteHit(note:Note) {
@@ -5902,7 +5951,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 		callOnHscripts('goodNoteHit', [notes.members.indexOf(note), Math.round(Math.abs(note.noteData)), note.noteType, note.isSustainNote]);
 
-		note.exists = false;
+		if (!note.isSustainNote) note.exists = false;
 	}
 
 	public function spawnNoteSplashOnNote(note:Note) {
@@ -7528,6 +7577,25 @@ class PlayState extends MusicBeatState
 	public var process:sys.io.Process;
 	var ffmpegExists:Bool = false;
 
+	var codecList:Map<String, String> = [
+		'AV1' => 'libsvtav1',
+		'AV1 NVENC (RTX4000 needed)' => 'av1_nvenc',
+		'H.264' => 'libx264',
+		'H.264 RGB' => 'libx264',
+		'H.264 QSV' => 'h264_qsv',
+		'H.264 NVENC' => 'h264_nvenc',
+		'H.264 AMF' => 'h264_amf',
+		'H.264 VAAPI' => 'h264_vaapi',
+		'H.265' => 'libx265',
+		'H.265 QSV' => 'hevc_qsv',
+		'H.265 NVENC' => 'hevc_nvenc',
+		'H.265 AMF' => 'hevc_amf',
+		'H.265 VAAPI' => 'hevc_vaapi',
+		'Xvid (MPEG4)' => 'libxvid',
+		'VP9' => 'libvp9',
+		'VP9 VAAPI' => 'libvp9_vaapi'
+	];
+
 	private function initRender():Void
 	{
 		if (!ffmpegMode)
@@ -7540,8 +7608,36 @@ class PlayState extends MusicBeatState
 		}
 
 		ffmpegExists = true;
+
+		var tmp = Std.string(ClientPrefs.settings.get("videoEncoder"));
+		var accel = null, accel2 = null;
+		var gpuAccel = tmp.contains("QSV") || tmp.contains("NVENC") || tmp.contains("AMF") || tmp.contains("VAAPI");
+		var window = lime.app.Application.current.window;
+
+		var args:Array<String> = [
+			'-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', 
+			window.width + 'x' + window.height, '-r', Std.string(targetFPS), '-i', '-', 
+			'-c:v', codecList[Std.string(ClientPrefs.settings.get("videoEncoder"))], 
+			'-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 
+			'assets/renders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4'
+		];
+
+		if (gpuAccel) {
+			if (tmp.contains("QSV")) accel = "qsv";
+			else if (tmp.contains("NVENC")) accel = "cuda";
+			else if (tmp.contains("AMF")) { accel = "d3d11va"; accel2 = "d3d11"; }
+			else if (tmp.contains("VAAPI")) accel = "vaapi";
+
+			if (accel != null) {
+				accel2 = accel;
+				args.insert(0, '-hwaccel');
+				args.insert(1, accel);
+				args.insert(2, '-hwaccel_output_format');
+				args.insert(3, accel2);
+			}
+		}
 		
-		process = new sys.io.Process('ffmpeg', ['-v', 'quiet', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', lime.app.Application.current.window.width + 'x' + lime.app.Application.current.window.height, '-r', Std.string(targetFPS), '-i', '-', '-c:v', Std.string(ClientPrefs.settings.get("videoEncoder")), '-b', Std.string(ClientPrefs.settings.get("renderBitrate") * 1000000), 'assets/renders/' + Paths.formatToSongPath(SONG.header.song) + '.mp4']);
+		process = new sys.io.Process('ffmpeg', args);
 		FlxG.autoPause = false;
 	}
 

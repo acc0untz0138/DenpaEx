@@ -1134,7 +1134,24 @@ class GameRendererSettingsSubState extends BaseOptionsMenu
 			'videoEncoder',
 			'string',
 			'libx264rgb',
-			['libsvtav1', 'libx264', 'libx264rgb', 'libx265', 'libxvid']);
+			[
+				'AV1',
+				'AV1 NVENC',
+				'H.264',
+				'H.264 RGB',
+				'H.264 QSV',
+				'H.264 NVENC',
+				'H.264 AMF',
+				'H.264 VAAPI',
+				'H.265',
+				'H.265 QSV',
+				'H.265 NVENC',
+				'H.265 AMF',
+				'H.265 VAAPI',
+				'Xvid (MPEG4)',
+				'VP9',
+				'VP9 VAAPI',
+			]);
 		addOption(option);
 
         	var option:Option = new Option('Show Debug Info',

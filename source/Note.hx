@@ -487,8 +487,10 @@ class Note extends FlxSprite
 	public function clipToStrumNote(myStrum:StrumNote)
 	{
 		final center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
-		if(isSustainNote && (mustPress || !ignoreNote) &&
-			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit))))
+		var flag1:Bool = (mustPress || !ignoreNote);
+		var flag2:Bool = (!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)));
+		// Sys.println('${Std.string(wasGoodHit)}, ${Std.string(prevNote.wasGoodHit)}');
+		if(flag1 && flag2)
 		{
 			final swagRect:FlxRect = clipRect != null ? clipRect : new FlxRect(0, 0, frameWidth, frameHeight);
 
@@ -509,6 +511,17 @@ class Note extends FlxSprite
 			}
 			clipRect = swagRect;
 		}
+	}
+
+	@:noCompletion
+	override function set_clipRect(rect:FlxRect):FlxRect
+	{
+		clipRect = rect;
+
+		if (frames != null)
+			frame = frames.frames[animation.frameIndex];
+
+		return rect;
 	}
 
 	// this is used for note recycling
@@ -545,10 +558,16 @@ class Note extends FlxSprite
 
 		if (PlayState.isPixelStage) reloadNote('', texture);
 		animation.play(Note.keysShit.get(mania).get('letters')[noteData % Note.ammo[mania]]);
-		if (isSustainNote) animation.play('${Note.keysShit.get(mania).get('letters')[noteData]}' + (chartNoteData.isSustainEnd ? ' tail' : ' hold'));
-			sustainScale = chartNoteData.sustainScale;
 
-		if (isSustainNote) correctionOffset = ClientPrefs.settings.get("downScroll") ? 0 : 55;
+		if (isSustainNote) {
+			animation.play('${Note.keysShit.get(mania).get('letters')[noteData]}' + (chartNoteData.isSustainEnd ? ' tail' : ' hold'));
+			correctionOffset = ClientPrefs.settings.get("downScroll") ? 0 : 55;
+			alpha = multAlpha = 0.6;
+		} else alpha = multAlpha = 1;
+
+		if (ClientPrefs.settings.get("middleScroll") && !mustPress) alpha = multAlpha = 0.001;
+
+		sustainScale = chartNoteData.sustainScale;
 
 		switch(ClientPrefs.settings.get("noteColor"))
 		{
@@ -557,9 +576,10 @@ class Note extends FlxSprite
 			colorSwap.hue = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][0] / 360;
 			colorSwap.saturation = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][1] / 100;
 			colorSwap.brightness = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][2] / 100;
-			default:
-					
+			default:			
 		}
+
+		clipRect = null;
 		return this;
 	}
 
