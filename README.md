@@ -11,7 +11,7 @@
 
 ## WARNING!
 
-ALL CREDIT GOES TO THE DENPA, JS, HRK, CODENAME ENGINE, AND MANY OTHER DEVELOPERS! THIS FORK ONLY HAS A HANDFUL OF FEATURES THAT WOULDNT BE DONE WITHOUT THEIR HELP! MANY THANKS AND MUCH LOVE TO THEM FOR EVERYTHING!
+ALL CREDIT GOES TO THE PSYCH, DENPA, JS, HRK, CODENAME ENGINE, AND MANY OTHER DEVELOPERS! THIS FORK ONLY HAS A HANDFUL OF FEATURES THAT WOULDNT BE DONE WITHOUT THEIR HELP! MANY THANKS AND MUCH LOVE TO THEM FOR EVERYTHING!
 
 ## Synopsis
 
@@ -25,7 +25,11 @@ justAMZ - Creator of DenpaEx
 
 ![jordansantiagoyt](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/jordan.png)
 
-Jordan Santiago - Co-Developer (Huge Help! :heart:)
+Jordan Santiago - Co-Developer 
+
+![hrk.exex](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/hrk.png))
+
+HRK.EXEX - Co-Developer
 
 ![mcagabe19](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/lily.png)
 

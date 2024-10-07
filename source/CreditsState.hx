@@ -110,8 +110,9 @@ class CreditsState extends MusicBeatState
 		var denpaCredits = [ //Username - Icon name - Name - Role - Description - Link - BG Color
 			["DenpaEx Team"],
 			['justAMZ',			'amz',			"AMZ",		"Creator of DenpaEx",				"\"real :100:\"", 																					'https://youtube.com/@justamz', 									'408080'],
-			['JordanSantiagoYT','jordan',		"Jordan Santiago","Co-Developer of DenpaEx",	"\"i helped with porting many JS Engine features onto here\"", 										'https://youtube.com/@jordansantiago', 								'00FFFF'],
-			['mcagabe19',       'lily',         "Lily",     "Mobile Porter of DenpaEx",         "\"nothing special, I just ported this engine bleh :3\"",                                           'https://youtube.com/@mcagabe19',                                   'FFE7C0'],
+			['JordanSantiagoYT','jordan',		"Jordan Santiago","Co-Developer",				"\"i helped with porting some JS Engine features onto here\"", 										'https://youtube.com/@jordansantiago', 								'00FFFF'],
+			['HRK.EXEX',		'hrk',			"HRK.EXEX",	"Co-Developer",						"\"i helped fix some crucial bugs in the game, also improved some features like render mode\"",		'https://youtube.com/@HRK_EXEX', 									'007FFF'],
+			['mcagabe19',       'lily',         "Lily",     "Mobile Porter",        			 "\"nothing special, I just ported this engine bleh :3\"",                                          'https://youtube.com/@mcagabe19',                                   'FFE7C0'],
 			[''],
 			["Denpa Team"],
 			['BlueVapor1234',	'at',			"AT", 		"Main Programmer & Creator", 		"\"What am i doing with my life\"",																	'https://twitter.com/BlueVapor1234', 								'34343C'],

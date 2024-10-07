@@ -7579,21 +7579,21 @@ class PlayState extends MusicBeatState
 
 	var codecList:Map<String, String> = [
 		'AV1' => 'libsvtav1',
-		'AV1 NVENC (RTX4000 needed)' => 'av1_nvenc',
+		'AV1 NVENC' => 'av1_nvenc',
 		'H.264' => 'libx264',
-		'H.264 RGB' => 'libx264',
-		'H.264 QSV' => 'h264_qsv',
-		'H.264 NVENC' => 'h264_nvenc',
 		'H.264 AMF' => 'h264_amf',
+		'H.264 NVENC' => 'h264_nvenc',
+		'H.264 QSV' => 'h264_qsv',
+		'H.264 RGB' => 'libx264rgb',
 		'H.264 VAAPI' => 'h264_vaapi',
 		'H.265' => 'libx265',
-		'H.265 QSV' => 'hevc_qsv',
-		'H.265 NVENC' => 'hevc_nvenc',
 		'H.265 AMF' => 'hevc_amf',
+		'H.265 NVENC' => 'hevc_nvenc',
+		'H.265 QSV' => 'hevc_qsv',
 		'H.265 VAAPI' => 'hevc_vaapi',
-		'Xvid (MPEG4)' => 'libxvid',
 		'VP9' => 'libvp9',
-		'VP9 VAAPI' => 'libvp9_vaapi'
+		'VP9 VAAPI' => 'libvp9_vaapi',
+		'Xvid (MPEG4)' => 'libxvid',
 	];
 
 	private function initRender():Void
