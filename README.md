@@ -27,7 +27,7 @@ justAMZ - Creator of DenpaEx
 
 Jordan Santiago - Co-Developer 
 
-![hrk.exex](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/hrk.png))
+![hrk.exex](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/hrk.png)
 
 HRK.EXEX - Co-Developer
 
