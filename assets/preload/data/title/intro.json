@@ -296,7 +296,7 @@
 			"actions": [
 				{
 					"name": "changeBPM",
-					"values": [100]
+					"values": [102]
 				},
 				{
 					"name": "setZoom",

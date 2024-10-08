@@ -1,5 +1,8 @@
 package;
 
+import SoundTestState.TrackData;
+import SoundTestState.AlbumData;
+import haxe.ds.HashMap;
 import Shaders.ColorSwap;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -130,7 +133,7 @@ class TitleState extends MusicBeatState
 		titleJSON = Json.parse(Paths.getTextFromFile('data/title/offsets.json'));
 		ngSprJSON = Json.parse(Paths.getTextFromFile('data/title/shoutouts.json'));
 		introJSON = Json.parse(Paths.getTextFromFile('data/title/intro.json'));
-
+		
 		if(FlxG.save.data.epilepsyCheck == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
@@ -153,23 +156,47 @@ class TitleState extends MusicBeatState
 	var swagShader:ColorSwap = null;
 	var animatedBg:Bool = false;
 	var bg:FlxSprite;
+	var useTrack:Bool = ClientPrefs.settings.get("saveMainMenuSong");
+	var initTrack:TrackData = cast {
+		file: "funkyMenu",
+		name: "Friday Night Funkin' Menu",
+		rgb: [255, 0, 191],
+		bpm: 102
+	};
+	var bpmMultiplier:Float = 1; // it's needed for prevent desync intro things
 
 	function startIntro()
 	{
 		if (!initialized)
 		{
+			if (useTrack) {
+				trackJSON = getTrackData();
+				if (trackJSON == null) trackJSON = initTrack;
+			}
+
 			if(FlxG.sound.music == null) {
-				FlxG.sound.playMusic(Paths.music('funkyMenu'), 0);
-				FlxG.sound.music.loopTime = 71853;
-				FlxG.sound.music.endTime = null;
+				var track = (useTrack ? trackJSON : initTrack);
+				FlxG.sound.playMusic(Paths.music(track.file), 0);
+
+				FlxG.sound.music.loopTime = track.loopStart;
+				FlxG.sound.music.endTime = track.loopEnd;
 
 				FlxG.sound.music.fadeIn(4, 0, 0.7);
 			}
 		}
 
-		Conductor.changeBPM(titleJSON.bpm);
+		if (useTrack) {
+			SoundTestState.setColor = true;
+			SoundTestState.colorToSet = FlxColor.fromRGB(trackJSON.rgb[0], trackJSON.rgb[1], trackJSON.rgb[2]);
+			SoundTestState.playingTrackLoopStart = trackJSON.loopStart;
+			SoundTestState.playingTrackLoopEnd = trackJSON.loopEnd;
+		}
+		
+		Conductor.changeBPM((useTrack ? trackJSON : initTrack).bpm);
+		SoundTestState.playingTrack = (useTrack ? trackJSON : initTrack).file;
+		SoundTestState.playingTrackBPM = (useTrack ? trackJSON : initTrack).bpm;
 		persistentUpdate = true;
-
+		bpmMultiplier = SoundTestState.playingTrackBPM / 100;
 		bg = new FlxSprite();
 		
 		if (titleJSON.background != null && titleJSON.background.length > 0 && titleJSON.background.toLowerCase() != "none")
@@ -541,7 +568,7 @@ class TitleState extends MusicBeatState
 				case "addmoretext": addMoreText(cast (actionSet.values[0], String), (actionSet.values[1] == null ? 0 : cast (actionSet.values[1], Float)));
 				case "deletetext": deleteCoolText();
 				case "skipintro": skipIntro();
-				case "changebpm": Conductor.changeBPM(cast (actionSet.values[0], Float));
+				case "changebpm": Conductor.changeBPM(cast (actionSet.values[0], Float) * bpmMultiplier);
 				case "setrandomtext": curWacky = FlxG.random.getObject(getIntroTextShit());
 				case "addrandomtext":
 					switch (cast (actionSet.values[0], Int)) {
@@ -578,6 +605,51 @@ class TitleState extends MusicBeatState
 		}
 	}
 
+	var trackJSON:TrackData = null;
+	public static var loopPoints:Map<String, Array<Null<Float>>> = [
+		"freakyMenu" => [71400, 138600],
+		// "freakyMenu" => [71853, null], // freakyMenu's original point was 71853
+		"funkyMenu" => [37647.058823, null],
+		"overdose" => [null, null],
+		"program_blood" => [null, null],
+		"elevator" => [null, null],
+		"property-surgery" => [null, null],
+	];
+
+	public static function getTrackData():Dynamic {
+		var albums:Array<AlbumData> = [];
+		var path = "assets/data/albums";
+		var truck:TrackData = null;
+        for (file in FileSystem.readDirectory(path)) {
+            if (file.endsWith(".json")) {
+                albums.push(Json.parse(Paths.getTextFromFile(path.replace("assets/", "") + '/' + file)));
+            }
+        }
+		#if MODS_ALLOWED
+		path = Paths.modFolders("data/albums");
+		if (FileSystem.exists(path)) {
+			for (file in FileSystem.readDirectory(path)) {
+				if (file.endsWith(".json")) {
+					albums.push(Json.parse(Paths.getTextFromFile("data/albums" + '/' + file)));
+				}
+			}
+		}
+        #end
+		
+		if (ClientPrefs.settings.get("saveMainMenuSong")) {
+			for (tracks in albums) {
+				for (track in tracks.tracks) {
+					if (ClientPrefs.settings.get("mainMenuSong") == track.file) {
+						truck = track;
+						break;
+					}
+				}
+			}
+		}
+
+		return truck;
+	}
+
 	var skippedIntro:Bool = false;
 	var updateStuffText:FlxText;
 	function skipIntro():Void
@@ -596,7 +668,9 @@ class TitleState extends MusicBeatState
 					FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
 			}, 0);
 			zoomies = 1.025;
-			if (!SoundTestState.isPlaying) Conductor.changeBPM(titleJSON.bpm);
+			if (!SoundTestState.isPlaying) {
+				Conductor.changeBPM(useTrack ? trackJSON.bpm : titleJSON.bpm);
+			}
 			remove(ngSpr);
 			remove(credGroup);
 			#if DENPA_WATERMARKS

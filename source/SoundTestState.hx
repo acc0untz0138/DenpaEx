@@ -25,7 +25,9 @@ typedef TrackData =
 	file:String,
 	name:String,
 	rgb:Array<Int>,
-	bpm:Int
+	bpm:Float,
+	loopStart:Float,
+	loopEnd:Float,
 }
 /**
 * State used to play and select songs for the menus.
@@ -36,7 +38,9 @@ class SoundTestState extends MusicBeatState
 	public static var track:Int = 0;
 	public static var isPlaying:Bool = false;
 	public static var playingTrack:String = 'funkyMenu';
-	public static var playingTrackBPM:Float = 100;
+	public static var playingTrackBPM:Float = 102;
+	public static var playingTrackLoopStart:Null<Float> = null;
+	public static var playingTrackLoopEnd:Null<Float> = null;
 	var lastDisk:Int = 0;
 	var lastTrack:Int = 0;
 	var diskName:String = '';
@@ -271,9 +275,11 @@ class SoundTestState extends MusicBeatState
 	{
 		isPlaying = true;
 		FlxG.autoPause = false;
-		setTrackThing(track.file, track.name, track.rgb, track.bpm);
+		setTrackThing(track.file, track.name, track.rgb, track.bpm, track.loopStart, track.loopEnd);
 		playingTrack = track.file;
 		playingTrackBPM = track.bpm;
+		playingTrackLoopStart = track.loopStart;
+		playingTrackLoopEnd = track.loopEnd;
 		tweenColor();
 		setColor = true;
 	}
@@ -441,6 +447,10 @@ class SoundTestState extends MusicBeatState
 			FlxG.sound.music.loadStream(music, true, false, null, null).play();
 		}
 		FlxG.sound.music.fadeIn(4, 0, 0.7);
+
+		FlxG.sound.music.loopTime = loopStart;
+		FlxG.sound.music.endTime = loopEnd;
+
 		trackName = track;
 		colorToSet = FlxColor.fromRGB(rgb[0], rgb[1], rgb[2]);
 		Conductor.changeBPM(bpm);
@@ -452,5 +462,10 @@ class SoundTestState extends MusicBeatState
 		bg.scale.set(1.06,1.06);
 		bg.updateHitbox();
 		bg.offset.set();
+	}
+
+	override function destroy() {
+		if (ClientPrefs.settings.get("saveMainMenuSong"))
+			ClientPrefs.settings.set("mainMenuSong", playingTrack);
 	}
 }

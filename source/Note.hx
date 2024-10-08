@@ -565,7 +565,10 @@ class Note extends FlxSprite
 			alpha = multAlpha = 0.6;
 		} else alpha = multAlpha = 1;
 
-		if (ClientPrefs.settings.get("middleScroll") && !mustPress) alpha = multAlpha = 0.001;
+		if (ClientPrefs.settings.get("middleScroll") && !mustPress) {
+			alpha *= PlayState.middleAlpha;
+			multAlpha *= PlayState.middleAlpha;
+		}
 
 		sustainScale = chartNoteData.sustainScale;
 

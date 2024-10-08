@@ -63,7 +63,7 @@ import openfl.events.KeyboardEvent;
 */
 class PlayState extends MusicBeatState
 {
-	//instance
+	// instance
 	public static var instance:PlayState;
 
 	public var shader_chromatic_abberation:ChromaticAberrationEffect;
@@ -72,9 +72,12 @@ class PlayState extends MusicBeatState
 	public var camOtherShaders:Array<ShaderEffect> = [];
 	public var shaderUpdates:Array<Float->Void> = [];
 
-	//Strum positions??
+	// Strum positions??
 	public static var STRUM_X = 48.5;
 	public static var STRUM_X_MIDDLESCROLL = -278;
+
+	// middleScroll things
+	public static final middleAlpha:Float = 0.65;
 
 	public static var ratingStuff:Array<Dynamic> = [
 		['How?', 0.2], //From 0% to 19%
@@ -509,7 +512,7 @@ class PlayState extends MusicBeatState
 	var targetFPS = ClientPrefs.settings.get("targetFPS");
 	public var frameCaptured:Int = 0;
 
-	//Optimization Stuff
+	// Optimization Stuff
 	var strumAnimsPerFrame:Array<Int> = [0, 0];
 	var scoreTxtUpdateFrame:Int = 0;
 	var judgeCountUpdateFrame:Int = 0;
@@ -2560,7 +2563,7 @@ class PlayState extends MusicBeatState
 			for (i in 0...opponentStrums.length) {
 				setOnLuas('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
 				setOnLuas('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
-				if(ClientPrefs.settings.get("middleScroll")) opponentStrums.members[i].visible = false;
+				// if(ClientPrefs.settings.get("middleScroll")) opponentStrums.members[i].alpha = middleAlpha;
 			}
 			if (SONG.assets.enablePlayer4) {
 				for (i in 0...thirdStrums.length) {
@@ -2673,7 +2676,7 @@ class PlayState extends MusicBeatState
 					note.copyAlpha = false;
 					note.alpha = note.multAlpha;
 					if(ClientPrefs.settings.get("middleScroll") && !note.mustPress) {
-						note.alpha = 0.001;
+						note.alpha = middleAlpha;
 					}
 				}
 				//tasty inline
@@ -2940,7 +2943,8 @@ class PlayState extends MusicBeatState
 				if (changingMania == false) {
 					babyArrow.y += (babyArrow.downScroll ? 40 : -40);
 					babyArrow.alpha = 0.001;
-					FlxTween.tween(babyArrow, {y: babyArrow.y + (babyArrow.downScroll ? -40 : 40), alpha: 1}, Conductor.crochet/ 333.334 / playbackRate, {
+					FlxTween.tween(babyArrow, {y: babyArrow.y + (babyArrow.downScroll ? -40 : 40),
+						alpha: ClientPrefs.settings.get("middleScroll") && player == 0 ? middleAlpha : 1}, Conductor.crochet * 0.003 / playbackRate, {
 						ease: FlxEase.circOut,
 						startDelay: 0.5 + (0.2 * i)/((mania < 1 ? 1 : mania)/2) //mfw 0.5/0 = inf
 					});
@@ -2961,7 +2965,6 @@ class PlayState extends MusicBeatState
 					if(i > separator) { //Up and Right
 						babyArrow.x += FlxG.width / 2 + 25;
 					}
-					babyArrow.visible = false;
 				}
 				opponentStrums.add(babyArrow);
 			}
@@ -3411,7 +3414,7 @@ class PlayState extends MusicBeatState
 		if (missRecalcsPerFrame > 0) missRecalcsPerFrame = 0;
 		if (charAnimsFrame > 0) charAnimsFrame = 0;
 		if (oppAnimsFrame > 0) oppAnimsFrame = 0;
-		if (strumAnimsPerFrame[0] > 0 || strumAnimsPerFrame[1] > 0) strumAnimsPerFrame = [0, 0];
+		strumAnimsPerFrame = [0, 0];
 
 		if (#if android FlxG.android.justReleased.BACK #else virtualPad.buttonP.justPressed #end || controls.PAUSE && startedCountdown && canPause)
 		{
@@ -3634,7 +3637,7 @@ class PlayState extends MusicBeatState
 					// judge late notes for prevent pointless following strum notes
 					if (cpuControlled && !daNote.isSustainNote) {
 						tooLate = (Conductor.songPosition > daNote.strumTime);
-					} else tooLate = (Conductor.songPosition > noteKillOffset + daNote.strumTime);
+					} else tooLate = (Conductor.songPosition > Math.max(Conductor.stepCrochet, noteKillOffset) + daNote.strumTime);
 					tooLateSus = (Conductor.songPosition > daNote.strumTime);
 					
 					if (!tooLate) {
@@ -4840,6 +4843,9 @@ class PlayState extends MusicBeatState
 				#end
 				MusicBeatState.switchState(new StoryMenuState(), 0.35);
 				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 				changedDifficulty = false;
 			}
@@ -4855,6 +4861,9 @@ class PlayState extends MusicBeatState
 				{
 					WeekData.loadTheFirstEnabledMod();
 					FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+					FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+					FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+					
 					Conductor.changeBPM(SoundTestState.playingTrackBPM);
 
 					cancelMusicFadeTween();
@@ -4946,6 +4955,9 @@ class PlayState extends MusicBeatState
 				#end
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 				changedDifficulty = false;
 			}
@@ -5979,6 +5991,9 @@ class PlayState extends MusicBeatState
 
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
+		if (ClientPrefs.settings.get("middleScroll")) {
+			splash.alpha = middleAlpha;
+		}
 		grpNoteSplashes.add(splash);
 	}
 

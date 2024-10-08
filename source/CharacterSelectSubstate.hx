@@ -173,11 +173,12 @@ class CharacterSelectSubstate extends MusicBeatSubstate
 	}
 
     override function destroy() {
-        FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack), 0);
-        if (SoundTestState.playingTrack == 'funkyMenu') {
-            FlxG.sound.music.loopTime = 71853;
-            FlxG.sound.music.endTime = null;
-        }
+        var track = TitleState.getTrackData();
+        FlxG.sound.playMusic(Paths.music(track.file), 0);
+
+		FlxG.sound.music.loopTime = track.loopStart;
+		FlxG.sound.music.endTime = track.loopEnd;
+
         Conductor.changeBPM(SoundTestState.playingTrackBPM);
         FlxG.sound.music.fadeIn(2, 0, 0.7);
 

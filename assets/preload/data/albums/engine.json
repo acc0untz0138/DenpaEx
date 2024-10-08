@@ -6,13 +6,16 @@
             "file": "funkyMenu",
             "name": "Friday Night Funkin' Menu",
             "rgb": [255, 0, 191],
-            "bpm": 100
+            "bpm": 102,
+			"loopStart": 37647.058823
         },
         {
             "file": "freakyMenu",
             "name": "Menu Song",
             "rgb": [255, 131, 0],
-            "bpm": 100
+            "bpm": 100,
+			"loopStart": 71400,
+			"loopEnd": 138600
         },
         {
             "file": "overdose",

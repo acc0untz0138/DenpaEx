@@ -2347,6 +2347,9 @@ class ChartingState extends MusicBeatState
 						{
 							MusicBeatState.switchState(new editors.MasterEditorMenu());
 							FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+							FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+							FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+							
 							Conductor.changeBPM(SoundTestState.playingTrackBPM);
 							FlxG.mouse.visible = false;
 							return;
@@ -2359,6 +2362,9 @@ class ChartingState extends MusicBeatState
 						{
 							MusicBeatState.switchState(new FreeplayState());
 							FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+							FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+							FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+							
 							Conductor.changeBPM(SoundTestState.playingTrackBPM);
 							FlxG.mouse.visible = false;
 							return;

@@ -103,6 +103,8 @@ class DebugDisplay extends TextField
 
 		if (showConductor) {
 			text += '\nBPM: ${Conductor.bpm}' + 
+				'\nLPST: ${Math.round(SoundTestState.playingTrackLoopStart)}, ${Math.round(FlxG.sound.music.loopTime)}' +
+				'\nLPEN: ${Math.round(SoundTestState.playingTrackLoopEnd)}, ${Math.round(FlxG.sound.music.endTime)}' +
 				'\nTIME: ${Math.round(Conductor.songPosition)}';
 			if (MusicBeatSubstate.curInstance != null)
 				text += '\nSTEP: ${MusicBeatSubstate.curInstance.curStep}' +

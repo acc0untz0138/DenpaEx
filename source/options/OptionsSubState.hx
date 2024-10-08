@@ -1209,6 +1209,13 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		title = 'Misc Settings';
 		rpcTitle = 'Misc Settings Menu'; //for Discord Rich Presence
 
+		var option:Option = new Option('Save Main Menu Song',
+			"If checked, You don't have to change the Main Menu Song\nevery launched DenpaEx Engine.",
+			'saveMainMenuSong',
+			'bool',
+			true);
+		addOption(option);
+		
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',

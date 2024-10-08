@@ -198,6 +198,9 @@ class OptionsState extends MusicBeatState
 			} else {
 				MusicBeatState.switchState(new MainMenuState());
 				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);		
 			}
 		}

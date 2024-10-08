@@ -292,6 +292,9 @@ class MenuCharacterEditorState extends MusicBeatState
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
+				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
+				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 			}
 
