@@ -3637,7 +3637,7 @@ class PlayState extends MusicBeatState
 					// judge late notes for prevent pointless following strum notes
 					if (cpuControlled && !daNote.isSustainNote) {
 						tooLate = (Conductor.songPosition > daNote.strumTime);
-					} else tooLate = (Conductor.songPosition > Math.max(Conductor.stepCrochet, noteKillOffset) + daNote.strumTime);
+					} else tooLate = (Conductor.songPosition > Math.min(Conductor.stepCrochet, noteKillOffset) + daNote.strumTime);
 					tooLateSus = (Conductor.songPosition > daNote.strumTime);
 					
 					if (!tooLate) {
