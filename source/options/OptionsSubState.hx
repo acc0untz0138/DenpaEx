@@ -1210,7 +1210,7 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		rpcTitle = 'Misc Settings Menu'; //for Discord Rich Presence
 
 		var option:Option = new Option('Save Main Menu Song',
-			"If checked, You don't have to change the Main Menu Song\nevery launched DenpaEx Engine.",
+			"If checked, you won't need to change the main menu song in SoundTestState everytime you boot up DenpaEx.",
 			'saveMainMenuSong',
 			'bool',
 			true);
