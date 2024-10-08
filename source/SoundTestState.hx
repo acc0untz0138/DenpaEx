@@ -63,6 +63,7 @@ class SoundTestState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 
+	public static var changeColor:Bool = ClientPrefs.settings.get("changeBGbySongs");
 	var bg:FlxSprite;
 	var gradient:FlxSprite;
 	var bgScroll:FlxBackdrop;
@@ -467,5 +468,11 @@ class SoundTestState extends MusicBeatState
 	override function destroy() {
 		if (ClientPrefs.settings.get("saveMainMenuSong"))
 			ClientPrefs.settings.set("mainMenuSong", playingTrack);
+		else {
+			try {
+				ClientPrefs.settings.set("mainMenuSong", "funkyMenu");
+			} catch (e:Dynamic) { ClientPrefs.settings.set("saveMainMenuSong", false); }
+		}
+		super.destroy();
 	}
 }

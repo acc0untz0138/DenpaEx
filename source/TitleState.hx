@@ -185,8 +185,9 @@ class TitleState extends MusicBeatState
 			}
 		}
 
+		SoundTestState.setColor = ClientPrefs.settings.get("changeBGbySongs");
 		if (useTrack) {
-			SoundTestState.setColor = true;
+			if (trackJSON == null) trackJSON = initTrack;
 			SoundTestState.colorToSet = FlxColor.fromRGB(trackJSON.rgb[0], trackJSON.rgb[1], trackJSON.rgb[2]);
 			SoundTestState.playingTrackLoopStart = trackJSON.loopStart;
 			SoundTestState.playingTrackLoopEnd = trackJSON.loopEnd;

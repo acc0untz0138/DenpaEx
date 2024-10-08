@@ -1213,6 +1213,13 @@ class MiscSettingsSubState extends BaseOptionsMenu
 			"If checked, you won't need to change the main menu song in SoundTestState everytime you boot up DenpaEx.",
 			'saveMainMenuSong',
 			'bool',
+			false);
+		addOption(option);
+		
+		var option:Option = new Option('Change BG Color by Menu Song',
+			"If unchecked, bg color won't change each time menu song is selected.",
+			'changeBGbySongs',
+			'bool',
 			true);
 		addOption(option);
 		
