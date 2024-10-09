@@ -1,14 +1,13 @@
 package;
 
 // STOLEN FROM HAXEFLIXEL DEMO LOL
-import flixel.system.FlxAssets.FlxShader;
+import backend.FlxFixedShader as FlxShader;
 import openfl.display.BitmapData;
 import openfl.display.Shader;
 import openfl.display.ShaderInput;
 import openfl.utils.Assets;
 import flixel.FlxG;
 import openfl.Lib;
-import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxColor;
 import openfl.display.ShaderParameter;
 using StringTools;

@@ -28,7 +28,7 @@ import lime.app.Application;
 import Shaders;
 import openfl.display.BlendMode;
 import flixel.tweens.FlxEase;
-import flixel.system.FlxAssets.FlxShader;
+import backend.FlxFixedShader as FlxShader;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -543,11 +543,11 @@ class FunkinLua {
 		});*/
 
 		// shader shit
-		Lua_helper.add_callback(lua, "initLuaShader", function(name:String, glslVersion:Int = 120) {
+		Lua_helper.add_callback(lua, "initLuaShader", function(name:String) {
 			if(!ClientPrefs.settings.get("shaders")) return false;
 
 			#if (!flash && MODS_ALLOWED && sys)
-			return initLuaShader(name, glslVersion);
+			return initLuaShader(name);
 			#else
 			luaTrace("initLuaShader: Platform unsupported for Runtime Shaders!", false, false, FlxColor.RED);
 			#end
@@ -2673,7 +2673,7 @@ class FunkinLua {
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 	#end
 	
-	function initLuaShader(name:String, ?glslVersion:Int = 120)
+	function initLuaShader(name:String)
 	{
 		if(!ClientPrefs.settings.get("shaders")) return false;
 	
