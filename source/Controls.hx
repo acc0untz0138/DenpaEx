@@ -258,8 +258,11 @@ class Controls extends FlxActionSet
 	inline function get_RESET()
 		return _reset.check();
 
+	public static var instance:Controls;
+
 	public function new(name, scheme = None)
 	{
+		instance = this;
 		super(name);
 
 		add(_ui_up);
