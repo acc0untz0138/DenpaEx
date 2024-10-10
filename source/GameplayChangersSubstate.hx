@@ -197,6 +197,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	override function destroy() {
 		if (pauseMenu != null)  {
 			pauseMenu.persistentUpdate = true;
+			PauseSubState.instance.addVirtualPad(LEFT_FULL, A);
 			PlayState.instance.initModifiers(true);
 		}
 		super.destroy();

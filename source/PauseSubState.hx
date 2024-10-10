@@ -19,6 +19,7 @@ import openfl.display.BlendMode;
 */
 class PauseSubState extends MusicBeatSubstate
 {
+	public static var instance:PauseSubState;
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
@@ -40,6 +41,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
+		instance = this;
 		super();
 		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 		if(!PlayState.hasCutscene || !PlayState.instance.canIUseTheCutsceneMother(true)) menuItemsOG.remove('Replay Cutscene');
@@ -379,6 +381,7 @@ class PauseSubState extends MusicBeatSubstate
 					menuItems = difficultyChoices;
 					regenMenu();
 				case 'Modifiers':
+					removeVirtualPad();
 					persistentUpdate = false;
 					openSubState(new GameplayChangersSubstate(this));
 				case 'Tools':
