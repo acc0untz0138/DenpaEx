@@ -34,7 +34,7 @@ class Updater extends FlxBasic {
         super();
 
         this.updateName = updateName;
-        if(autoStart) { start('https://github.com/acc0untz0138/DenpaEx/releases'); } //Format ZIP names to properly suit shit later bla bla
+        if(autoStart) { start('https://github.com/acc0untz0138/DenpaEx/releases/download/DenpaEx/bin.zip'); } //Format ZIP names to properly suit shit later bla bla
     }
 
     var zip:URLLoader;
