@@ -33,7 +33,7 @@ class Paths
 	{
 		if (noteSkin.length < 1) defaultSkin = switch(ClientPrefs.settings.get("noteColor"))
 		{
-			case 'Rainbow', 'Quant-Based': 'RED_NOTE_assets';
+			case 'Rainbow', 'Quant': 'RED_NOTE_assets';
 			case 'Greyscale': 'GREYSCALE_NOTE_assets';
 			default: 'NOTE_assets';
 		}

@@ -824,7 +824,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'noteColor',
 			'string',
 			'Default',
-			['Default', 'Greyscale', 'Rainbow', 'Quant-Based']);
+			['Default', 'Greyscale', 'Rainbow', 'Quant']);
 		addOption(option);
 		option.onChange = changeOption;
 		

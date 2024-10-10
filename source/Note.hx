@@ -170,7 +170,7 @@ class Note extends FlxSprite
 
 	public function checkNoteQuant(note:Note, timeToCheck:Float):Void 
 	{
-		if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") == 'Quant-Based')
+		if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") == 'Quant')
 		{
 			var theCurBPM = Conductor.bpm;
 			var stepCrochet:Float = (60 / theCurBPM) * 1000;
@@ -697,7 +697,7 @@ class Note extends FlxSprite
 
 		switch(ClientPrefs.settings.get("noteColor"))
 		{
-			case 'Quant-Based': checkNoteQuant(this, isSustainNote ? chartNoteData.parent.strumTime : chartNoteData.strumTime);
+			case 'Quant': checkNoteQuant(this, isSustainNote ? chartNoteData.parent.strumTime : chartNoteData.strumTime);
 			case 'Rainbow': colorSwap.hue = ((strumTime / 5000 * 360) / 360) % 1;
 			case 'Default': 
 			colorSwap.hue = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][0] / 360;

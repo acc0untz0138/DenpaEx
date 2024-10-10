@@ -3156,7 +3156,7 @@ class ChartingState extends MusicBeatState
 			}
 			note.sustainLength = daSus;
 			note.noteType = i[3];
-			if (ClientPrefs.settings.get("noteColor") == 'Quant-Based') note.checkNoteQuant(note, note.strumTime);
+			if (ClientPrefs.settings.get("noteColor") == 'Quant') note.checkNoteQuant(note, note.strumTime);
 		} else { //Event note
 			note.loadGraphic(Paths.image('eventArrow'));
 			note.eventName = getEventName(i[1]);
