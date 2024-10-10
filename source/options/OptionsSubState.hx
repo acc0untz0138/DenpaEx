@@ -1547,20 +1547,31 @@ class CrossFadeSettingsSubState extends MusicBeatSubstate
 		add(titleBG);
 		add(titleText);
 
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-
-		addVirtualPad(LEFT_FULL, B_C);
+		addVirtualPad(LEFT_FULL, A_B_X_Y);
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];
 	}
 
 	override function update(elapsed:Float) {
 		if (controls.BACK) close();
-		if (controls.UI_LEFT_P) changeOption(-1);
-		if (controls.UI_RIGHT_P) changeOption(1);
-		if (controls.UI_UP_P) changeVertical(-1);
-		if (controls.UI_DOWN_P) changeVertical(1);
-		if (virtualPad.buttonC.justPressed || controls.RESET && selectedVertical > 0) reset();
+		if (!virtualPad.buttonY.pressed)
+		{
+			if (controls.UI_LEFT_P)
+				changeOption(-1);
+			if (controls.UI_RIGHT_P)
+				changeOption(1);
+			if (controls.UI_UP_P)
+				changeVertical(-1);
+			if (controls.UI_DOWN_P)
+				changeVertical(1);
+		}
+		if (virtualPad.buttonA.justPressed || FlxG.keys.justPressed.SPACE)
+		{
+			split = !split;
+			resetBoyfriend();
+			resetCrossfade();
+		}
+		if (virtualPad.buttonX.justPressed || controls.RESET && selectedVertical > 0) reset();
 		Conductor.songPosition = FlxG.sound.music.time;
 		final lerpVal:Float = CoolUtil.clamp(elapsed * 9.6, 0, 1);
 		grpOptions.forEach(alphabet -> {
@@ -1572,7 +1583,7 @@ class CrossFadeSettingsSubState extends MusicBeatSubstate
 			attached.alpha = ((selectedVertical == attached.targetY && selectedOption == attached.ID && attached.yMult == lastOption) ? 1 : 0.6);
 		});
 		super.update(elapsed);
-		//if (ClientPrefs.controllerEnabled) checkInputs();
+		checkInputs();
 	}
 
 	override function beatHit() {
@@ -1581,27 +1592,12 @@ class CrossFadeSettingsSubState extends MusicBeatSubstate
 		boyfriend.dance();
 	}
 
-	function keyDown(event:KeyboardEvent) {
-		var eventKey:FlxKey = event.keyCode;
-		if (eventKey == NONE) return;
-		switch (eventKey) {
-			case SPACE:
-				split = !split;
-				resetBoyfriend();
-				resetCrossfade();
-				return;
-			default:
-				//kys
-		}
-		checkInputs();
-	}
-
 	function checkInputs() {
 		/*if (control('accept') && selectedVertical == 2) {
 			changingRGB = !changingRGB;
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		}*/
-		final pressedArrows:Array<Bool> = [control('note_41_p'), control('note_42_p'), control('note_43_p'), control('note_44_p')];
+		final pressedArrows:Array<Bool> = (controls.mobileC && virtualPad.buttonY.pressed) ? [controls.UI_LEFT_P, controls.UI_DOWN_P, controls.UI_UP_P, controls.UI_RIGHT_P] : [control('note_41_p'), control('note_42_p'), control('note_43_p'), control('note_44_p')];
 		final dirs:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
 		for (i=>pressed in pressedArrows) if (pressed) playCrossfade('sing${dirs[i]}');
 	}
@@ -1886,7 +1882,6 @@ class CrossFadeSettingsSubState extends MusicBeatSubstate
 		boyfriend.destroy();
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		ClientPrefs.saveSettings();
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		super.close();
 		if (MiscSettingsSubState.instance == null) return;
 		MiscSettingsSubState.instance.persistentUpdate = true;

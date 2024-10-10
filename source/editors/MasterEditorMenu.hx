@@ -104,8 +104,8 @@ class MasterEditorMenu extends MusicBeatState
 		super.create();
 	}
 
-	override function keyPress(event:KeyboardEvent) {
-		super.keyPress(event);
+	override function update(elapsed:Float) {
+		super.update(elapsed);
 
 		if (controls.UI_UP_P)
 			changeSelection(-1);
