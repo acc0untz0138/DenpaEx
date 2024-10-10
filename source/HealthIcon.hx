@@ -176,6 +176,7 @@ class HealthIcon extends FlxSprite
 	@:noCompletion public var ignoreChange:Bool = false;
 	public function changeIcon(char:String, ?characterFile:Character = null):HealthIcon {
 		if(this.char != char || ignoreChange) {
+			if (ClientPrefs.settings.get("ogIcons") && CoolUtil.baseIcons.contains(char)) char = 'og/icon-' + char;
 			var name:String = 'icons/' + char;
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon

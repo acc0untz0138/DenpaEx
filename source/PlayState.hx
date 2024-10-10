@@ -5639,6 +5639,8 @@ class PlayState extends MusicBeatState
 
 	var oppChar:Character = null;
 
+	var hsb:Array<Float> = [];
+
 	public function opponentNoteHit(note:Note, p4:Bool = false) {
 		if (SONG.header.song != 'Tutorial') camZooming = true;
 
@@ -5750,8 +5752,9 @@ class PlayState extends MusicBeatState
 			strumAnimsPerFrame[0] += 1;
 			var time:Float = 0.15;
 			if(note.isSustainNote && note.animation.curAnim != null && !note.isSustainEnd) time += 0.15;
+			if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") != 'Normal') hsb = [note.colorSwap.hue, note.colorSwap.saturation, note.colorSwap.brightness];
 
-			strumPlayAnim(p4 ? note.strum : 0, Std.int(Math.abs(note.noteData)) % Note.ammo[mania], time);
+			strumPlayAnim(p4 ? note.strum : 0, Std.int(Math.abs(note.noteData)) % Note.ammo[mania], time, hsb);
 		}
 
 		note.hitByOpponent = true;
@@ -5938,14 +5941,15 @@ class PlayState extends MusicBeatState
 			strumAnimsPerFrame[1] += 1;
 			var time:Float = 0.15;
 			if(note.isSustainNote && !note.isSustainEnd) time += 0.15;
+			if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") != 'Normal') hsb = [note.colorSwap.hue, note.colorSwap.saturation, note.colorSwap.brightness];
 
-			strumPlayAnim(1, Std.int(Math.abs(note.noteData)) % Note.ammo[mania], time);
+			strumPlayAnim(1, Std.int(Math.abs(note.noteData)) % Note.ammo[mania], time, hsb);
 		}
 		if (!cpuControlled)
 		{
 			playerStrums.forEach(spr -> {
 				if (note.noteData == spr.noteData)
-					spr.playAnim('confirm', true);
+					spr.playAnim('confirm', true, hsb);
 			});
 		}
 		note.wasGoodHit = true;
@@ -5977,10 +5981,17 @@ class PlayState extends MusicBeatState
 		var sat:Float = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[data] % Note.ammo[mania])][1] / 100;
 		var brt:Float = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[data] % Note.ammo[mania])][2] / 100;
 		if(note != null) {
-			skin = note.noteSplashTexture;
-			hue = note.noteSplashHue;
-			sat = note.noteSplashSat;
-			brt = note.noteSplashBrt;
+			if(ClientPrefs.settings.get("noteColor") == 'Normal') {
+				skin = note.noteSplashTexture;
+				hue = note.noteSplashHue;
+				sat = note.noteSplashSat;
+				brt = note.noteSplashBrt;
+			}
+			else if (note.colorSwap != null) {
+				hue = note.colorSwap.hue;
+				sat = note.colorSwap.saturation;
+				brt = note.colorSwap.brightness;
+			}		
 		}
 
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
@@ -6733,7 +6744,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public function strumPlayAnim(whichLine:Int, id:Int, time:Float) {
+	public function strumPlayAnim(whichLine:Int, id:Int, time:Float, ?hsb:Array<Float>) {
 		var spr:StrumNote = null;
 		switch (whichLine)
 		{
@@ -6747,7 +6758,7 @@ class PlayState extends MusicBeatState
 		
 		if(ClientPrefs.settings.get('strumVisibility') && !ClientPrefs.settings.get("hideHud")) {
 			if(spr != null) {
-				spr.playAnim('confirm', true);
+				spr.playAnim('confirm', true, (hsb != null ? hsb : []));
 				spr.resetAnim = time / playbackRate;
 			}
 		}

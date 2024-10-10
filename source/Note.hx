@@ -166,6 +166,129 @@ class Note extends FlxSprite
 	var defaultWidth:Float = 0;
 	var defaultHeight:Float = 0;
 
+	static final beats:Array<Int> = [4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192,256,384,512,768,1024,1536,2048,3072,6144];
+
+	public function checkNoteQuant(note:Note, timeToCheck:Float):Void 
+	{
+		if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") == 'Quant-Based')
+		{
+			var theCurBPM = Conductor.bpm;
+			var stepCrochet:Float = (60 / theCurBPM) * 1000;
+			var latestBpmChangeIndex = -1;
+			var latestBpmChange = null;
+
+			for (i in 0...Conductor.bpmChangeMap.length) {
+				var bpmchange = Conductor.bpmChangeMap[i];
+				if (timeToCheck >= bpmchange.songTime) {
+					latestBpmChangeIndex = i; // Update index of latest change
+					latestBpmChange = bpmchange;
+				}
+			}
+			if (latestBpmChangeIndex >= 0) {
+				theCurBPM = latestBpmChange.bpm;
+				timeToCheck -= latestBpmChange.songTime;
+				stepCrochet = (60 / theCurBPM) * 1000;
+			}
+
+			var beat = Math.round((timeToCheck / stepCrochet) * 48);
+			for (i in 0...beats.length)
+			{
+				if (beat % (192 / beats[i]) == 0)
+				{
+					beat = beats[i];
+					break;
+				}			
+			}
+			switch (beat)
+			{
+				case 4: //red
+					note.colorSwap.hue = 0;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 8: //blue
+					note.colorSwap.hue = -0.34;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 12: //purple
+					note.colorSwap.hue = 0.8;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 16: //yellow
+					note.colorSwap.hue = 0.16;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 24: //pink
+					note.colorSwap.hue = 0.91;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 32: //orange
+					note.colorSwap.hue = 0.06;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 48: //cyan
+					note.colorSwap.hue = -0.53;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 64: //green
+					note.colorSwap.hue = -0.7;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = 0;
+				case 96: //salmon lookin ass
+					note.colorSwap.hue = 0;
+					note.colorSwap.saturation = -0.33;
+					note.colorSwap.brightness = 0;
+				case 128: //light purple shit
+					note.colorSwap.hue = -0.24;
+					note.colorSwap.saturation = -0.33;
+					note.colorSwap.brightness = 0;
+				case 192: //turquioe i cant spell
+					note.colorSwap.hue = 0.44;
+					note.colorSwap.saturation = 0.31;
+					note.colorSwap.brightness = 0;
+				case 256: //shit (the color of it)
+					note.colorSwap.hue = 0.03;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = -0.63;
+				case 384: //dark green ugly shit
+					note.colorSwap.hue = 0.29;
+					note.colorSwap.saturation = 1;
+					note.colorSwap.brightness = -0.89;
+				case 512: //darj blue
+					note.colorSwap.hue = -0.33;
+					note.colorSwap.saturation = 0.29;
+					note.colorSwap.brightness = -0.7;
+				case 768: //gray ok
+					note.colorSwap.hue = 0.04;
+					note.colorSwap.saturation = -0.86;
+					note.colorSwap.brightness = -0.23;
+				case 1024: //turqyuarfhiouhifueaig but dark
+					note.colorSwap.hue = 0.46;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = -0.46;
+				case 1536: //pure death
+					note.colorSwap.hue = 0;
+					note.colorSwap.saturation = 0;
+					note.colorSwap.brightness = -1;
+				case 2048: //piss and shit color
+					note.colorSwap.hue = 0.2;
+					note.colorSwap.saturation = -0.36;
+					note.colorSwap.brightness = -0.74;
+				case 3072: //boring ass color
+					note.colorSwap.hue = 0.17;
+					note.colorSwap.saturation = -0.57;
+					note.colorSwap.brightness = -0.27;
+				case 6144: //why did i do this? idk tbh, it just funni
+					note.colorSwap.hue = 0.23;
+					note.colorSwap.saturation = 0.76;
+					note.colorSwap.brightness = -0.83;
+				default: // white/gray
+					note.colorSwap.hue = 0.04;
+					note.colorSwap.saturation = -0.86;
+					note.colorSwap.brightness = -0.23;
+			}
+		}
+	}
+
 	private function set_texture(value:String):String {
 		if (!PlayState.isPixelStage)
 		{
@@ -574,6 +697,7 @@ class Note extends FlxSprite
 
 		switch(ClientPrefs.settings.get("noteColor"))
 		{
+			case 'Quant-Based': checkNoteQuant(this, isSustainNote ? chartNoteData.parent.strumTime : chartNoteData.strumTime);
 			case 'Rainbow': colorSwap.hue = ((strumTime / 5000 * 360) / 360) % 1;
 			case 'Default': 
 			colorSwap.hue = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[noteData] % Note.ammo[mania])][0] / 360;
@@ -636,6 +760,7 @@ class StrumNote extends FlxSprite
 
 		var skin:String = 'NOTE_assets';
 		if(PlayState.SONG.assets.arrowSkin != null && PlayState.SONG.assets.arrowSkin.length > 1) skin = PlayState.SONG.assets.arrowSkin;
+		else skin = Paths.defaultSkin;
 		texture = skin; //Load texture and anims
 
 		scrollFactor.set();
@@ -725,7 +850,7 @@ class StrumNote extends FlxSprite
 		super.destroy();
 	}
 
-	public function playAnim(anim:String, ?force:Bool = false) {
+	public function playAnim(anim:String, ?force:Bool = false, ?hsb:Array<Float>) {
 		animation.play(anim, force);
 		centerOffsets();
 		centerOrigin();
@@ -746,9 +871,16 @@ class StrumNote extends FlxSprite
 			colorSwap.saturation = 0;
 			colorSwap.brightness = 0;
 		} else {
-			colorSwap.hue = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[noteData] % Note.ammo[PlayState.mania])][0] / 360;
-			colorSwap.saturation = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[noteData] % Note.ammo[PlayState.mania])][1] / 100;
-			colorSwap.brightness = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[noteData] % Note.ammo[PlayState.mania])][2] / 100;
+			if (hsb == null || ClientPrefs.settings.get("noteColor") == 'Normal') {
+				colorSwap.hue = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[noteData] % Note.ammo[PlayState.mania])][0] / 360;
+				colorSwap.saturation = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[noteData] % Note.ammo[PlayState.mania])][1] / 100;
+				colorSwap.brightness = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[noteData] % Note.ammo[PlayState.mania])][2] / 100;
+			}
+			else {
+				colorSwap.hue = hsb[0];
+				colorSwap.saturation = hsb[1];
+				colorSwap.brightness = hsb[2];
+			}
 
 			if (PlayState.isPixelStage) return;
 			if(animation.curAnim.name == 'confirm')

@@ -22,6 +22,7 @@ class ClientPrefs {
         "globalAntialiasing" => true,
         "noteSplashes" => false,
         "lowQuality" => false,
+		"ogIcons" => false,
 		"animateMouse" => true,
         "camZooms" => true,
         "camPans" => true,

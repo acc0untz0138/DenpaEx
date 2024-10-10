@@ -31,14 +31,11 @@ class Paths
 	//ok this initializes the default noteskin
 	public static function initDefaultSkin(keys:Int = 4, noteSkin:String)
 	{
-		if(ClientPrefs.settings.get("noteColor") == 'Default') {
-			defaultSkin = 'NOTE_assets';
-		}
-		if(ClientPrefs.settings.get("noteColor") == 'Greyscale') {
-			defaultSkin = 'GREYSCALE_NOTE_assets';
-		}
-		if(ClientPrefs.settings.get("noteColor") == 'Rainbow') {
-			defaultSkin = 'RED_NOTE_assets';
+		if (noteSkin.length < 1) defaultSkin = switch(ClientPrefs.settings.get("noteColor"))
+		{
+			case 'Rainbow', 'Quant-Based': 'RED_NOTE_assets';
+			case 'Greyscale': 'GREYSCALE_NOTE_assets';
+			default: 'NOTE_assets';
 		}
 		if (noteSkin != null && noteSkin.length > 1) defaultSkin = noteSkin;
 	}

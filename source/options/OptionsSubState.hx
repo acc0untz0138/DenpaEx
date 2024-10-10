@@ -824,7 +824,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'noteColor',
 			'string',
 			'Default',
-			['Default', 'Greyscale', 'Rainbow']);
+			['Default', 'Greyscale', 'Rainbow', 'Quant-Based']);
 		addOption(option);
 		option.onChange = changeOption;
 		
@@ -834,6 +834,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'string',
 			'Swing',
 			['Swing', 'Snap', 'Stretch', 'Bop', 'Old', 'None']);
+		addOption(option);
+		option.onChange = changeOption;
+
+		var option:Option = new Option('Original Icons',
+		'If checked, the health icons will use the original designs instead of the Denpa designs.',
+		'ogIcons',
+		'bool',
+		false);
 		addOption(option);
 		option.onChange = changeOption;
 
@@ -943,7 +951,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 		if (icon != null) {
 			icon.visible = false;
-			if (optionsArray[curSelected].name == 'Icon Animation:') {
+			if (optionsArray[curSelected].name == 'Icon Animation:' || optionsArray[curSelected].name == 'Original Icons') {
 				icon.visible = true;
 			}
 		}
@@ -1005,6 +1013,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 					floatyTxt.visible = ClientPrefs.settings.get("watermarks");
 			case 'Icon Animation:':
 				iconAnim = ClientPrefs.settings.get("iconAnim");
+			case 'Original Icons':
+				if (icon != null) icon.changeIcon((ClientPrefs.settings.get("ogIcons") ? 'og/' : '') + 'icon-bf');
 			case 'Noteskin Color:':
 				noteColor = ClientPrefs.settings.get("noteColor");
 			case 'Rating Skin:':

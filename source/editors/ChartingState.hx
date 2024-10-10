@@ -2007,6 +2007,7 @@ class ChartingState extends MusicBeatState
 	var coolColor:FlxColor;
 	var blockInput:Bool = false;
 	var blockClick:Bool = false;
+	var hsb:Array<Float> = [];
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -2082,8 +2083,9 @@ class ChartingState extends MusicBeatState
 				if(note.strumTime > lastConductorPos && FlxG.sound.music.playing && note.noteData > -1) {
 					var data:Int = note.noteData % Note.ammo[_song.options.mania];
 					var noteDataToCheck:Int = note.noteData;
+					if (note.colorSwap != null) hsb = [note.colorSwap.hue, note.colorSwap.saturation, note.colorSwap.brightness];
 					if(noteDataToCheck > -1 && note.mustPress != _song.notes[curSection].mustHitSection) noteDataToCheck += Note.ammo[_song.options.mania];
-						strumLineNotes.members[noteDataToCheck].playAnim('confirm', true);
+						strumLineNotes.members[noteDataToCheck].playAnim('confirm', true, hsb);
 						strumLineNotes.members[noteDataToCheck].resetAnim = ((note.sustainLength / 1810) + 0.12) / playbackSpeed;
 					if(!playedSound[data]) {
 						if((playSoundBf.checked && note.mustPress) || (playSoundDad.checked && !note.mustPress)){
@@ -3154,6 +3156,7 @@ class ChartingState extends MusicBeatState
 			}
 			note.sustainLength = daSus;
 			note.noteType = i[3];
+			if (ClientPrefs.settings.get("noteColor") == 'Quant-Based') note.checkNoteQuant(note, note.strumTime);
 		} else { //Event note
 			note.loadGraphic(Paths.image('eventArrow'));
 			note.eventName = getEventName(i[1]);
