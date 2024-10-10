@@ -669,6 +669,7 @@ class FreeplayState extends MusicBeatState
 
 			if (virtualPad.buttonD.justPressed || FlxG.keys.justPressed.COMMA) {
 				persistentUpdate = false;
+				songSearchText.visible = false;
 				openSubState(new FreeplaySectionSubstate());
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
