@@ -1208,20 +1208,6 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		#if android if (!externalPaths.contains('\n')) storageTypes = storageTypes.concat(externalPaths); #end
 		title = 'Misc Settings';
 		rpcTitle = 'Misc Settings Menu'; //for Discord Rich Presence
-
-		var option:Option = new Option('Save Main Menu Song',
-			"If checked, you won't need to change the main menu song in SoundTestState everytime you boot up DenpaEx.",
-			'saveMainMenuSong',
-			'bool',
-			false);
-		addOption(option);
-		
-		var option:Option = new Option('Change BG Color by Menu Song',
-			"If unchecked, bg color won't change each time menu song is selected.",
-			'changeBGbySongs',
-			'bool',
-			true);
-		addOption(option);
 		
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",

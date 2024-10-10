@@ -172,9 +172,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			else
 				MusicBeatState.switchState(new FreeplayState());
 
-			FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-			FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-			FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+			FlxG.sound.playMusic(Paths.music("funkyMenu"));
 			
 			Conductor.changeBPM(SoundTestState.playingTrackBPM);
 			PlayState.instance.callOnLuas('onGameOverConfirm', [false]);

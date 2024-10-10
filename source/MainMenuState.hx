@@ -195,7 +195,6 @@ class MainMenuState extends MusicBeatState
 		seenTween = true;
 		}
 
-		SoundTestState.setColor = ClientPrefs.settings.get("changeBGbySongs");
 		bg.color = SoundTestState.getDaColor();
 		if (!ClientPrefs.settings.get("lowQuality")) {
 			bgScroll.color = SoundTestState.getDaColor();

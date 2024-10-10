@@ -80,9 +80,6 @@ class ClientPrefs {
 		#if android "storageType" => "EXTERNAL_DATA", #end
 		//Arrays
 		"crossFadeData" => ['Default', 'Healthbar', [255, 255, 255], 0.3, 0.35],
-		"saveMainMenuSong" => false,
-		"mainMenuSong" => 'funkyMenu',
-		"changeBGbySongs" => true,
 	];
 
 	public static var gameplaySettings:Map<String, Dynamic> = [

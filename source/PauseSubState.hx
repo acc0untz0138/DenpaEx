@@ -283,9 +283,7 @@ class PauseSubState extends MusicBeatSubstate
 				PlayState.deathCounter = 0;
 				PlayState.seenCutscene = false;
 				MusicBeatState.switchState((PlayState.isStoryMode ? new StoryMenuState() : new FreeplayState()));
-				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				FlxG.sound.playMusic(Paths.music("funkyMenu"));
 				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 				PlayState.changedDifficulty = false;
@@ -304,9 +302,7 @@ class PauseSubState extends MusicBeatSubstate
 							PlayState.deathCounter = 0;
 							PlayState.seenCutscene = false;
 							MusicBeatState.switchState(new MainMenuState());
-							FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-							FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-							FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+							FlxG.sound.playMusic(Paths.music("funkyMenu"));
 							
 							Conductor.changeBPM(SoundTestState.playingTrackBPM);
 							PlayState.changedDifficulty = false;

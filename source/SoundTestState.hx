@@ -63,7 +63,6 @@ class SoundTestState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 
-	public static var changeColor:Bool = ClientPrefs.settings.get("changeBGbySongs");
 	var bg:FlxSprite;
 	var gradient:FlxSprite;
 	var bgScroll:FlxBackdrop;

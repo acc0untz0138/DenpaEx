@@ -4842,9 +4842,7 @@ class PlayState extends MusicBeatState
 				discordUpdateTimer.cancel();
 				#end
 				MusicBeatState.switchState(new StoryMenuState(), 0.35);
-				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				FlxG.sound.playMusic(Paths.music("funkyMenu"));
 				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 				changedDifficulty = false;
@@ -4860,9 +4858,7 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 					WeekData.loadTheFirstEnabledMod();
-					FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-					FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-					FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+					FlxG.sound.playMusic(Paths.music("funkyMenu"));
 					
 					Conductor.changeBPM(SoundTestState.playingTrackBPM);
 
@@ -4954,9 +4950,7 @@ class PlayState extends MusicBeatState
 				discordUpdateTimer.cancel();
 				#end
 				MusicBeatState.switchState(new FreeplayState());
-				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-				FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-				FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+				FlxG.sound.playMusic(Paths.music("funkyMenu"));
 				
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 				changedDifficulty = false;

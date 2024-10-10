@@ -2346,9 +2346,7 @@ class ChartingState extends MusicBeatState
 					openSubState(new Prompt('This action will clear unsaved progress.\n\nProceed?', 0, function()
 						{
 							MusicBeatState.switchState(new editors.MasterEditorMenu());
-							FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-							FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-							FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+							FlxG.sound.playMusic(Paths.music("funkyMenu"));
 							
 							Conductor.changeBPM(SoundTestState.playingTrackBPM);
 							FlxG.mouse.visible = false;
@@ -2361,9 +2359,7 @@ class ChartingState extends MusicBeatState
 					openSubState(new Prompt('This action will clear unsaved progress.\n\nProceed?', 0, function()
 						{
 							MusicBeatState.switchState(new FreeplayState());
-							FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack));
-							FlxG.sound.music.loopTime = SoundTestState.playingTrackLoopStart;
-							FlxG.sound.music.endTime = SoundTestState.playingTrackLoopEnd;
+							FlxG.sound.playMusic(Paths.music("funkyMenu"));
 							
 							Conductor.changeBPM(SoundTestState.playingTrackBPM);
 							FlxG.mouse.visible = false;
