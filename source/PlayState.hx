@@ -322,6 +322,7 @@ class PlayState extends MusicBeatState
 	public var iconP1:HealthIcon;
 	public var iconP1Poison:HealthIcon;
 	public var iconP2:HealthIcon;
+	public var iconP2Poison:HealthIcon;
 	public var iconP4:HealthIcon;
 	public var flinching:Bool = false;
 	public var flinchTimer:FlxTimer = null;
@@ -1513,6 +1514,13 @@ class PlayState extends MusicBeatState
 		iconP2 = new HealthIcon(dad.iconProperties.name, false);
 		iconP2.ignoreChange = true;
 		iconP2.changeIcon(dad.iconProperties.name, dad);
+		
+		iconP2Poison = new HealthIcon(dad.iconProperties.name, false);
+		iconP2Poison.ignoreChange = true;
+		iconP2Poison.changeIcon(dad.iconProperties.name, dad);
+		iconP2Poison.visible = false;
+		if (!poison) iconP2Poison.active = false;
+		iconP2Poison.setColorTransform(1,0,1,1,255,-231,255,0);
 		Paths.setModsDirectoryFromType(NONE, '', true);
 
 		Paths.setModsDirectoryFromType(ICON, player4.iconProperties.name, false);
@@ -1530,6 +1538,7 @@ class PlayState extends MusicBeatState
 		add(iconP4);
 		add(iconP1Poison);
 		add(iconP1);
+		add(iconP2Poison);
 		add(iconP2);
 		recalculateIconAnimations(true);
 		setIconPositions();
@@ -1604,7 +1613,7 @@ class PlayState extends MusicBeatState
 		}
 
 		//lets set ALL the cameras at once
-		iconP1Poison.cameras = iconP1.cameras = iconP2.cameras = iconP4.cameras = sustains.cameras = notes.cameras = grpNoteSplashes.cameras = strumLineNotes.cameras = [camHUD];
+		iconP1Poison.cameras = iconP1.cameras = iconP2Poison.cameras = iconP2.cameras = iconP4.cameras = sustains.cameras = notes.cameras = grpNoteSplashes.cameras = strumLineNotes.cameras = [camHUD];
 
 		startingSong = true;
 
@@ -2105,7 +2114,7 @@ class PlayState extends MusicBeatState
 		var who2_CC:HealthbarColorContainer = new HealthbarColorContainer(HealthbarColorContainer.getCharacterBarRGB(who2));
 
 		if (cpuControlled && !ClientPrefs.settings.get('disableBotIcon')) who2_CC.setFadingColor(FlxColor.fromRGB(214,214,214));
-		if (usePoison != null) who2_CC.setFadingColor(FlxColor.fromRGB(171,24,233));
+		if (usePoison != null) (!opponentChart ? who2_CC : who_CC).setFadingColor(FlxColor.fromRGB(171,24,233));
 
 		var whoColors:Array<FlxColor> = HealthbarColorContainer.createBarColorArray(who, who_CC);
 		var who2Colors:Array<FlxColor> = HealthbarColorContainer.createBarColorArray(who2, who2_CC);
@@ -3244,7 +3253,7 @@ class PlayState extends MusicBeatState
 
 		if (poison) {
 			if (poisonMult == 0) {
-				iconP1Poison.visible = false;
+				iconP1Poison.visible = iconP2Poison.visible = false;
 			}
 			intendedHealth -= (0.0066666666666667 * poisonMult)*FlxG.elapsed*244; //lose 0.06 per second
 		}
@@ -4198,6 +4207,7 @@ class PlayState extends MusicBeatState
 							dad.alpha = lastAlpha;
 							dad.active = true;
 							iconP2.changeIcon(dad.iconProperties.name, dad);
+							iconP2Poison.changeIcon(dad.iconProperties.name, dad);
 						}
 						setOnLuas('dadName', dad.curCharacter);
 						reloadHealthBarColors(false);
@@ -5528,7 +5538,7 @@ class PlayState extends MusicBeatState
 		callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
 		callOnHscripts('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
 	
-		var char:Character = (daNote.gfNote ? gf : boyfriend);
+		var char:Character = (daNote.gfNote ? gf : (!opponentChart ? boyfriend : dad));
 	
 		if(char != null)
 		{
@@ -5853,6 +5863,7 @@ class PlayState extends MusicBeatState
 		} else if (poison && flinching && poisonMult == 0) {
 			resetFlinch = true;
 			iconP1Poison.visible = false;
+			iconP2Poison.visible = false;
 		}
 		if (resetFlinch) {
 			flinching = false;
@@ -6625,7 +6636,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.options.beatDrain) if (intendedHealth > 0.10) intendedHealth -= 0.0475 * 0.5;
 		
-		var iconsArray:Array<HealthIcon> = [iconP1, iconP1Poison, iconP2, iconP4]; //not making this final for a good reason
+		var iconsArray:Array<HealthIcon> = [iconP1, iconP1Poison, iconP2Poison, iconP2, iconP4]; //not making this final for a good reason
 		final curInfo:HealthIcon.BopInfo = {curBeat: curBeat, playbackRate: playbackRate, gfSpeed: gfSpeed, healthBarPercent: hud.healthBar.percent};
 		for(i in 0...iconsArray.length) {
 			if(!iconsArray[i].visible) continue;
@@ -6884,7 +6895,7 @@ class PlayState extends MusicBeatState
 			}
 		}
         if (forceNeutral) {
-            iconP4.animation.curAnim.curFrame = iconP2.animation.curAnim.curFrame = iconP1Poison.animation.curAnim.curFrame = iconP1.animation.curAnim.curFrame = 0;
+            iconP4.animation.curAnim.curFrame = iconP2Poison.animation.curAnim.curFrame = iconP2.animation.curAnim.curFrame = iconP1Poison.animation.curAnim.curFrame = iconP1.animation.curAnim.curFrame = 0;
             return;
         }
 
@@ -6893,17 +6904,17 @@ class PlayState extends MusicBeatState
 			case WINNING: iconP1Poison.animation.curAnim.curFrame = iconP1.animation.curAnim.curFrame = (hud.healthBar.percent > 80 ? 2 : (hud.healthBar.percent < 20 ? 1 : 0));
             default: iconP1Poison.animation.curAnim.curFrame = iconP1.animation.curAnim.curFrame = (hud.healthBar.percent < 20 ? 1 : 0);
 		}
+		switch (iconP2.type) {
+			case SINGLE: iconP2Poison.animation.curAnim.curFrame = iconP2.animation.curAnim.curFrame = 0;
+			case WINNING: iconP2Poison.animation.curAnim.curFrame = iconP2.animation.curAnim.curFrame = (hud.healthBar.percent > 80 ? 1 : (hud.healthBar.percent < 20 ? 2 : 0));
+            default: iconP2Poison.animation.curAnim.curFrame = iconP2.animation.curAnim.curFrame = (hud.healthBar.percent > 80 ? 1 : 0);
+		}
 		if (flinching) {
 			if (poison) {
-				if(!ClientPrefs.settings.get("hideHud")) iconP1Poison.visible = true;
+				if(!ClientPrefs.settings.get("hideHud")) (!opponentChart ? iconP1Poison : iconP2Poison).visible = true;
 				reloadHealthBarColors(SONG.notes[curSection].player4Section, null, true);
 			}
-			if (iconP1.type != SINGLE) iconP1Poison.animation.curAnim.curFrame = iconP1.animation.curAnim.curFrame = 1;
-		}
-		switch (iconP2.type) {
-			case SINGLE: iconP2.animation.curAnim.curFrame = 0;
-			case WINNING: iconP2.animation.curAnim.curFrame = (hud.healthBar.percent > 80 ? 1 : (hud.healthBar.percent < 20 ? 2 : 0));
-            default: iconP2.animation.curAnim.curFrame = (hud.healthBar.percent > 80 ? 1 : 0);
+			if ((!opponentChart ? iconP1 : iconP2).type != SINGLE) (!opponentChart ? iconP1Poison : iconP2Poison).animation.curAnim.curFrame = (!opponentChart ? iconP1 : iconP2).animation.curAnim.curFrame = 1;
 		}
 		switch (iconP4.type) {
 			case SINGLE: iconP4.animation.curAnim.curFrame = 0;
@@ -6919,6 +6930,7 @@ class PlayState extends MusicBeatState
 			iconP1.y = hud.healthBar.y - 75;
 			iconP1Poison.y = iconP1.y + 5;
 			iconP2.y = iconP1.y;
+			iconP2Poison.y = iconP2.y + 5;
 			iconP4.y = hud.healthBar.y - 135;
 			return;
 		}
@@ -6927,6 +6939,7 @@ class PlayState extends MusicBeatState
 		iconP1.x = (hud.healthBar.x + (hud.healthBar.width * (FlxMath.remapToRange(offsetter, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset);
 		iconP1Poison.x = iconP1.x;
 		iconP2.x = (hud.healthBar.x + (hud.healthBar.width * (FlxMath.remapToRange(offsetter, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2);
+		iconP2Poison.x = iconP2.x;
 		iconP4.x = iconP2.x - 80;
 	}
 
@@ -6997,7 +7010,7 @@ class PlayState extends MusicBeatState
 		}
 		poisonTimer = new FlxTimer(stateTimers).start(3, _ -> {
 			poisonMult = 0;
-			if(!ClientPrefs.settings.get("hideHud")) iconP1Poison.visible = false;
+			if(!ClientPrefs.settings.get("hideHud")) { iconP1Poison.visible = false; iconP2Poison.visible = false;}
 			recalculateIconAnimations();
 			reloadHealthBarColors(SONG.notes[curSection].player4Section);
 			for (poisonSprite in poisonSpriteGrp) {
