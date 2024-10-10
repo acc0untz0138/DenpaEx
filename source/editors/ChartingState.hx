@@ -3596,10 +3596,7 @@ class ChartingState extends MusicBeatState
 		if ((data != null) && (data.length > 0))
 		{
 			#if mobile
-			SUtil.saveContent(currentSongName + CoolUtil.difficulties[PlayState.storyDifficulty] != null && 
-				CoolUtil.difficulties[PlayState.storyDifficulty] != CoolUtil.defaultDifficulty
-				? "-" + CoolUtil.difficulties[PlayState.storyDifficulty].toLowerCase() 
-				: "" + '.json', data.trim());
+			SUtil.saveContent(Paths.formatToSongPath(UI_songTitle.text) + '-' + CoolUtil.difficulties[PlayState.storyDifficulty].toLowerCase() + '.json', data.trim());
 			#else
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);

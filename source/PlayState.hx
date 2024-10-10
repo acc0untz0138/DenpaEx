@@ -4826,7 +4826,7 @@ class PlayState extends MusicBeatState
 			}
 			playbackRate = 1;
 
-			if (!controls.mobileC && chartingMode)
+			if (chartingMode)
 			{
 				openChartEditor();
 				return;

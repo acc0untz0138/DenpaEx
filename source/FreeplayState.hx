@@ -771,7 +771,7 @@ class FreeplayState extends MusicBeatState
 						gradientColorTween.cancel();
 					}
 					
-					if (FlxG.keys.pressed.SHIFT){
+					if (virtualPad.buttonZ.pressed || FlxG.keys.pressed.SHIFT){
 						PlayState.chartingMode = true;
 						LoadingState.loadAndSwitchState(new ChartingState());
 					}else{

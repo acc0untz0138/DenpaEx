@@ -26,7 +26,7 @@ class PauseSubState extends MusicBeatSubstate
 	var menuItemsOG:Array<String> = ['Resume', 'Restart', 'Replay Cutscene', 'Change Difficulty', 'Modifiers', 'Options', 'Tools', 'Exit'];
 	var difficultyChoices = [];
 	var exitChoices = ['Exit To Song Menu', 'Exit To Main Menu', 'Exit Game', 'BACK'];
-	var devChoices = ['Skip Time', 'End Song', 'Toggle Practice Mode', 'Toggle Botplay', 'Leave Charting Mode', 'BACK'];
+	var devChoices = ['Open Chart Editor', 'Skip Time', 'End Song', 'Toggle Practice Mode', 'Toggle Botplay', 'Leave Charting Mode', 'BACK'];
 	var curSelected:Int = 0;
 	public static var changedOptions:Bool = false;
 	public static var transferPlayState:Bool = false;
@@ -377,6 +377,8 @@ class PauseSubState extends MusicBeatSubstate
 				case "Replay Cutscene":
 					PlayState.seenCutscene = false;
 					restartSong();
+				case "Open Chart Editor":
+					PlayState.instance.openChartEditor();
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();

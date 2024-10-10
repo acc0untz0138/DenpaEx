@@ -204,7 +204,7 @@ class MainMenuState extends MusicBeatState
 
 		hscript.call("onCreatePost", []);
 
-		addVirtualPad(LEFT_RIGHT, A_B_C);
+		addVirtualPad(LEFT_RIGHT, A_B_X_Y);
 		
 		super.create();
 	}
@@ -268,13 +268,13 @@ class MainMenuState extends MusicBeatState
 			{
 				doTheThingHouston();
 			}
-			else if (FlxG.keys.anyJustPressed(debugKeys))
+			else if (virtualPad.buttonY.justPressed || FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#if !html5
-			if (virtualPad.buttonC.justPressed || controls.RESET)
+			if (virtualPad.buttonX.justPressed || controls.RESET)
 			{
 				FlxG.mouse.visible = true;
 				openSubState(new Prompt('This will clear all save data.\n\nProceed?', 0, () -> {
