@@ -108,9 +108,7 @@ Shygee - Additional Programmer
 ## Upcoming Features
 
 01) Add keybind reminders on the start of songs.
-02) Add "Play as Opponent" option in GameplayChangersSubstate.
-
-03) Add Away3D Support (maybe).
+02) Add Away3D Support (maybe).
 
 ## Issues
 

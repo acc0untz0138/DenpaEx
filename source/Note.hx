@@ -774,15 +774,7 @@ class StrumNote extends FlxSprite
 
 		if(PlayState.isPixelStage)
 		{
-			if(ClientPrefs.settings.get("noteColor") == 'Default') {
-				loadGraphic(Paths.image('pixelUI/$texture'), true, 17, 17);
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Greyscale') {
-				loadGraphic(Paths.image('pixelUI/GREYSCALE_$texture'), true, 17, 17);
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Rainbow') {
-				loadGraphic(Paths.image('pixelUI/RED_$texture'), true, 17, 17);
-			}
+			loadGraphic(Paths.image('pixelUI/$texture'), true, 17, 17);
 			var daFrames:Array<Int> = Note.keysShit.get(PlayState.mania).get('pixelAnimIndex');
 
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom * Note.pixelScales[PlayState.mania]));
