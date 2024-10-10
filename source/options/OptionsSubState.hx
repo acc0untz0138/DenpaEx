@@ -1122,6 +1122,32 @@ class CustomizationSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		super();
+
+		noteSplash = new FlxSprite(FlxG.width, FlxG.height/2 - 200);
+		noteSplash.frames = Paths.getSparrowAtlas('splashes/noteSplashes');
+		noteSplash.animation.addByPrefix('splash1', 'note splash A 1', 24, false);
+		noteSplash.animation.addByPrefix('splash2', 'note splash B 1', 24, false);
+		noteSplash.animation.addByPrefix('splash3', 'note splash C 1', 24, false);
+		noteSplash.animation.addByPrefix('splash4', 'note splash D 1', 24, false);
+		noteSplash.animation.play('splash1');
+		noteSplash.visible = false;
+		noteSplash.x -= noteSplash.width*1.5;
+		add(noteSplash);
+	}
+	override function beatHit() {
+		super.beatHit();
+		if (noteSplash != null && noteSplash.visible) {
+			noteSplash.animation.play('splash${FlxG.random.int(1,4)}');
+		}
+	}
+	override function changeSelection(change:Int = 0) {
+		super.changeSelection(change);
+		if (noteSplash != null) {
+			noteSplash.visible = false;
+			if (optionsArray[curSelected].name == 'Note Splashes') {
+				noteSplash.visible = ClientPrefs.settings.get("noteSplashes");
+			}
+		}
 	}
 }
 
