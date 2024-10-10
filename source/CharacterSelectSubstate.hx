@@ -173,7 +173,7 @@ class CharacterSelectSubstate extends MusicBeatSubstate
 	}
 
     override function destroy() {
-        FlxG.sound.playMusic("funkyMenu", 0);
+        FlxG.sound.playMusic(Paths.music("funkyMenu"), 0);
 
         Conductor.changeBPM(SoundTestState.playingTrackBPM);
         FlxG.sound.music.fadeIn(2, 0, 0.7);

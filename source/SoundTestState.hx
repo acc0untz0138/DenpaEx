@@ -463,15 +463,5 @@ class SoundTestState extends MusicBeatState
 		bg.updateHitbox();
 		bg.offset.set();
 	}
-
-	override function destroy() {
-		if (ClientPrefs.settings.get("saveMainMenuSong"))
-			ClientPrefs.settings.set("mainMenuSong", playingTrack);
-		else {
-			try {
-				ClientPrefs.settings.set("mainMenuSong", "funkyMenu");
-			} catch (e:Dynamic) { ClientPrefs.settings.set("saveMainMenuSong", false); }
-		}
-		super.destroy();
-	}
+	
 }

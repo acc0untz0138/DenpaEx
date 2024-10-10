@@ -336,7 +336,7 @@ class FreeplayState extends MusicBeatState
 	function checkForSongsThatMatch(?start:String = '')
 	{	
 		var foundSongs:Int = 0;
-		final txt:FlxText = new FlxText(0, 0, 0, 'No songs found matching your query', 16);
+		final txt:FlxText = new FlxText(0, 0, 0, 'No songs found matching your query.', 25);
 		txt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		txt.scrollFactor.set();
 		txt.screenCenter(XY);
