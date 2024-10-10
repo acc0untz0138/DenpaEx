@@ -33,7 +33,7 @@ HRK.EXEX - Co-Developer
 
 ![mcagabe19](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/lily.png)
 
-Lily - Mobile Porter
+Lily - Platform Porter (Linux, Android, iOS, MacOS)
 
 ## Denpa Engine Team
 
@@ -73,43 +73,44 @@ Ziad - Multiplayer Support
 
 Shygee - Additional Programmer
 
-## Feature List (Unfinished!)
+## DenpaEx Feature List
 
 01) Custom logo, name & icon.
-02) Dark Mode in the user interface.
+02) Dark Mode in the UI.
 03) Better looking FreeplayState (toggleable) with a search box.
 04) Restored the Friday Night Funkin' background music.
-05) Added blank character (name is "null").
-06) Restored easy charts.
-07) Custom noteskin colors (Default, Greyscale & Rainbow).
-08) Render Mode for showcasing charts (requires ffmpeg).
-09) Optimized Auto Play (list coming soon).
-10) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
-11) GLSL Shader Compatibility (wasnt that impossible after all...).
-12) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
-13) 202-minute long song support (also wasnt as difficult lmao).
-14) Total notes counter in ChartingState.
-15) Custom max BPM, speed, zoom & note density.
-16) Restored the miss sound toggle (literally the easiest thing).
-17) Fixed some text here and there in the game
+05) Optimized Auto Play.
+06) Customizable character icons (Psych & DenpaEx).
+07) GLSL Shader Compatibility.
+08) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
+09) 202-minute long song support.
+10) Added blank character (name is "null").
+11) Restored easy charts.
+12) Custom noteskin colors (Default, Greyscale, Rainbow, Character & Quant).
+13) Updated ChartingState (includes total notes counter, custom max BPM, speed, zoom and note density & fixed text).
+14) Render Mode for showcasing charts (requires ffmpeg).
+15) Modified Debug Keys script in assets/scripts (made by Kevin Kuntz, edited slightly by me).
+16) Restored the miss sound toggle.
+17) Polished some text here and there in the game.
 
 ### Customization Options
 
-01) Toggleable Rating & Timing Pop-ups (includes a better Kade score pop-up, better perfect score pop-up & better #1 pop-up).
-02) Toggleable Ratings Display (includes a total hits counter).
-03) Toggleable Health Bar.
-04) Toggleable Score Text (includes a custom one named "AMZ").
-05) Toggleable Time Bar & Format.
+01) Toggleable Rating Pop-ups (includes a better Kade score pop-up, better perfect score pop-up & better #1 pop-up).
+02) Toggleable Timing Pop-up.
+03) Toggleable Modifier Icons.
+04) Toggleable Ratings Display (includes a total hits counter).
+05) Toggleable Health Bar.
 06) Toggleable Note Strum Animation.
 07) Toggleable Note Splashes.
+08) Customizable Score Display (includes a custom one named "AMZ").
+09) Customizable Time Bar.
 
 ## Upcoming Features
 
 01) Add keybind reminders on the start of songs.
-02) Add Character and Quant-Based Note Colors.
-03) Add "Play as Opponent" option in GameplayChangersSubstate.
-04) Add a toggle for OG & Denpa icons.
-05) Add Away3D Support (maybe).
+02) Add "Play as Opponent" option in GameplayChangersSubstate.
+
+03) Add Away3D Support (maybe).
 
 ## Issues
 
@@ -157,24 +158,20 @@ This license agreement is subject to change at any time, and continued use of th
 
 ### Release Copies
 
-1) Download the latest .7z/.zip archive from Gamebana, Gamejolt, or Github.
+1) Download the latest .7z/.zip archive from Github.
 2) Extract the file by right clicking on it, using either the default OS tools, 7zip, or WinRAR to extract.
-3) Run the DenpaEngine executable file in the extracted folder.
+3) Run the DenpaEx executable file in the extracted folder.
 
 ### Source Code
 
 1) Download the latest source .zip/.gz file.
-2) Extract the file using the default OS tools, 7zip, or WinRAR to extract.
-3) Install Haxe 4.3.0 from <https://haxe.org>.
-4) Run the QUICK SETUP.bat file to install the haxe libraries needed.
-5) Install Visual Studio Community 2017/2019.
-6) Open Visual Studio Installer.
-7) Click Modify on your Visual Studio 2017/2019 install.
-8) Click "Individual Components" at the top.
-9) Install the "MSVC v142 - VS 2019 C++ x64/x86 build tools Latest" and "Windows SDK (10.0.17763.0)" components.
-10) Run any of the batch files in the batch folder of the source code or continue to step 11.
-11) Open command prompt and use the "cd" command to set the current directory to your source code folder.
-12) Type "lime test [your platform here]" and the compile should start.
+2) Extract the file using your file archiver of choice.
+3) Install Haxe from <https://haxe.org> and finish the setup.
+4) Run the QUICK SETUP.bat file to install the haxe libraries needed (includes Visual Studio Community).
+5) Go through the Visual Studio Community Setup.
+6) Run any of the batch files in the batch folder of the source code or continue to step 7.
+7) Go to DenpaEx/crshhndlr, open CMD in that folder and compile for the OS of your choice ('lime test [platform]').
+8) Go back to the DenpaEx folder and do the same.
 
 ## Features (Unfinished List!)
 

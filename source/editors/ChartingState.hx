@@ -226,7 +226,10 @@ class ChartingState extends MusicBeatState
 		384,
 		512,
 		768,
-		1024
+		1024,
+		2048,
+		4096,
+		8192
 	];
 	#else //The grid gets all black when over 1/12 snap
 	[
@@ -687,12 +690,12 @@ class ChartingState extends MusicBeatState
 		load_empty.color = FlxColor.RED;
 		load_empty.label.color = FlxColor.WHITE;
 
-		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, 999999, 1);
+		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, 999999999, 1);
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 		blockPressWhileTypingOnStepper.push(stepperBPM);
 
-		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, 100, 1);
+		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, 1024, 1);
 		stepperSpeed.value = _song.options.speed;
 		stepperSpeed.name = 'song_speed';
 		blockPressWhileTypingOnStepper.push(stepperSpeed);
@@ -1317,12 +1320,12 @@ class ChartingState extends MusicBeatState
 			}
 		});
 		
-		stepperSpamCloseness = new FlxUINumericStepper(spamButton.x + 90, spamButton.y + 5, 2, 2, 2, 1024);
+		stepperSpamCloseness = new FlxUINumericStepper(spamButton.x + 90, spamButton.y + 5, 2, 2, 2, 524288);
 		stepperSpamCloseness.value = spamCloseness;
 		stepperSpamCloseness.name = 'note_spamthing';
 		blockPressWhileTypingOnStepper.push(stepperSpamCloseness);
 
-		stepperSpamLength = new FlxUINumericStepper(stepperSpamCloseness.x + 90, stepperSpamCloseness.y, 5, 5, 1, 16383);
+		stepperSpamLength = new FlxUINumericStepper(stepperSpamCloseness.x + 90, stepperSpamCloseness.y, 5, 5, 1, 8388607);
 		stepperSpamLength.value = spamLength;
 		stepperSpamLength.name = 'note_spamamount';
 		blockPressWhileTypingOnStepper.push(stepperSpamLength);

@@ -796,7 +796,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Shaders', 
-			'If unchecked, disables shaders.\nIt\'s used for some visual effects, and also CPU intensive for weaker PCs.', //Description
+			'If unchecked, disables GLSL shaders.\nIt\'s used for some visual effects, and also CPU intensive for weaker PCs.', //Description
 			'shaders', 
 			'bool', 
 			true);
