@@ -98,6 +98,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	
 			var option:GameplayOption = new GameplayOption('Flip', 'flip', 'bool', false);
 			optionsArray.push(option);
+
+			var option:GameplayOption = new GameplayOption('Play as Opponent', 'opponentplay', 'bool', false);
+			optionsArray.push(option);
 		}
 
 		var option:GameplayOption = new GameplayOption('Quartiz', 'quartiz', 'bool', false);
@@ -108,12 +111,6 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		var option:GameplayOption = new GameplayOption('Auto', 'botplay', 'bool', false);
 		optionsArray.push(option);
-		
-		if (!skip)
-		{
-			var option:GameplayOption = new GameplayOption('Play as Opponent', 'opponentplay', 'bool', false);
-			optionsArray.push(option);
-		}
 	}
 
 	public function getOptionByName(name:String)
