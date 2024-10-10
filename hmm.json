@@ -53,11 +53,6 @@
       "version": null
     },
     {
-      "name": "SScript",
-      "type": "haxelib",
-      "version": null
-    },
-    {
       "name": "tjson",
       "type": "haxelib",
       "version": null
