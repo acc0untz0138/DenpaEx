@@ -739,11 +739,15 @@ class StageEditorState extends MusicBeatState
 			var splittedStage:Array<String> = stageInputText.text.trim().split('_');
 			var stageName:String = splittedStage[splittedStage.length-1].toLowerCase().replace(' ', '');
 
+			#if mobile
+			SUtil.saveContent(stageName + ".json", data);
+			#else
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save(data, convPathShit(getCurrentDataPath(stageName)));
+			#end
 		}
 	}
 

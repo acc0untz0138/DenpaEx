@@ -77,6 +77,24 @@ class SUtil
 		}
 	}
 
+	public static function saveContent(fileName:String, fileData:String, ?alert:Bool = true):Void
+	{
+		try
+		{
+			if (!FileSystem.exists('saves'))
+				FileSystem.createDirectory('saves');
+
+			File.saveContent('saves/$fileName', fileData);
+			if (alert)
+				Application.current.window.alert('$fileName has been saved.', "Success!");
+		}
+		catch (e:Exception)
+			if (alert)
+				Application.current.window.alert('$fileName couldn\'t be saved.\n(${e.message})', "Error!")
+			else
+				trace('$fileName couldn\'t be saved. (${e.message})');
+	}
+
 	#if android
 	public static function doPermissionsShit():Void
 	{
@@ -131,7 +149,7 @@ enum abstract StorageType(String) from String to String
 {
 	final forcedPath = '/storage/emulated/0/';
 	final packageNameLocal = 'com.deteam.denpaengine';
-	final fileLocal = 'PsychEngine';
+	final fileLocal = 'DenpaEx';
 
 	public static function fromStr(str:String):StorageType
 	{

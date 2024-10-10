@@ -3595,11 +3595,18 @@ class ChartingState extends MusicBeatState
 
 		if ((data != null) && (data.length > 0))
 		{
+			#if mobile
+			SUtil.saveContent(currentSongName + CoolUtil.difficulties[PlayState.storyDifficulty] != null && 
+				CoolUtil.difficulties[PlayState.storyDifficulty] != CoolUtil.defaultDifficulty
+				? "-" + CoolUtil.difficulties[PlayState.storyDifficulty].toLowerCase() 
+				: "" + '.json', data.trim());
+			#else
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save(data.trim(), convPathShit(getCurrentDataPath()));
+			#end
 		}
 	}
 
@@ -3641,11 +3648,15 @@ class ChartingState extends MusicBeatState
 
 		if ((data != null) && (data.length > 0))
 		{
+			#if mobile
+			SUtil.saveContent('events.json', data.trim());
+			#else
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save(data.trim(), convPathShit(Path.directory(getCurrentDataPath()) + "/events.json"));
+			#end
 		}
 	}
 
