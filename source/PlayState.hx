@@ -3659,7 +3659,7 @@ class PlayState extends MusicBeatState
 
 						if(daNote.mustPress && cpuControlled && tooLateSus) {
 							// if(daNote.strumTime <= Conductor.songPosition)
-							goodNoteHit(daNote);
+							goodNoteHit(daNote, daNote.strum == 2);
 						}
 
 						inline daNote.followStrum(daNote.strumToFollow, (60 / SONG.header.bpm) * 1000, songSpeed);
@@ -3672,7 +3672,7 @@ class PlayState extends MusicBeatState
 
 						if(daNote.mustPress && cpuControlled) {
 							// if(daNote.strumTime <= Conductor.songPosition)
-							goodNoteHit(daNote);
+							goodNoteHit(daNote, daNote.strum == 2);
 						}
 
 						// Kill extremely late notes and cause misses
@@ -5327,7 +5327,7 @@ class PlayState extends MusicBeatState
 				//sort by strum time
 				validNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
 
-				goodNoteHit(validNotes[0]);
+				goodNoteHit(validNotes[0], validNotes[0].strum == 2);
 			} else if (!sustainInputCheck()) {
 				//dont want you hitting sustains if you just miss pressed/ghost tapped
 				sustainLaneCheck[key] = false;
@@ -5409,7 +5409,7 @@ class PlayState extends MusicBeatState
 				//cant do it tho because it would fuck up overlap sustains
 				//if (sus.isSustainEnd) sustainLaneCheck[i] = false;
 				hitNote = true;
-				goodNoteHit(sus);
+				goodNoteHit(sus, sus.strum == 2);
 			}
 		}
 
@@ -5456,7 +5456,7 @@ class PlayState extends MusicBeatState
 				//sort by strum time
 				validNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
 
-				goodNoteHit(validNotes[0]);
+				goodNoteHit(validNotes[0], validNotes[0].strum == 2);
 			} else if (!sustainInputCheck()) {
 				//dont want you hitting sustains if you just miss pressed/ghost tapped
 				sustainLaneCheck[id] = false;
