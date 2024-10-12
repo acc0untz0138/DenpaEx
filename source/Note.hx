@@ -931,6 +931,8 @@ class NoteSplash extends FlxSprite
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
 
+		if (ClientPrefs.settings.get("noteColor") == 'Rainbow' || ClientPrefs.settings.get("noteColor") == 'Quant') note = 3; //if i use the red splash texture itll make a splash that plays twice
+
 		offset.set(-34 * Note.scales[PlayState.mania], -23 * Note.scales[PlayState.mania]);
 		if (PlayState.isPixelStage || texture != 'splashes/noteSplashes') offset.set(14 / Note.scales[PlayState.mania], 14 / Note.scales[PlayState.mania]);
 

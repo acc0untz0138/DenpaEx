@@ -5995,7 +5995,7 @@ class PlayState extends MusicBeatState
 		var brt:Float = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[data] % Note.ammo[mania])][2] / 100;
 		if(note != null) {
 			if(ClientPrefs.settings.get("noteColor") == 'Normal') {
-				skin = note.noteSplashTexture;
+				if (note.noteSplashTexture.length > 0) skin = note.noteSplashTexture;
 				hue = note.noteSplashHue;
 				sat = note.noteSplashSat;
 				brt = note.noteSplashBrt;
