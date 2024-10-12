@@ -895,7 +895,12 @@ class NoteSplash extends FlxSprite
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
 
-		var skin:String = 'splashes/noteSplashes';
+		var skin:String = switch (ClientPrefs.settings.get("noteColor"))
+		{
+			default: (PlayState.isPixelStage ? 'splashes/pixelSplashes' : 'splashes/noteSplashes');
+			case 'Greyscale': (PlayState.isPixelStage ? 'splashes/GREYSCALE_pixelSplashes' : 'splashes/GREYSCALE_noteSplashes');
+			case 'Rainbow', 'Quant': (PlayState.isPixelStage ? 'splashes/RED_pixelSplashes' : 'splashes/RED_noteSplashes');
+		}
 		if(PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) skin = PlayState.SONG.assets.splashSkin;
 
 		loadAnims(skin);
@@ -919,18 +924,7 @@ class NoteSplash extends FlxSprite
 
 		alpha = 0.6;
 
-		if(texture == null) {
-			if(ClientPrefs.settings.get("noteColor") == 'Default') {
-				texture = (PlayState.isPixelStage ? 'splashes/pixelSplashes' : 'splashes/noteSplashes');
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Greyscale') {
-				texture = (PlayState.isPixelStage ? 'splashes/GREYSCALE_pixelSplashes' : 'splashes/GREYSCALE_noteSplashes');
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Rainbow') {
-				texture = (PlayState.isPixelStage ? 'splashes/RED_pixelSplashes' : 'splashes/RED_noteSplashes');
-			}
-			if(PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) texture = PlayState.SONG.assets.splashSkin;
-		}
+		if(texture == null && PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) texture = PlayState.SONG.assets.splashSkin;
 
 		if(textureLoaded != texture) loadAnims(texture);
 		colorSwap.hue = hueColor;
