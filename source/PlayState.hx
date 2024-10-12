@@ -2395,8 +2395,10 @@ class PlayState extends MusicBeatState
 						daNoteData = Std.int(songNotes[1] % Note.ammo[mania]);
 				}
 
-				final gottaHitNote:Bool = ((songNotes[1] < Note.ammo[mania] && !opponentChart)
+				var gottaHitNote:Bool = ((songNotes[1] < Note.ammo[mania] && !opponentChart)
 					|| (songNotes[1] > Note.ammo[mania] - 1 && opponentChart) ? section.mustHitSection : !section.mustHitSection);
+				
+				if (songNotes[3] == 'Third Strum') gottaHitNote = false;
 
 				if (gottaHitNote && !songNotes.hitCausesMiss)
 				{
@@ -2985,9 +2987,6 @@ class PlayState extends MusicBeatState
 				babyArrow.scrollFactor.set(1,1);
 				thirdStrums.add(babyArrow);
 			}
-
-			for (swagNote in unspawnNotes)
-				if (swagNote.noteData == i) swagNote.strum = (player == 2 ? player == 1 ? playerStrums : opponentStrums : thirdStrums).members[swagNote.noteData];
 	
 			strumLineNotes.add(babyArrow);
 			babyArrow.postAddedToGroup();
@@ -3586,7 +3585,7 @@ class PlayState extends MusicBeatState
 					
 				if(!dunceNote.mustPress && dunceNote.strum < 2) dunceNote.strum = 1;
 				else if (dunceNote.mustPress && dunceNote.strum < 2) dunceNote.strum = 0;
-				else dunceNote.strum = 0;
+				else if (dunceNote.strum == 2 && dunceNote.noteType != 'Third Strum') dunceNote.strum = (dunceNote.mustPress ? 0 : 1);
 				switch (dunceNote.strum) {
 					case 0: strumGroup = playerStrums;
 					case 1: strumGroup = opponentStrums;
@@ -3595,6 +3594,7 @@ class PlayState extends MusicBeatState
 						dunceNote.cameras = [camGame];
 						dunceNote.scrollFactor.set(1,1);
 				}
+				if (dunceNote.strum < 2 && dunceNote.cameras != [camHUD]) dunceNote.cameras = [camHUD];
 
 				var strumNoteData = dunceNote.noteData;
 				dunceNote.strumToFollow = strumGroup.members[strumNoteData];
@@ -5741,7 +5741,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(ClientPrefs.settings.get("noteSplashes") && !ClientPrefs.settings.get("hideHud") && note != null && !note.isSustainNote) {
-			var strum:StrumNote = opponentStrums.members[note.noteData];
+			var strum:StrumNote = note.strumToFollow;
 			if(strum != null) {
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
 			}
@@ -5765,7 +5765,7 @@ class PlayState extends MusicBeatState
 			if(note.isSustainNote && note.animation.curAnim != null && !note.isSustainEnd) time += 0.15;
 			if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") != 'Normal') hsb = [note.colorSwap.hue, note.colorSwap.saturation, note.colorSwap.brightness];
 
-			strumPlayAnim(p4 ? note.strum : 0, Std.int(Math.abs(note.noteData)) % Note.ammo[mania] + (!opponentChart ? 0 : Note.ammo[mania]), time, hsb);
+			strumPlayAnim(p4 ? note.strum : 0, Std.int(Math.abs(note.noteData)) % Note.ammo[mania] + (!opponentChart || p4 ? 0 : Note.ammo[mania]), time, hsb);
 		}
 
 		note.hitByOpponent = true;
@@ -5933,7 +5933,7 @@ class PlayState extends MusicBeatState
 						grpGFCrossFade.add(crossfade);
 					default:
 						var crossfade = grpBFCrossFade.recycle(CrossFade);
-						crossfade.resetShit(boyfriend, false);
+						crossfade.resetShit(!opponentChart ? boyfriend : dad, false);
 						grpBFCrossFade.add(crossfade);
 				}
 			}
@@ -6008,6 +6008,11 @@ class PlayState extends MusicBeatState
 		}
 
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+		if (note != null && note.strum == 2)
+		{
+			splash.cameras = [camGame];
+			splash.scrollFactor.set(1,1);
+		}
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
 		if (ClientPrefs.settings.get("middleScroll")) {
 			splash.alpha = middleAlpha;
