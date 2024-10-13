@@ -97,6 +97,7 @@ class DialogueEditorState extends MusicBeatState
 		animText.scrollFactor.set();
 		add(animText);
 		changeText();
+		addVirtualPad(LEFT_FULL, A_B_X_Y);
 		super.create();
 	}
 
@@ -358,18 +359,18 @@ class DialogueEditorState extends MusicBeatState
 			FlxG.sound.muteKeys = InitState.muteKeys;
 			FlxG.sound.volumeDownKeys = InitState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = InitState.volumeUpKeys;
-			if(FlxG.keys.justPressed.SPACE) {
+			if(virtualPad.buttonY.justPressed || FlxG.keys.justPressed.SPACE) {
 				reloadText(speedStepper.value #if debug , boldCheckbox.checked #end);
 			}
-			if(FlxG.keys.justPressed.ESCAPE) {
+			if(virtualPad.buttonB.justPressed || FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music(SoundTestState.playingTrack), 1);
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 				transitioning = true;
 			}
 			var negaMult:Array<Int> = [1, -1];
-			var controlAnim:Array<Bool> = [FlxG.keys.justPressed.W, FlxG.keys.justPressed.S];
-			var controlText:Array<Bool> = [FlxG.keys.justPressed.D, FlxG.keys.justPressed.A];
+			var controlAnim:Array<Bool> = [FlxG.keys.justPressed.W || virtualPad.buttonUp.justPressed, FlxG.keys.justPressed.S || virtualPad.buttonDown.justPressed];
+			var controlText:Array<Bool> = [FlxG.keys.justPressed.D || virtualPad.buttonRight.justPressed, FlxG.keys.justPressed.A || virtualPad.buttonLeft.justPressed];
 			for (i in 0...controlAnim.length) {
 				if(controlAnim[i] && character.jsonFile.animations.length > 0) {
 					curAnim -= negaMult[i];
@@ -388,7 +389,7 @@ class DialogueEditorState extends MusicBeatState
 				}
 			}
 
-			if(FlxG.keys.justPressed.O) {
+			if(virtualPad.buttonA.justPressed || FlxG.keys.justPressed.O) {
 				dialogueFile.dialogue.remove(dialogueFile.dialogue[curSelected]);
 				if(dialogueFile.dialogue.length < 1) //You deleted everything, dumbo!
 				{
@@ -397,7 +398,7 @@ class DialogueEditorState extends MusicBeatState
 					];
 				}
 				changeText();
-			} else if(FlxG.keys.justPressed.P) {
+			} else if(virtualPad.buttonX.justPressed || FlxG.keys.justPressed.P) {
 				dialogueFile.dialogue.insert(curSelected + 1, copyDefaultLine());
 				changeText(1);
 			}

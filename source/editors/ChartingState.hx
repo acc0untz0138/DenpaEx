@@ -578,6 +578,8 @@ class ChartingState extends MusicBeatState
 		updateBpmText();
 		updateSelectArrow();
 
+		// MTODO: I wanna murder who the fuck did handle keys istg
+
 		super.create();
 	}
 

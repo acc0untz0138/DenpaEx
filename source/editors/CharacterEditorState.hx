@@ -237,17 +237,24 @@ class CharacterEditorState extends MusicBeatState
 		}
 		add(camFollowPos);
 
-		var tipTextArray:Array<String> = "E / Q - Camera Zoom In/Out
-		\nR - Reset Camera Zoom
-		\nJKLI - Move Camera
-		\nW / S - Previous/Next Animation
-		\nSPACE - Play Animation
-		\nP - Play All Animations
-		\nARROW KEYS - Move Animation Offset
-		\nT - Reset Current Offset
-		\nSHIFT - 10x Speed
-		\nLEFT MOUSE - Drag Animation Offset
-		\nRIGHT MOUSE - Drag Character Cam Offset\n".split('\n');
+		final buttonEQ:String = controls.mobileC ? 'X / Y' : 'E / Q';
+		final buttonR:String = controls.mobileC ? 'Z' : 'R';
+		final buttonWS:String = controls.mobileC ? 'V / D' : 'W / S';
+		final buttonT:String = controls.mobileC ? 'A' : 'T';
+		final buttonShift:String = controls.mobileC ? 'Shift' : 'C';
+		final buttonJKLI:String = controls.mobileC ? 'Swipe on Stage' : 'JKLI';
+
+		var tipTextArray:Array<String> = '$buttonEQ - Camera Zoom In/Out
+		\n$buttonR - Reset Camera Zoom
+		\n$buttonJKLI - Move Camera
+		\n$buttonWS - Previous/Next Animation
+		${!controls.mobileC ? '\nSPACE - Play Animation
+		\nP - Play All Animations' : ''}
+		\nARROW ${controls.mobileC ? 'BUTTONS' : 'KEYS'} - Move Animation Offset
+		\n$buttonT - Reset Current Offset
+		\n$buttonShift - 10x Speed
+		${!controls.mobileC ? '\nLEFT MOUSE - Drag Animation Offset
+		\nRIGHT MOUSE - Drag Character Cam Offset\n' : ''}'.split('\n');
 
 		for (i in 0...tipTextArray.length-1)
 		{
@@ -312,6 +319,10 @@ class CharacterEditorState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 		reloadCharacterOptions();
+
+		// MTODO: I wanna murder who the fuck did handle keys istg
+		addVirtualPad(LEFT_FULL, A_B_C_D_V_X_Y_Z);
+		addVirtualPadCamera();
 
 		super.create();
 	}

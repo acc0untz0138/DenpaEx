@@ -81,6 +81,8 @@ class MenuCharacterEditorState extends MusicBeatState
 		FlxG.mouse.visible = true;
 		updateCharTypeBox();
 
+		addVirtualPad(MENU_CHARACTER_EDITOR, MENU_CHARACTER_EDITOR);
+
 		super.create();
 	}
 
@@ -289,7 +291,7 @@ class MenuCharacterEditorState extends MusicBeatState
 			FlxG.sound.muteKeys = InitState.muteKeys;
 			FlxG.sound.volumeDownKeys = InitState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = InitState.volumeUpKeys;
-			if(FlxG.keys.justPressed.ESCAPE) {
+			if(virtualPad.buttonB.justPressed || FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music("funkyMenu"));
 				
@@ -297,26 +299,26 @@ class MenuCharacterEditorState extends MusicBeatState
 			}
 
 			var shiftMult:Int = 1;
-			if(FlxG.keys.pressed.SHIFT) shiftMult = 10;
+			if(virtualPad.buttonY.justPressed || FlxG.keys.pressed.SHIFT) shiftMult = 10;
 
-			if(FlxG.keys.justPressed.LEFT) {
+			if(virtualPad.buttonLeft.justPressed || FlxG.keys.justPressed.LEFT) {
 				characterFile.position[0] += shiftMult;
 				updateOffset();
 			}
-			if(FlxG.keys.justPressed.RIGHT) {
+			if(virtualPad.buttonRight.justPressed || FlxG.keys.justPressed.RIGHT) {
 				characterFile.position[0] -= shiftMult;
 				updateOffset();
 			}
-			if(FlxG.keys.justPressed.UP) {
+			if(virtualPad.buttonUp.justPressed || FlxG.keys.justPressed.UP) {
 				characterFile.position[1] += shiftMult;
 				updateOffset();
 			}
-			if(FlxG.keys.justPressed.DOWN) {
+			if(virtualPad.buttonDown.justPressed || FlxG.keys.justPressed.DOWN) {
 				characterFile.position[1] -= shiftMult;
 				updateOffset();
 			}
 
-			if(FlxG.keys.justPressed.SPACE && curTypeSelected == 1) {
+			if(virtualPad.buttonX.justPressed || FlxG.keys.justPressed.SPACE && curTypeSelected == 1) {
 				grpWeekCharacters.members[curTypeSelected].animation.play('confirm', true);
 			}
 		}

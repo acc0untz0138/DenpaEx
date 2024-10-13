@@ -112,6 +112,8 @@ class WeekEditorState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
+		addVirtualPad(UP_DOWN, B);
+
 		super.create();
 	}
 
@@ -455,7 +457,7 @@ class WeekEditorState extends MusicBeatState
 			FlxG.sound.muteKeys = InitState.muteKeys;
 			FlxG.sound.volumeDownKeys = InitState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = InitState.volumeUpKeys;
-			if(FlxG.keys.justPressed.ESCAPE) {
+			if(virtualPad.buttonB.justPressed || FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music("funkyMenu"));
 				
