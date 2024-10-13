@@ -774,15 +774,7 @@ class StrumNote extends FlxSprite
 
 		if(PlayState.isPixelStage)
 		{
-			if(ClientPrefs.settings.get("noteColor") == 'Default') {
-				loadGraphic(Paths.image('pixelUI/$texture'), true, 17, 17);
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Greyscale') {
-				loadGraphic(Paths.image('pixelUI/GREYSCALE_$texture'), true, 17, 17);
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Rainbow') {
-				loadGraphic(Paths.image('pixelUI/RED_$texture'), true, 17, 17);
-			}
+			loadGraphic(Paths.image('pixelUI/$texture'), true, 17, 17);
 			var daFrames:Array<Int> = Note.keysShit.get(PlayState.mania).get('pixelAnimIndex');
 
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom * Note.pixelScales[PlayState.mania]));
@@ -903,7 +895,12 @@ class NoteSplash extends FlxSprite
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
 
-		var skin:String = 'splashes/noteSplashes';
+		var skin:String = switch (ClientPrefs.settings.get("noteColor"))
+		{
+			default: (PlayState.isPixelStage ? 'splashes/pixelSplashes' : 'splashes/noteSplashes');
+			case 'Greyscale': (PlayState.isPixelStage ? 'splashes/GREYSCALE_pixelSplashes' : 'splashes/GREYSCALE_noteSplashes');
+			case 'Rainbow', 'Quant': (PlayState.isPixelStage ? 'splashes/RED_pixelSplashes' : 'splashes/RED_noteSplashes');
+		}
 		if(PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) skin = PlayState.SONG.assets.splashSkin;
 
 		loadAnims(skin);
@@ -927,23 +924,14 @@ class NoteSplash extends FlxSprite
 
 		alpha = 0.6;
 
-		if(texture == null) {
-			if(ClientPrefs.settings.get("noteColor") == 'Default') {
-				texture = (PlayState.isPixelStage ? 'splashes/pixelSplashes' : 'splashes/noteSplashes');
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Greyscale') {
-				texture = (PlayState.isPixelStage ? 'splashes/GREYSCALE_pixelSplashes' : 'splashes/GREYSCALE_noteSplashes');
-			}
-			if(ClientPrefs.settings.get("noteColor") == 'Rainbow') {
-				texture = (PlayState.isPixelStage ? 'splashes/RED_pixelSplashes' : 'splashes/RED_noteSplashes');
-			}
-			if(PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) texture = PlayState.SONG.assets.splashSkin;
-		}
+		if(texture == null && PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) texture = PlayState.SONG.assets.splashSkin;
 
 		if(textureLoaded != texture) loadAnims(texture);
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
+
+		if (ClientPrefs.settings.get("noteColor") == 'Rainbow' || ClientPrefs.settings.get("noteColor") == 'Quant') note = 3; //if i use the red splash texture itll make a splash that plays twice
 
 		offset.set(-34 * Note.scales[PlayState.mania], -23 * Note.scales[PlayState.mania]);
 		if (PlayState.isPixelStage || texture != 'splashes/noteSplashes') offset.set(14 / Note.scales[PlayState.mania], 14 / Note.scales[PlayState.mania]);

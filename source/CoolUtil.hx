@@ -18,7 +18,7 @@ class CoolUtil
 	public static final defaultDifficulty:String = 'Normal'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode
 	public static var difficulties:Array<String> = [];
 
-	public static var baseIcons:Array<String> = ['bf', 'bf-old', 'bf-pixel', 'dad', 'face', 'gf', 'mom', 'monster', 'parents', 'pico', 'senpai-pixel', 'spirit-pixel', 'skid-and-pump', 'tankman'];
+	public static var baseIcons:Array<String> = ['bf', 'bf-old', 'bf-pixel', 'dad', 'face', 'gf', 'mom', 'monster', 'parents', 'pico', 'senpai', 'senpai-pixel', 'spirit', 'spirit-pixel', 'skid-and-pump', 'tankman'];
 
 	inline public static function quantize(f:Float, snap:Float):Float
 		return Math.fround(f * snap) / snap;

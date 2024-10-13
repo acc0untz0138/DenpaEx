@@ -98,6 +98,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	
 			var option:GameplayOption = new GameplayOption('Flip', 'flip', 'bool', false);
 			optionsArray.push(option);
+
+			var option:GameplayOption = new GameplayOption('Play as Opponent', 'opponentplay', 'bool', false);
+			optionsArray.push(option);
 		}
 
 		var option:GameplayOption = new GameplayOption('Quartiz', 'quartiz', 'bool', false);
