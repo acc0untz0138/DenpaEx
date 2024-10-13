@@ -17,6 +17,8 @@ enum FlxDPadMode {
 	LEFT_FULL;
 	RIGHT_FULL;
 	STORY_MENU;
+	DIALOGUE_PORTRAIT_EDITOR;
+	MENU_CHARACTER_EDITOR;
 	NONE;
 }
 
@@ -32,6 +34,8 @@ enum FlxActionMode {
 	A_B_C_X_Y;
 	A_B_C_X_Y_Z;
 	A_B_C_D_V_X_Y_Z;
+	DIALOGUE_PORTRAIT_EDITOR;
+	MENU_CHARACTER_EDITOR;
 	NONE;
 }
 
@@ -103,6 +107,11 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				add(buttonLeft2 = createButton(0, 102, 'left', 0xFFC24B99));
 				add(buttonRight2 = createButton(207, 102, 'right', 0xFFF9393F));
 				add(buttonDown2 = createButton(105, 210, 'down', 0xFF00FFFF));
+			case MENU_CHARACTER_EDITOR:
+				add(buttonUp = createButton(105, 0, 'up', 0x00FF00));
+				add(buttonLeft = createButton(0, 102, 'left', 0xFF00FF));
+				add(buttonRight = createButton(207, 102, 'right', 0xFF0000));
+				add(buttonDown = createButton(105, 210, 'down', 0x00FFFF));
 			case NONE: // do nothing
 		}
 
@@ -157,6 +166,11 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				add(buttonB = createButton(FlxG.width - 262, 129, 'b', 0xFFCB00));
 				add(buttonZ = createButton(FlxG.width - 132, 4, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, 129, 'a', 0xFF0000));
+			case MENU_CHARACTER_EDITOR:
+				add(buttonY = createButton(FlxG.width - 392, 4, 'y', 0x4A35B9));
+				add(buttonX = createButton(FlxG.width - 522, 4, 'x', 0x99062D));
+				add(buttonB = createButton(FlxG.width - 262, 4, 'b', 0xFFCB00));
+				add(buttonA = createButton(FlxG.width - 132, 4, 'a', 0xFF0000));
 			case NONE: // do nothing
 		}
 
