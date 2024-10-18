@@ -1190,6 +1190,47 @@ class ChartingState extends MusicBeatState
 			updateGrid(false);
 		});
 
+		var clearLeftSectionButton:FlxButton = new FlxButton(10, mirrorButton.y + 30, "Clear Left Side", function()
+		{
+			if (_song.notes[curSection].sectionNotes == null) return;
+			var removeThese = [];
+			for (noteIndex in 0..._song.notes[curSection].sectionNotes.length) {
+					if (_song.notes[curSection].sectionNotes[noteIndex][1] < 4) {
+						removeThese.push(_song.notes[curSection].sectionNotes[noteIndex]);
+					}
+			}
+			if (removeThese != []) {
+				for (x in removeThese) {
+					_song.notes[curSection].sectionNotes.remove(x);
+				}
+			}
+
+			updateGrid(false);
+			updateNoteUI();
+		});
+		var clearRightSectionButton:FlxButton = new FlxButton(clearLeftSectionButton.x + 100, clearLeftSectionButton.y, "Clear Right Side", function()
+		{
+			if (_song.notes[curSection].sectionNotes == null) return;
+			var removeThese = [];
+			for (noteIndex in 0..._song.notes[curSection].sectionNotes.length) {
+					if (_song.notes[curSection].sectionNotes[noteIndex][1] >= 4) {
+						removeThese.push(_song.notes[curSection].sectionNotes[noteIndex]);
+					}
+			}
+			if (removeThese != []) {
+				for (x in removeThese) {
+					_song.notes[curSection].sectionNotes.remove(x);
+				}
+			}
+
+			updateGrid(false);
+			updateNoteUI();
+		});
+		clearLeftSectionButton.color = FlxColor.RED;
+		clearLeftSectionButton.label.color = FlxColor.WHITE;
+		clearRightSectionButton.color = FlxColor.RED;
+		clearRightSectionButton.label.color = FlxColor.WHITE;
+
 		var stepperSectionJump:FlxUINumericStepper = new FlxUINumericStepper(130, copyButton.y + 63, 1, 0, 0, 9999, 0);
 		blockPressWhileTypingOnStepper.push(stepperSectionJump);
 
@@ -1211,6 +1252,8 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(jumpSection);
 		tab_group_section.add(copyButton);
 		tab_group_section.add(pasteButton);
+		tab_group_section.add(clearRightSectionButton);
+		tab_group_section.add(clearLeftSectionButton);
 		tab_group_section.add(cutButton);
 		tab_group_section.add(clearSectionButton);
 		tab_group_section.add(swapSection);
