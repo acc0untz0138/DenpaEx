@@ -1195,7 +1195,7 @@ class ChartingState extends MusicBeatState
 			if (_song.notes[curSection].sectionNotes == null) return;
 			var removeThese = [];
 			for (noteIndex in 0..._song.notes[curSection].sectionNotes.length) {
-					if (_song.notes[curSection].sectionNotes[noteIndex][1] < _song.options.mania) {
+					if (_song.notes[curSection].sectionNotes[noteIndex][1] <= _song.options.mania) {
 						removeThese.push(_song.notes[curSection].sectionNotes[noteIndex]);
 					}
 			}
@@ -1213,7 +1213,7 @@ class ChartingState extends MusicBeatState
 			if (_song.notes[curSection].sectionNotes == null) return;
 			var removeThese = [];
 			for (noteIndex in 0..._song.notes[curSection].sectionNotes.length) {
-					if (_song.notes[curSection].sectionNotes[noteIndex][1] >= _song.options.mania) {
+					if (_song.notes[curSection].sectionNotes[noteIndex][1] > _song.options.mania) {
 						removeThese.push(_song.notes[curSection].sectionNotes[noteIndex]);
 					}
 			}
