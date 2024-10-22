@@ -1190,7 +1190,7 @@ class ChartingState extends MusicBeatState
 			updateGrid(false);
 		});
 
-		var clearLeftSectionButton:FlxButton = new FlxButton(10, mirrorButton.y + 30, "Clear Left Side", function()
+		var clearLeftSectionButton:FlxButton = new FlxButton(10, mirrorButton.y + 30, "Clear Left", function()
 		{
 			if (_song.notes[curSection].sectionNotes == null) return;
 			var removeThese = [];
@@ -1208,7 +1208,7 @@ class ChartingState extends MusicBeatState
 			updateGrid(false);
 			updateNoteUI();
 		});
-		var clearRightSectionButton:FlxButton = new FlxButton(clearLeftSectionButton.x + 100, clearLeftSectionButton.y, "Clear Right Side", function()
+		var clearRightSectionButton:FlxButton = new FlxButton(clearLeftSectionButton.x + 100, clearLeftSectionButton.y, "Clear Right", function()
 		{
 			if (_song.notes[curSection].sectionNotes == null) return;
 			var removeThese = [];
