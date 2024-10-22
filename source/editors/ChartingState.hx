@@ -3201,6 +3201,7 @@ class ChartingState extends MusicBeatState
 			}
 			note.sustainLength = daSus;
 			note.noteType = i[3];
+			if (ClientPrefs.settings.get("noteColor") == 'Rainbow') note.colorSwap.hue = ((daStrumTime / 5000 * 360) / 360) % 1;
 			if (ClientPrefs.settings.get("noteColor") == 'Quant') note.checkNoteQuant(note, note.strumTime);
 		} else { //Event note
 			note.loadGraphic(Paths.image('eventArrow'));
