@@ -7670,7 +7670,7 @@ class PlayState extends MusicBeatState
 			else if (tmp.contains("VAAPI")) accel = "vaapi";
 
 			if (accel != null) {
-				accel2 = accel;
+				if (accel2 == null) accel2 = accel;
 				args.insert(0, '-hwaccel');
 				args.insert(1, accel);
 				args.insert(2, '-hwaccel_output_format');
