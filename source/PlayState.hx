@@ -7644,7 +7644,7 @@ class PlayState extends MusicBeatState
 
 		if (!sys.FileSystem.exists('ffmpeg.exe'))
 		{
-			trace("\"ffmpeg.exe\" not found! (Is it in the same folder as DenpaEx.exe?");
+			trace("\"ffmpeg.exe\" not found! Is it in the same folder as DenpaEx.exe?");
 			return;
 		}
 
