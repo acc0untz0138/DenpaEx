@@ -145,8 +145,8 @@ class HealthIcon extends FlxSprite
 					final scaleThing:Float = type == 2 ? 0.75 : 1;
 					FlxTween.tween(this, {'scale.x': scaleMult * scaleThing, 'scale.y': scaleMult * scaleThing}, Conductor.crochet / 1250 / info.playbackRate * info.gfSpeed, {ease: FlxEase.quadOut});
 				case 'stretch':
-					var funny:Float = (info.healthBarPercent * 0.01) + 0.01;
-					final trueFunny:Float = type > 0 ? (scaleMult * (2 - funny)) * bopMult : (scaleMult * funny) * bopMult;
+					var funny:Float = (info.healthBarPercent * 0.01);
+					final trueFunny:Float = type > 0 ? (scaleMult * (1 - funny)) * bopMult : (scaleMult * funny) * bopMult;
 					final stretchValues = type == 2 ? [25, 12] : [50, 25];
 	
 					setGraphicSize(Std.int(width + (stretchValues[0] * trueFunny)),Std.int(height - (stretchValues[1] * trueFunny)));

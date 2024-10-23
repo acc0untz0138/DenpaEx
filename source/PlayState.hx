@@ -6643,10 +6643,13 @@ class PlayState extends MusicBeatState
 		
 		var iconsArray:Array<HealthIcon> = [iconP1, iconP1Poison, iconP2Poison, iconP2, iconP4]; //not making this final for a good reason
 		final curInfo:HealthIcon.BopInfo = {curBeat: curBeat, playbackRate: playbackRate, gfSpeed: gfSpeed, healthBarPercent: hud.healthBar.percent};
+		var bopString:String = "";
 		for(i in 0...iconsArray.length) {
 			if(!iconsArray[i].visible) continue;
-			iconsArray[i].bop(curInfo, "ClientPrefs", Std.int(FlxMath.bound(i - 1, 0, 2)));
+			iconsArray[i].bop(curInfo, "ClientPrefs", Std.int(FlxMath.bound(i >> 1, 0, 2)));
+			bopString += Std.string(FlxMath.bound(i >> 1, 0, 2)) + " ";
 		}
+		Sys.println(bopString);
 
 		//geez this is horrible! ill fix it later perhaps
 		if (gf != null && gf.animation.curAnim != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && !gf.stunned && !gf.animation.curAnim.name.startsWith("sing"))
