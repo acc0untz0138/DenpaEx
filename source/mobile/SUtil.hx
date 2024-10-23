@@ -148,7 +148,7 @@ class SUtil
 enum abstract StorageType(String) from String to String
 {
 	final forcedPath = '/storage/emulated/0/';
-	final packageNameLocal = 'com.deteam.denpaengine';
+	final packageNameLocal = 'com.dxteam.denpaex';
 	final fileLocal = 'DenpaEx';
 
 	public static function fromStr(str:String):StorageType
