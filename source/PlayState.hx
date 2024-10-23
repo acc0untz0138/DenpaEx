@@ -5987,8 +5987,14 @@ class PlayState extends MusicBeatState
 	}
 
 	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
-		var skin:String = 'splashes/noteSplashes';
-		if(PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) skin = PlayState.SONG.assets.splashSkin;
+		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+		var skin:String = @:privateAccess splash.textureLoaded ?? 'splashes/noteSplashes';
+
+		if (note != null && note.strum == 2)
+		{
+			splash.cameras = [camGame];
+			splash.scrollFactor.set(1,1);
+		}
 		
 		var hue:Float = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[data] % Note.ammo[mania])][0] / 360;
 		var sat:Float = ClientPrefs.arrowHSV[Std.int(Note.keysShit.get(mania).get('pixelAnimIndex')[data] % Note.ammo[mania])][1] / 100;
@@ -6006,13 +6012,7 @@ class PlayState extends MusicBeatState
 				brt = note.colorSwap.brightness;
 			}		
 		}
-
-		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-		if (note != null && note.strum == 2)
-		{
-			splash.cameras = [camGame];
-			splash.scrollFactor.set(1,1);
-		}
+		
 		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
 		if (ClientPrefs.settings.get("middleScroll")) {
 			splash.alpha = middleAlpha;
@@ -7670,7 +7670,7 @@ class PlayState extends MusicBeatState
 			else if (tmp.contains("VAAPI")) accel = "vaapi";
 
 			if (accel != null) {
-				accel2 = accel;
+				if (accel2 == null) accel2 = accel;
 				args.insert(0, '-hwaccel');
 				args.insert(1, accel);
 				args.insert(2, '-hwaccel_output_format');

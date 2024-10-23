@@ -569,7 +569,7 @@ class Note extends FlxSprite
 			if (PlayState.isPixelStage) 
 			{
 				scale.x *= PlayState.daPixelZoom;
-				scale.y *= PlayState.daPixelZoom;
+				scale.y *= PlayState.daPixelZoom * 1.2;
 			}
 
 			updateHitbox();
@@ -612,7 +612,7 @@ class Note extends FlxSprite
 		final center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
 		var flag1:Bool = (mustPress || !ignoreNote);
 		var flag2:Bool = (!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)));
-		// Sys.println('${Std.string(wasGoodHit)}, ${Std.string(prevNote.wasGoodHit)}');
+		
 		if(flag1 && flag2)
 		{
 			final swagRect:FlxRect = clipRect != null ? clipRect : new FlxRect(0, 0, frameWidth, frameHeight);
@@ -901,15 +901,31 @@ class NoteSplash extends FlxSprite
 			case 'Greyscale': (PlayState.isPixelStage ? 'splashes/GREYSCALE_pixelSplashes' : 'splashes/GREYSCALE_noteSplashes');
 			case 'Rainbow', 'Quant': (PlayState.isPixelStage ? 'splashes/RED_pixelSplashes' : 'splashes/RED_noteSplashes');
 		}
+
 		if(PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) skin = PlayState.SONG.assets.splashSkin;
 
 		loadAnims(skin);
+		textureLoaded = skin;
 		
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
 
-		setupNoteSplash(x, y, note);
+		// setupNoteSplash(x, y, note, skin);
 		moves = false;
+	}
+
+	private function isDefaultTexture(texture:String) {
+		var normal:Bool = texture == 'splashes/noteSplashes';
+		var grayed:Bool = texture == 'splashes/GREYSCALE_noteSplashes';
+		var others:Bool = texture == 'splashes/RED_noteSplashes';
+		return normal || grayed || others;
+	}
+
+	private function isPixelatedTexture(texture:String) {
+		var normal:Bool = texture == 'splashes/pixelSplashes';
+		var grayed:Bool = texture == 'splashes/GREYSCALE_pixelSplashes';
+		var others:Bool = texture == 'splashes/RED_pixelSplashes';
+		return normal || grayed || others;
 	}
 
 	public function setupNoteSplash(x:Float, y:Float, note:Int = 0, texture:String = null, hueColor:Float = 0, satColor:Float = 0, brtColor:Float = 0) {
@@ -926,7 +942,11 @@ class NoteSplash extends FlxSprite
 
 		if(texture == null && PlayState.SONG.assets.splashSkin != null && PlayState.SONG.assets.splashSkin.length > 0) texture = PlayState.SONG.assets.splashSkin;
 
-		if(textureLoaded != texture) loadAnims(texture);
+		if(textureLoaded != texture) {
+			loadAnims(texture);
+			textureLoaded = texture;
+		}
+		
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
@@ -934,10 +954,16 @@ class NoteSplash extends FlxSprite
 		if (ClientPrefs.settings.get("noteColor") == 'Rainbow' || ClientPrefs.settings.get("noteColor") == 'Quant') note = 3; //if i use the red splash texture itll make a splash that plays twice
 
 		offset.set(-34 * Note.scales[PlayState.mania], -23 * Note.scales[PlayState.mania]);
-		if (PlayState.isPixelStage || texture != 'splashes/noteSplashes') offset.set(14 / Note.scales[PlayState.mania], 14 / Note.scales[PlayState.mania]);
+		if (PlayState.isPixelStage || !isDefaultTexture(texture)) offset.set(9 / Note.scales[PlayState.mania], 7 / Note.scales[PlayState.mania]);
 
-		var fps:Int = (texture == 'splashes/pixelSplashes' ? 42 : 24);
-		animation.play('note' + Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[note] + '${(texture == 'splashes/noteSplashes' ? '-${FlxG.random.int(1,2)}' : '')}', true, false);
+		var fps:Int = (isPixelatedTexture(texture) ? 42 : 24);
+		
+		animation.play(
+			'note' + Note.keysShit.get(PlayState.mania).get('pixelAnimIndex')[note] + 
+			(!PlayState.isPixelStage ? '-${FlxG.random.int(1,2)}' : ''), 
+			true, false
+		);
+			
 		if(animation.curAnim != null) {
 			animation.curAnim.frameRate = fps + FlxG.random.int(-2, 2);
 		}
@@ -950,12 +976,13 @@ class NoteSplash extends FlxSprite
 
 	function loadAnims(skin:String) {
 		frames = Paths.getSparrowAtlas(skin);
-		var usingDefault:Bool = (skin == 'splashes/noteSplashes');
+		var usingDefault:Bool = isDefaultTexture(skin) && !isPixelatedTexture(skin);
 		for (i in 0...9) {
 			animation.addByPrefix('note$i${usingDefault ? '-1' : ''}', 'note splash ${Note.keysShit.get(8).get('letters')[i]} ${usingDefault ? '1 ' : ''}', 24, false);
 			if (!usingDefault) continue;
 			animation.addByPrefix('note$i-2', 'note splash ${Note.keysShit.get(8).get('letters')[i]} 2 ', 24, false);
 		}
+		// Sys.println('Animation Count: ${animation.getNameList().length}');
 	}
 
 	override function destroy() {
