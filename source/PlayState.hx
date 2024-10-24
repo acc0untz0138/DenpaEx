@@ -6647,9 +6647,9 @@ class PlayState extends MusicBeatState
 		for(i in 0...iconsArray.length) {
 			if(!iconsArray[i].visible) continue;
 			iconsArray[i].bop(curInfo, "ClientPrefs", Std.int(FlxMath.bound(i >> 1, 0, 2)));
-			bopString += Std.string(FlxMath.bound(i >> 1, 0, 2)) + " ";
+			// bopString += Std.string(FlxMath.bound(i >> 1, 0, 2)) + " ";
 		}
-		Sys.println(bopString);
+		// Sys.println(bopString);
 
 		//geez this is horrible! ill fix it later perhaps
 		if (gf != null && gf.animation.curAnim != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && !gf.stunned && !gf.animation.curAnim.name.startsWith("sing"))
