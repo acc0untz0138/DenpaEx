@@ -97,10 +97,18 @@ class CoolUtil
 	/**
      * Converts the input `String` into the Title Case formatting. (Replace dashes with space, and captilize the first letter of every word).
      * @param input The `String` to be title cased.
+     * @param getSpecified It returns a value based on the element number, If sets null or undefined, it returns everything.
      */
-	inline public static function toTitleCase(input:String):String {
+	inline public static function toTitleCase(input:String, ?getSpecified:Int):String {
 		var words:Array<String> = input.replace('-', ' ').trim().split(' ');
-		return words.map(str -> '${str.charAt(0).toUpperCase()}${str.substr(1)}').join(' ');
+		// Sys.println(words.toString());
+		if (getSpecified == null) {
+			return words.map(str -> '${str.charAt(0).toUpperCase()}${str.substr(1)}').join(' ');
+		} else {
+			if (getSpecified < 0) getSpecified = words.length - getSpecified + 1;
+			var i = getSpecified;
+			return '${words[i].charAt(0).toUpperCase()}${words[i].substr(1)}';
+		}
 	}
 
 	/**

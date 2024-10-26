@@ -1861,7 +1861,8 @@ class PlayState extends MusicBeatState
 			if (updaterThing < 1)
 				updaterThing = 1;
 			if (!inCutscene && !cutsceneHandlerCutscene) {
-				var player:String = CoolUtil.toTitleCase(iconP1.char);
+				var player:String = CoolUtil.toTitleCase(iconP1.char, 1);
+				// Sys.println(iconP1.char + ", " + player);
 				DiscordClient.changePresence(paused ? 'Paused - ' + detailsText : detailsText + ' - Playing as ' + player, SONG.header.song + " (" + storyDifficultyText + ")" + " -" + ((ratingText.toLowerCase().trim() == 'unrated') ? " " + ratingText : " Rating " + ratingText), iconP2.char, false);
 			} else if (inCutscene || cutsceneHandlerCutscene) {
 				DiscordClient.changePresence(detailsText, SONG.header.song + " - In a Cutscene", iconP2.char, false);
