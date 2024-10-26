@@ -1,5 +1,6 @@
 package;
 
+import haxe.ds.Vector;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -3191,6 +3192,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		#if debug Debug.instance.onUpdate(); #end
+		drainDetail.fill(Math.NaN);
 
 		if (ffmpegMode) elapsed = 1 / targetFPS;
 		
@@ -5649,6 +5651,7 @@ class PlayState extends MusicBeatState
 	}
 
 	var oppChar:Character = null;
+	var drainDetail:Vector<Float> = new Vector(2, 0.0);
 
 	var hsb:Array<Float> = [];
 
@@ -5720,13 +5723,8 @@ class PlayState extends MusicBeatState
 			}
 
 			if(oppChar.healthDrain){
-				if (oppChar.drainFloor <= 0) {
-					intendedHealth -= oppChar.drainAmount;
-				} else {
-					if (intendedHealth >= oppChar.drainFloor)
-						intendedHealth -= oppChar.drainAmount;
-				}
-					
+				drainDetail[0] = oppChar.drainFloor;
+				drainDetail[1] = oppChar.drainAmount;
 			}
 
 			if(oppChar.shakeScreen) {
@@ -5766,6 +5764,15 @@ class PlayState extends MusicBeatState
 			if (note.colorSwap != null && ClientPrefs.settings.get("noteColor") != 'Normal') hsb = [note.colorSwap.hue, note.colorSwap.saturation, note.colorSwap.brightness];
 
 			strumPlayAnim(p4 ? note.strum : 0, Std.int(Math.abs(note.noteData)) % Note.ammo[mania] + (!opponentChart || p4 ? 0 : Note.ammo[mania]), time, hsb);
+		}
+
+		if(!Math.isNaN(drainDetail[0])){
+			if (drainDetail[0] <= 0) {
+				intendedHealth -= drainDetail[1];
+			} else {
+				if (intendedHealth >= drainDetail[0])
+					intendedHealth -= drainDetail[1];
+			}
 		}
 
 		note.hitByOpponent = true;
