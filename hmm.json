@@ -4,7 +4,7 @@
       "name": "lime",
       "type": "git",
       "ref": "develop",
-      "url": "https://github.com/mcagabe19-stuff/lime.git"
+      "url": "https://github.com/mcagabe19-stuff/lime-8.2.1"
     },
     {
       "name": "openfl",
@@ -35,7 +35,7 @@
       "name": "hxcpp",
       "type": "git",
       "ref": "master",
-      "url": "https://github.com/mcagabe19-stuff/hxcpp.git"
+      "url": "https://github.com/mcagabe19-stuff/hxcpp"
     },
     {
       "name": "hxcpp-debug-server",
@@ -72,12 +72,13 @@
       "name": "linc_luajit",
       "type": "git",
       "ref": "main",
-      "url": "https://github.com/mcagabe19-stuff/linc_luajit-rewriten.git"
+      "url": "https://github.com/mcagabe19-stuff/linc_luajit-rewriten"
     },
     {
       "name": "extension-androidtools",
-      "type": "haxelib",
-      "version": null
+      "type": "git",
+      "ref": "main",
+      "url": "https://github.com/MAJigsaw77/extension-androidtools"
     }
   ]
 }
