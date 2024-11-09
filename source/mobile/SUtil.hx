@@ -99,9 +99,9 @@ class SUtil
 	public static function doPermissionsShit():Void
 	{
 		if (AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU)
-			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
+			AndroidPermissions.requestPermission(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
 		else
-			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
+			AndroidPermissions.requestPermission(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
 
 		if (!AndroidEnvironment.isExternalStorageManager())
 		{
