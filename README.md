@@ -1,4 +1,4 @@
-![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20linux%2C%20android%20(soon)-blue)
+![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows,%20linux,%20android,%20macos,%20ios-blue)
 ![GitHub Commits](https://img.shields.io/github/commits-since/acc0untz0138/DenpaEx/latest)
 [![Repo Size](https://img.shields.io/github/repo-size/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx)
 [![GitHub Issues](https://img.shields.io/github/issues/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/issues)
@@ -80,12 +80,13 @@ Shygee - Additional Programmer
 03) Better looking FreeplayState (toggleable) with a search box.
 04) Restored the Friday Night Funkin' background music.
 05) Optimized Auto Play.
-06) Customizable character icons (Psych & DenpaEx).
-07) GLSL Shader Compatibility.
-08) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
-09) 202-minute long song support.
-10) Added blank character (name is "null").
-11) Restored easy charts.
+06) Support for other systems like Linux, Android, MacOS and iOS (EXPERIMENTAL).
+06) GLSL Shader Compatibility (EXPERIMENTAL).
+07) Hard-Coded shaders from JS Engine (ChromaticAbberation, PulseEffect, GlitchEffect, VCREffect, BloomEffect, etc.).
+08) 202-minute long song support.
+09) Added blank character (name is "null").
+10) Restored easy charts.
+11) Customizable character icons (Psych & DenpaEx).
 12) Custom noteskin colors (Default, Greyscale, Rainbow, Character & Quant).
 13) Updated ChartingState (includes total notes counter, custom max BPM, speed, zoom and note density & fixed text).
 14) Render Mode for showcasing charts (requires ffmpeg).
@@ -105,14 +106,15 @@ Shygee - Additional Programmer
 08) Customizable Score Display (includes a custom one named "AMZ").
 09) Customizable Time Bar.
 
-## Upcoming Features
+## Upcoming Features (NOT FINAL)
 
 01) Add keybind reminders on the start of songs.
-02) Add Away3D Support (maybe).
+02) Add Away3D Support.
 
 ## Issues
 
 01) Problems with GLSL/.frag Shaders on Cameras (camHUD, camGame, camOther) working in-game only in the first song you choose, meaning you have to close and reopen the game every time to have them working. 
+02) AL lib: (EE) ALCwasapiPlayback_mixerProc: WaitForSingleObjectEx error: 0x102
 
 ## License Summary
 
