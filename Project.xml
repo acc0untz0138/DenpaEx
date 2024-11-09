@@ -111,6 +111,9 @@
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
+	<!-- Pretty-Print -->
+	<haxedef name="message.reporting" value="pretty" />
+
 	<!-- Disables the Flixel focus lost screen -->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 
