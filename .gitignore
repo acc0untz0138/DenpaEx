@@ -6,3 +6,4 @@ crshhndlr/export/debug/*
 crshhndlr/export/release/windows/haxe/*
 crshhndlr/export/release/windows/obj/*
 RUN.bat
+log.txt
