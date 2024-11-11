@@ -447,13 +447,13 @@ class FlxUIDropDownMenuCustom extends FlxUIGroup implements IFlxUIWidget impleme
 						var f = swipe.startPosition.x - swipe.endPosition.x;
 						var g = swipe.startPosition.y - swipe.endPosition.y;
 						if (25 <= Math.sqrt(f * f + g * g)) {
-							if ((-45 <= swipe.startPosition.angleBetween(swipe.endPosition) && 45 >= swipe.startPosition.angleBetween(swipe.endPosition))) {
+							if ((-45 <= swipe.startPosition.degreesTo(swipe.endPosition) && 45 >= swipe.startPosition.degreesTo(swipe.endPosition))) {
 								// Go down
 								currentScroll++;
 								if(currentScroll >= list.length) currentScroll = list.length-1;
 								updateButtonPositions();
 							}
-							else if (-180 <= swipe.startPosition.angleBetween(swipe.endPosition) && -135 >= swipe.startPosition.angleBetween(swipe.endPosition) || (135 <= swipe.startPosition.angleBetween(swipe.endPosition) && 180 >= swipe.startPosition.angleBetween(swipe.endPosition))) {
+							else if (-180 <= swipe.startPosition.degreesTo(swipe.endPosition) && -135 >= swipe.startPosition.degreesTo(swipe.endPosition) || (135 <= swipe.startPosition.degreesTo(swipe.endPosition) && 180 >= swipe.startPosition.degreesTo(swipe.endPosition))) {
 								// Go up
 								--currentScroll;
 								if(currentScroll < 0) currentScroll = 0;

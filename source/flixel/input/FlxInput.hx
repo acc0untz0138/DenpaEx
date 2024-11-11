@@ -81,7 +81,7 @@ class FlxInput<T> implements IFlxInput
 	}
 }
 
-@:enum
+enum
 abstract FlxInputState(Int) from Int
 {
 	var JUST_RELEASED = -1;

@@ -1166,7 +1166,7 @@ enum FlxTextBorderStyle
 	OUTLINE_FAST;
 }
 
-@:enum
+enum
 abstract FlxTextAlign(String) from String
 {
 	var LEFT = "left";
