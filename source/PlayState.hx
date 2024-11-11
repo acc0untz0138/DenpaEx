@@ -2713,16 +2713,23 @@ class PlayState extends MusicBeatState
 
 	public function clearNotesBefore(time:Float)
 	{
+		trace("start");
 		//i suggest not messing with this
-		var i:Int = unspawnNotes.length - 1;
-		while (i >= 0) {
+		var i:Int = 0;
+		var from = i;
+		var to = i;
+		
+		trace("finding target range");
+		while (i < unspawnNotes.length) {
 			var daNote = unspawnNotes[i];
-			if(daNote.strumTime - 500 < time)
-			{
-				unspawnNotes.remove(daNote);
-			}
-			--i;
+			if(daNote.strumTime - 500 < time) {
+				daNote = null;
+			} else break;
+			++i;
 		}
+		to = i;
+		trace("removing targets");
+		unspawnNotes.splice(from, to);
 
 		//500
 		i = notes.length - 1;
@@ -2732,6 +2739,7 @@ class PlayState extends MusicBeatState
 			{
 				notes.remove(daNote, true);
 				daNote.destroy();
+				daNote = null;
 			}
 			--i;
 		}
