@@ -93,7 +93,7 @@ class TitleState extends MusicBeatState
 		if (ClientPrefs.settings.get("checkForUpdates")) {
 			if(!closedState) {
 				trace('checking for update');
-				var http = new haxe.Http("https://raw.githubusercontent.com/UmbratheUmbreon/PublicDenpaEngine/main/assets/preload/update/tracking/GitVer.txt");
+				var http = new haxe.Http("https://raw.githubusercontent.com/acc0untz0138/DenpaEx/master/assets/preload/update/tracking/GitVer.txt");
 				
 				http.onData = function (data:String)
 				{
