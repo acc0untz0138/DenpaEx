@@ -6896,7 +6896,7 @@ class PlayState extends MusicBeatState
 						default: hud.accuracyBg.color = hud.scoreTxtBg.color = FlxColor.BLACK;
 					}
 				}
-			case 'FPS+': hud.scoreTxt.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false)} | Breaks: $songMisses | Accuracy: ${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
+			case 'FPS+': hud.scoreTxt.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false)} | Breaks: ${FlxStringUtil.formatMoney(songMisses, false)} | Accuracy: ${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
 			case 'FNF+': hud.rightTxt.text = 'HP\n${hud.healthBar.roundedPercent}%\n\nACCURACY\n${Highscore.floorDecimal(ratingPercent * 100, 2)}%\n\nSCORE\n${FlxStringUtil.formatMoney(songScore, false)}';
 			case 'Vanilla': hud.rightTxt.text = 'Score:${FlxStringUtil.formatMoney(songScore, false)}';
 			case 'FNM': hud.rightTxt.text = 'score:${FlxStringUtil.formatMoney(songScore, false)}';

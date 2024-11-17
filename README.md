@@ -109,12 +109,12 @@ Shygee - Additional Programmer
 ## Upcoming Features (NOT FINAL)
 
 01) Add keybind reminders on the start of songs.
+02) Add animated characters in the bottom left of the chart editor which visualize the chart when playing.
 02) Add Away3D Support.
 
 ## Issues
 
 01) Problems with GLSL/.frag Shaders on Cameras (camHUD, camGame, camOther) working in-game only in the first song you choose, meaning you have to close and reopen the game every time to have them working. 
-02) AL lib: (EE) ALCwasapiPlayback_mixerProc: WaitForSingleObjectEx error: 0x102
 
 ## License Summary
 
@@ -170,7 +170,7 @@ This license agreement is subject to change at any time, and continued use of th
 4) Run the QUICK SETUP.bat file to install the haxe libraries needed (includes Visual Studio Community).
 5) Go through the Visual Studio Community Setup.
 6) Run any of the batch files in the batch folder of the source code or continue to step 7.
-7) Go to DenpaEx/crshhndlr, open CMD in that folder and compile for the OS of your choice ('lime test [platform]').
+7) Go to DenpaEx/crshhndlr, open CMD in that folder and compile for the OS of your choice ('lime test [platform] [-flag (optional)]').
 8) Go back to the DenpaEx folder and do the same.
 
 ## Features (Unfinished List!)
@@ -282,6 +282,7 @@ This license agreement is subject to change at any time, and continued use of th
 - You can jump to any section in the chart by using the Jump Section button in the Section tab.
 - When saving, the file explorer will automatically open to the folder where the chart should be saved (if it exists).
 - There is a difficulty dropdown to allow you to change which difficulty you are loading or saving without reloading the editor.
+- You can now clear the left or right side of a section seperately when charting, without needing to wipe the entire section.
 
 ![charter](https://user-images.githubusercontent.com/101066547/222319055-c11f7eb9-e827-4062-a817-61a92a6b0bc9.gif)
 
@@ -424,7 +425,6 @@ This license agreement is subject to change at any time, and continued use of th
 - The engine is optimized very well in order to run the best it can at any given moment.
 - The engine is capable of running upwards of 900+ frames per second on higher end computers.
 - The engine will not memory leak excessively, and stay within a reasonable realm of usage.
-- The engine uses at max 2 GB of ram at any time during vanilla gameplay.
 
 ### Second Opponent
 
@@ -460,7 +460,7 @@ This license agreement is subject to change at any time, and continued use of th
 - The title, start prompt, and gf can all be offset individually using offsets.json.
 - Antialiasing can be set for the title, start prompt, gf, and custom bg using offsets.json.
 - Gf can be rescaled using offsets.json.
-- A custom background can be added, using eitehr a static image or a looping animation which is loaded automatically.
+- A custom background can be added, using either a static image or a looping animation which is loaded automatically.
 - The bpm can be set in offsets.json.
 - The newgrounds shoutout can be replaced with any number of randomly selected shoutouts using shoutouts.json, using custom images.
 - A hue swap shader is present and automatically activates upon waiting 180 ticks.
@@ -509,7 +509,7 @@ This license agreement is subject to change at any time, and continued use of th
 - Both the Freeplay and Story Mode menus can be previewed.
 - Weeks can be locked, and hidden until unlocked.
 - Weeks can be hidden in Freeplay or Story Mode.
-- The story mod characters can be set for the week.
+- The story mode characters can be set for the week.
 - The difficulties can be set for the week.
 - The freeplay sections can be set for the week.
 - Weeks graphics are now seperate instead of being one sprite sheet.
