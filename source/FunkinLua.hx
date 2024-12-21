@@ -543,11 +543,11 @@ class FunkinLua {
 		});*/
 
 		// shader shit
-		Lua_helper.add_callback(lua, "initLuaShader", function(name:String) {
+		Lua_helper.add_callback(lua, "initLuaShader", function(name:String, glslVersion:Int = 120) {
 			if(!ClientPrefs.settings.get("shaders")) return false;
 
 			#if (!flash && MODS_ALLOWED && sys)
-			return initLuaShader(name);
+			return initLuaShader(name, glslVersion);
 			#else
 			luaTrace("initLuaShader: Platform unsupported for Runtime Shaders!", false, false, FlxColor.RED);
 			#end
@@ -2670,7 +2670,7 @@ class FunkinLua {
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 	#end
 	
-	function initLuaShader(name:String)
+	function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
 		if(!ClientPrefs.settings.get("shaders")) return false;
 	
