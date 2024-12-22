@@ -96,7 +96,7 @@ class PatchState extends MusicBeatState
 
 		var denpaPatches = [ //Ver - Icon name - Update Ver - Update Name - Description - Link - BG Color
 			['DenpaEx'],
-			['0.8.2',		'100',			"0.8.2", "", 'my brother in christ just go to the https://github.com/acc0untz0138/DenpaEx#feature-list-unfinished :cry:',	'https://github.com/acc0untz0138/DenpaEx#feature-list-unfinished',	'202020'],
+			['0.8.2',		'100',			"0.8.2", "", 'my brother in christ just go to the https://github.com/acc0untz0138/DenpaEx?tab=readme-ov-file#denpaex-feature-list :cry:',	'https://github.com/acc0untz0138/DenpaEx?tab=readme-ov-file#denpaex-feature-list',	'202020'],
 			[''],
 			['Denpa Engine'],
 			['0.8.2',		'widol',		"0.8.2", "", 'Do you know how long these take to write?',	'',	'4DB33C'],
