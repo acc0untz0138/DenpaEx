@@ -73,7 +73,7 @@ class ClientPrefs {
         "uiSkin" => "Kade",
         "noteColor" => "Default",
         "iconAnim" => "Bop",
-        "scoreDisplay" => "AMZ",
+        "scoreDisplay" => "DenpaEx",
         "timeBarType" => "Elapsed / Left",
         "pauseMusic" => "Breakfast",
         "cutscenes" => "Story Mode Only",

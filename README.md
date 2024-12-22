@@ -103,7 +103,7 @@ Shygee - Additional Programmer
 05) Toggleable Health Bar.
 06) Toggleable Note Strum Animation.
 07) Toggleable Note Splashes.
-08) Customizable Score Display (includes a custom one named "AMZ").
+08) Customizable Score Display.
 09) Customizable Time Bar.
 
 ## Upcoming Features (NOT FINAL)

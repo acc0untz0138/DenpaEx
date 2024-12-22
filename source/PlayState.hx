@@ -3546,7 +3546,7 @@ class PlayState extends MusicBeatState
 				maxNps = notesPerSecond;
 		}
 		
-		if (ClientPrefs.settings.get("scoreDisplay") == 'AMZ') {
+		if (ClientPrefs.settings.get("scoreDisplay") == 'DenpaEx') {
 			if (ratingFC != "") {
 				hud.scoreTxt.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false)} (${FlxStringUtil.formatMoney(maxScore, false)}) / Health: ${FlxMath.roundDecimal(intendedHealth*50, 0)}% / NPS (Max): $notesPerSecond ($maxNps) / Accuracy: ${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
 			} else {
@@ -5799,7 +5799,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote) npsArray.unshift(Date.now());
 		}
 		
-		if (ClientPrefs.settings.get("scoreDisplay") == 'AMZ') {
+		if (ClientPrefs.settings.get("scoreDisplay") == 'DenpaEx') {
 			if (!note.isSustainNote) npsArray.unshift(Date.now());
 		}
 
@@ -6871,7 +6871,7 @@ class PlayState extends MusicBeatState
 		//There is no way back out.
 		switch (ClientPrefs.settings.get("scoreDisplay"))
 		{
-			case 'AMZ': hud.scoreTxt.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false)} (${FlxStringUtil.formatMoney(maxScore, false)}) / Health: ${hud.healthBar.roundedPercent}% / NPS (Max): $notesPerSecond ($maxNps) / Accuracy: ${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
+			case 'DenpaEx': hud.scoreTxt.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false)} (${FlxStringUtil.formatMoney(maxScore, false)}) / Health: ${hud.healthBar.roundedPercent}% / NPS (Max): $notesPerSecond ($maxNps) / Accuracy: ${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
 			case 'Psych':
                 final ext:String = (ratingName == "Unrated" ? '' : ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC);
 				hud.scoreTxt.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false)} | Breaks: ${FlxStringUtil.formatMoney(songMisses, false)} | Rating: $ratingName' + ext;

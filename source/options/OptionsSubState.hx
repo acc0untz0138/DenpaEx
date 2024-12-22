@@ -1095,8 +1095,8 @@ class CustomizationSettingsSubState extends BaseOptionsMenu
 			"What engine's score display do you want?",
 			'scoreDisplay',
 			'string',
-			'AMZ',
-			['AMZ', 'Vanilla', 'Psych', 'Kade', 'Sarvente', 'FPS+', 'FNF+', 'FNM', 'None']);
+			'DenpaEx',
+			['DenpaEx', 'Vanilla', 'Psych', 'Kade', 'Sarvente', 'FPS+', 'FNF+', 'FNM', 'None']);
 		addOption(option);
 
 		var option:Option = new Option('Time Bar Format:',

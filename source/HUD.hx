@@ -253,7 +253,7 @@ class HUD extends FlxSpriteGroup {
 			scoreTxt.borderStyle = SHADOW;
 		} else if (ClientPrefs.settings.get("scoreDisplay") == 'Kade') {
 			scoreTxt.x = 160;
-		} else if (ClientPrefs.settings.get("scoreDisplay") == 'AMZ') {
+		} else if (ClientPrefs.settings.get("scoreDisplay") == 'DenpaEx') {
 			scoreTxt.x = -15;
 		}
 		if (scoreTxt != null) scoreTxt.visible = !ClientPrefs.settings.get("hideHud");
