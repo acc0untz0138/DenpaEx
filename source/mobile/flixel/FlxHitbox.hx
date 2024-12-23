@@ -25,15 +25,16 @@ class FlxHitbox extends FlxSpriteGroup {
 	/**
 	 * Signal that's dispatched whenever a hint is pressed down.
 	 */
-	public var onHintDown:FlxTypedSignal<(FlxButton, Int)->Void> = new FlxTypedSignal<(FlxButton, Int)->Void>();
+	public var onHintDown:FlxTypedSignal<(FlxButton, Int) -> Void> = new FlxTypedSignal<(FlxButton, Int) -> Void>();
 
 	/**
 	 * Signal that's dispatched whenever a hint is released
 	 */
-	public var onHintUp:FlxTypedSignal<(FlxButton, Int)->Void> = new FlxTypedSignal<(FlxButton, Int)->Void>();
+	public var onHintUp:FlxTypedSignal<(FlxButton, Int) -> Void> = new FlxTypedSignal<(FlxButton, Int) -> Void>();
 
 	final guh2:Float = 0.00001;
-	final guh:Float = ClientPrefs.settings.get("mobileCAlpha") >= 0.9 ? ClientPrefs.settings.get("mobileCAlpha") - 0.2 : ClientPrefs.settings.get("mobileCAlpha");
+	final guh:Float = ClientPrefs.settings.get("mobileCAlpha") >= 0.9 ? ClientPrefs.settings.get("mobileCAlpha")
+		- 0.2 : ClientPrefs.settings.get("mobileCAlpha");
 
 	/**
 	 * Creates the zone with the specified number of hints.
@@ -93,7 +94,7 @@ class FlxHitbox extends FlxSpriteGroup {
 
 		FlxDestroyUtil.destroy(onHintUp);
 		FlxDestroyUtil.destroy(onHintDown);
-		
+
 		for (i in 0...hints.length)
 			hints[i] = FlxDestroyUtil.destroy(hints[i]);
 

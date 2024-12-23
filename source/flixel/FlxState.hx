@@ -10,8 +10,7 @@ import flixel.util.FlxSignal.FlxTypedSignal;
  * It is for all intents and purpose a fancy `FlxGroup`. And really, it's not even that fancy.
  */
 @:keepSub // workaround for HaxeFoundation/haxe#3749
-class FlxState extends FlxGroup
-{
+class FlxState extends FlxGroup {
 	/**
 	 * Determines whether or not this state is updated even when it is not the active state.
 	 * For example, if you have your game state first, and then you push a menu state on top of it,
@@ -20,10 +19,10 @@ class FlxState extends FlxGroup
 	 */
 	public var persistentUpdate:Bool = false;
 
-    /**
-     * Just a reference to the current FlxState, for whatever purpose you could need it!
-     */
-    public static var curInstance:FlxState = null;
+	/**
+	 * Just a reference to the current FlxState, for whatever purpose you could need it!
+	 */
+	public static var curInstance:FlxState = null;
 
 	/**
 	 * Determines whether or not this state is updated even when it is not the active state.
@@ -84,7 +83,7 @@ class FlxState extends FlxGroup
 
 	@:noCompletion
 	var _subStateClosed:FlxTypedSignal<FlxSubState->Void>;
-    
+
 	/**
 	 * This function is called after the game engine successfully switches states.
 	 * Override this function, NOT the constructor, to initialize or set up your game state.
@@ -93,13 +92,12 @@ class FlxState extends FlxGroup
 	 */
 	public function create():Void {}
 
-    override public function new() {
-        super();
-        curInstance = this;
-    }
-    
-	override public function draw():Void
-	{
+	override public function new() {
+		super();
+		curInstance = this;
+	}
+
+	override public function draw():Void {
 		if (persistentDraw || subState == null)
 			super.draw();
 
@@ -107,8 +105,7 @@ class FlxState extends FlxGroup
 			subState.draw();
 	}
 
-	public function openSubState(SubState:FlxSubState):Void
-	{
+	public function openSubState(SubState:FlxSubState):Void {
 		_requestSubStateReset = true;
 		_requestedSubState = SubState;
 	}
@@ -116,19 +113,16 @@ class FlxState extends FlxGroup
 	/**
 	 * Closes the substate of this state, if one exists.
 	 */
-	public function closeSubState():Void
-	{
+	public function closeSubState():Void {
 		_requestSubStateReset = true;
 	}
 
 	/**
 	 * Load substate for this state
 	 */
-	public function resetSubState():Void
-	{
+	public function resetSubState():Void {
 		// Close the old state (if there is an old state)
-		if (subState != null)
-		{
+		if (subState != null) {
 			if (subState.closeCallback != null)
 				subState.closeCallback();
 			if (_subStateClosed != null)
@@ -142,16 +136,14 @@ class FlxState extends FlxGroup
 		subState = _requestedSubState;
 		_requestedSubState = null;
 
-		if (subState != null)
-		{
+		if (subState != null) {
 			// Reset the input so things like "justPressed" won't interfere
 			if (!persistentUpdate)
 				FlxG.inputs.onStateSwitch();
 
 			subState._parentState = this;
 
-			if (!subState._created)
-			{
+			if (!subState._created) {
 				subState._created = true;
 				subState.create();
 			}
@@ -162,13 +154,11 @@ class FlxState extends FlxGroup
 		}
 	}
 
-	override public function destroy():Void
-	{
+	override public function destroy():Void {
 		FlxDestroyUtil.destroy(_subStateOpened);
 		FlxDestroyUtil.destroy(_subStateClosed);
-        
-		if (subState != null)
-		{
+
+		if (subState != null) {
 			subState.destroy();
 			subState = null;
 		}
@@ -181,8 +171,7 @@ class FlxState extends FlxGroup
 	 *
 	 * Useful for customizing state switches, e.g. for transition effects.
 	 */
-	public function switchTo(nextState:FlxState):Bool
-	{
+	public function switchTo(nextState:FlxState):Bool {
 		return true;
 	}
 
@@ -207,37 +196,31 @@ class FlxState extends FlxGroup
 	public function onResize(Width:Int, Height:Int):Void {}
 
 	@:allow(flixel.FlxGame)
-	function tryUpdate(elapsed:Float):Void
-	{
+	function tryUpdate(elapsed:Float):Void {
 		if (persistentUpdate || subState == null)
 			update(elapsed);
 
-		if (_requestSubStateReset)
-		{
+		if (_requestSubStateReset) {
 			_requestSubStateReset = false;
 			resetSubState();
 		}
-		if (subState != null)
-		{
+		if (subState != null) {
 			subState.tryUpdate(elapsed);
 		}
 	}
 
 	@:noCompletion
-	function get_bgColor():FlxColor
-	{
+	function get_bgColor():FlxColor {
 		return FlxG.cameras.bgColor;
 	}
 
 	@:noCompletion
-	function set_bgColor(Value:FlxColor):FlxColor
-	{
+	function set_bgColor(Value:FlxColor):FlxColor {
 		return FlxG.cameras.bgColor = Value;
 	}
-    
+
 	@:noCompletion
-	function get_subStateOpened():FlxTypedSignal<FlxSubState->Void>
-	{
+	function get_subStateOpened():FlxTypedSignal<FlxSubState->Void> {
 		if (_subStateOpened == null)
 			_subStateOpened = new FlxTypedSignal<FlxSubState->Void>();
 
@@ -245,8 +228,7 @@ class FlxState extends FlxGroup
 	}
 
 	@:noCompletion
-	function get_subStateClosed():FlxTypedSignal<FlxSubState->Void>
-	{
+	function get_subStateClosed():FlxTypedSignal<FlxSubState->Void> {
 		if (_subStateClosed == null)
 			_subStateClosed = new FlxTypedSignal<FlxSubState->Void>();
 

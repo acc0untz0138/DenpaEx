@@ -2,29 +2,31 @@
 package haxescript;
 
 import haxescript.Hscript;
+
 /*import sys.FileTools;
-import sys.FileSystem;*/
-
+	import sys.FileSystem; */
 class HscriptSubstate extends MusicBeatSubstate {
-    public var hscriptRef:Hscript;
-    public static var instance:HscriptSubstate = null;
-    public function new(name:String, args:Array<Dynamic>) {
-        super();
-        instance = this;
+	public var hscriptRef:Hscript;
 
-        hscriptRef = new Hscript('assets/scripts/substates/$name.hscript', true, H_SUBSTATE); //skip init create call to avoid errors
+	public static var instance:HscriptSubstate = null;
 
-        setVar("instance", instance);
-        hscriptRef.call("new", args);
-    }
+	public function new(name:String, args:Array<Dynamic>) {
+		super();
+		instance = this;
 
-    override function update(elapsed:Float) {
-        super.update(elapsed);
-        hscriptRef.call("update", [elapsed]);
-    }
+		hscriptRef = new Hscript('assets/scripts/substates/$name.hscript', true, H_SUBSTATE); // skip init create call to avoid errors
 
-    private inline function setVar(name:String, content:Dynamic) {
-        hscriptRef.interpreter.variables.set(name, content);
-    }
+		setVar("instance", instance);
+		hscriptRef.call("new", args);
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+		hscriptRef.call("update", [elapsed]);
+	}
+
+	private inline function setVar(name:String, content:Dynamic) {
+		hscriptRef.interpreter.variables.set(name, content);
+	}
 }
 #end

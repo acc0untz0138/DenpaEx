@@ -23,30 +23,28 @@ import js.html.File;
 #end
 
 using StringTools;
-class AtlasFrameMaker extends FlxFramesCollection
-{
-	//public static var widthoffset:Int = 0;
-	//public static var heightoffset:Int = 0;
-	//public static var excludeArray:Array<String>;
-	/**
-	
-	* Creates Frames from TextureAtlas(very early and broken ok) Originally made for FNF HD by Smokey and Rozebud
-	*
-	* @param   key                 The file path.
-	* @param   _excludeArray       Use this to only create selected animations. Keep null to create all of them.
-	*
-	*/
 
-	public static function construct(key:String,?_excludeArray:Array<String> = null, ?noAntialiasing:Bool = false):FlxFramesCollection
-	{
+class AtlasFrameMaker extends FlxFramesCollection {
+	// public static var widthoffset:Int = 0;
+	// public static var heightoffset:Int = 0;
+	// public static var excludeArray:Array<String>;
+
+	/**
+
+		* Creates Frames from TextureAtlas(very early and broken ok) Originally made for FNF HD by Smokey and Rozebud
+		*
+		* @param   key                 The file path.
+		* @param   _excludeArray       Use this to only create selected animations. Keep null to create all of them.
+		*
+	 */
+	public static function construct(key:String, ?_excludeArray:Array<String> = null, ?noAntialiasing:Bool = false):FlxFramesCollection {
 		// widthoffset = _widthoffset;
 		// heightoffset = _heightoffset;
 
 		var frameCollection:FlxFramesCollection;
 		var frameArray:Array<Array<FlxFrame>> = [];
 
-		if (Paths.fileExists('images/$key/spritemap1.json', TEXT))
-		{
+		if (Paths.fileExists('images/$key/spritemap1.json', TEXT)) {
 			PlayState.instance.addTextToDebug("Only Spritemaps made with Adobe Animate 2018 are supported");
 			trace("Only Spritemaps made with Adobe Animate 2018 are supported");
 			return null;
@@ -58,31 +56,26 @@ class AtlasFrameMaker extends FlxFramesCollection
 		var graphic:FlxGraphic = Paths.image('$key/spritemap');
 		var ss:SpriteAnimationLibrary = new SpriteAnimationLibrary(animationData, atlasData, graphic.bitmap);
 		var t:SpriteMovieClip = ss.createAnimation(noAntialiasing);
-		if(_excludeArray == null)
-		{
+		if (_excludeArray == null) {
 			_excludeArray = t.getFrameLabels();
-			//trace('creating all anims');
+			// trace('creating all anims');
 		}
 		trace('Creating: ' + _excludeArray);
 
 		frameCollection = new FlxFramesCollection(graphic, FlxFrameCollectionType.IMAGE);
-		for(x in _excludeArray)
-		{
+		for (x in _excludeArray) {
 			frameArray.push(getFramesArray(t, x));
 		}
 
-		for(x in frameArray)
-		{
-			for(y in x)
-			{
+		for (x in frameArray) {
+			for (y in x) {
 				frameCollection.pushFrame(y);
 			}
 		}
 		return frameCollection;
 	}
 
-	@:noCompletion static function getFramesArray(t:SpriteMovieClip,animation:String):Array<FlxFrame>
-	{
+	@:noCompletion static function getFramesArray(t:SpriteMovieClip, animation:String):Array<FlxFrame> {
 		var sizeInfo:Rectangle = new Rectangle(0, 0);
 		t.currentLabel = animation;
 		var bitMapArray:Array<BitmapData> = [];
@@ -90,35 +83,31 @@ class AtlasFrameMaker extends FlxFramesCollection
 		var firstPass = true;
 		var frameSize:FlxPoint = FlxPoint.get();
 
-		for (i in t.getFrame(animation)...t.numFrames)
-		{
+		for (i in t.getFrame(animation)...t.numFrames) {
 			t.currentFrame = i;
-			if (t.currentLabel == animation)
-			{
+			if (t.currentLabel == animation) {
 				sizeInfo = t.getBounds(t);
 				var bitmapShit:BitmapData = new BitmapData(Std.int(sizeInfo.width + sizeInfo.x), Std.int(sizeInfo.height + sizeInfo.y), true, 0);
 				bitmapShit.draw(t, null, null, null, null, true);
 				bitMapArray.push(bitmapShit);
 
-				if (firstPass)
-				{
-					frameSize.set(bitmapShit.width,bitmapShit.height);
+				if (firstPass) {
+					frameSize.set(bitmapShit.width, bitmapShit.height);
 					firstPass = false;
 				}
-			}
-			else break;
+			} else
+				break;
 		}
-		
-		for (i in 0...bitMapArray.length)
-		{
+
+		for (i in 0...bitMapArray.length) {
 			var b = FlxGraphic.fromBitmapData(bitMapArray[i]);
 			var theFrame = new FlxFrame(b);
 			theFrame.parent = b;
 			theFrame.name = animation + i;
-			theFrame.sourceSize.set(frameSize.x,frameSize.y);
+			theFrame.sourceSize.set(frameSize.x, frameSize.y);
 			theFrame.frame = new FlxRect(0, 0, bitMapArray[i].width, bitMapArray[i].height);
 			daFramez.push(theFrame);
-			//trace(daFramez);
+			// trace(daFramez);
 		}
 		sizeInfo = null;
 		frameSize.put();

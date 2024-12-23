@@ -67,14 +67,13 @@ import lime.math.Matrix3;
 	Use the `new Matrix()` constructor to create a Matrix object before you
 	can call the methods of the Matrix object.
 
-    Modified by @YanniZ06 to support chaining on all public functions, not a huge change I know jdsjf
+	Modified by @YanniZ06 to support chaining on all public functions, not a huge change I know jdsjf
 **/
 #if !openfl_debug
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
-class Matrix
-{
+class Matrix {
 	@:noCompletion private static var __identity:Matrix = new Matrix();
 	@:noCompletion private static var __pool:ObjectPool<Matrix> = new ObjectPool<Matrix>(function() return new Matrix(), function(m) m.identity());
 	#if lime
@@ -150,8 +149,7 @@ class Matrix
 		@param ty The distance by which to translate each point along the _y_
 				  axis.
 	**/
-	public function new(a:Float = 1, b:Float = 0, c:Float = 0, d:Float = 1, tx:Float = 0, ty:Float = 0)
-	{
+	public function new(a:Float = 1, b:Float = 0, c:Float = 0, d:Float = 1, tx:Float = 0, ty:Float = 0) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
@@ -166,8 +164,7 @@ class Matrix
 
 		@return A Matrix object.
 	**/
-	public function clone():Matrix
-	{
+	public function clone():Matrix {
 		return new Matrix(a, b, c, d, tx, ty);
 	}
 
@@ -188,10 +185,9 @@ class Matrix
 		`clone()` method, as shown in the Class Examples section.
 
 		@param m The matrix to be concatenated to the source matrix.
-        @return The concatenated matrix.
+		@return The concatenated matrix.
 	**/
-	public function concat(m:Matrix):Matrix
-	{
+	public function concat(m:Matrix):Matrix {
 		var a1 = a * m.a + b * m.c;
 		b = a * m.b + b * m.d;
 		a = a1;
@@ -204,7 +200,7 @@ class Matrix
 		ty = tx * m.b + ty * m.d + m.ty;
 		tx = tx1;
 
-        return this;
+		return this;
 		// __cleanValues ();
 	}
 
@@ -213,30 +209,22 @@ class Matrix
 
 		@param	column	The column from which to copy the data from.
 		@param	vector3D	The Vector3D object from which to copy the data.
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function copyColumnFrom(column:Int, vector3D:Vector3D):Matrix
-	{
-		if (column > 2)
-		{
+	public function copyColumnFrom(column:Int, vector3D:Vector3D):Matrix {
+		if (column > 2) {
 			throw "Column " + column + " out of bounds (2)";
-		}
-		else if (column == 0)
-		{
+		} else if (column == 0) {
 			a = vector3D.x;
 			b = vector3D.y;
-		}
-		else if (column == 1)
-		{
+		} else if (column == 1) {
 			c = vector3D.x;
 			d = vector3D.y;
-		}
-		else
-		{
+		} else {
 			tx = vector3D.x;
 			ty = vector3D.y;
 		}
-        return this;
+		return this;
 	}
 
 	/**
@@ -245,34 +233,26 @@ class Matrix
 
 		@param	column	The column from which to copy the data from.
 		@param	vector3D	The Vector3D object from which to copy the data.
-        @return The modified Vector3D instance, for chaining.
+		@return The modified Vector3D instance, for chaining.
 	**/
-	public function copyColumnTo(column:Int, vector3D:Vector3D):Vector3D
-	{
-		if (column > 2)
-		{
+	public function copyColumnTo(column:Int, vector3D:Vector3D):Vector3D {
+		if (column > 2) {
 			throw "Column " + column + " out of bounds (2)";
-		}
-		else if (column == 0)
-		{
+		} else if (column == 0) {
 			vector3D.x = a;
 			vector3D.y = b;
 			vector3D.z = 0;
-		}
-		else if (column == 1)
-		{
+		} else if (column == 1) {
 			vector3D.x = c;
 			vector3D.y = d;
 			vector3D.z = 0;
-		}
-		else
-		{
+		} else {
 			vector3D.x = tx;
 			vector3D.y = ty;
 			vector3D.z = 1;
 		}
 
-        return vector3D;
+		return vector3D;
 	}
 
 	/**
@@ -280,17 +260,16 @@ class Matrix
 		object.
 
 		@param	sourceMatrix	The Matrix object from which to copy the data.
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function copyFrom(sourceMatrix:Matrix):Matrix
-	{
+	public function copyFrom(sourceMatrix:Matrix):Matrix {
 		a = sourceMatrix.a;
 		b = sourceMatrix.b;
 		c = sourceMatrix.c;
 		d = sourceMatrix.d;
 		tx = sourceMatrix.tx;
 		ty = sourceMatrix.ty;
-        return this;
+		return this;
 	}
 
 	/**
@@ -298,28 +277,22 @@ class Matrix
 
 		@param	row	The row from which to copy the data from.
 		@param	vector3D	The Vector3D object from which to copy the data.
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function copyRowFrom(row:Int, vector3D:Vector3D):Matrix
-	{
-		if (row > 2)
-		{
+	public function copyRowFrom(row:Int, vector3D:Vector3D):Matrix {
+		if (row > 2) {
 			throw "Row " + row + " out of bounds (2)";
-		}
-		else if (row == 0)
-		{
+		} else if (row == 0) {
 			a = vector3D.x;
 			c = vector3D.y;
 			tx = vector3D.z;
-		}
-		else if (row == 1)
-		{
+		} else if (row == 1) {
 			b = vector3D.x;
 			d = vector3D.y;
 			ty = vector3D.z;
 		}
 
-        return this;
+		return this;
 	}
 
 	/**
@@ -328,32 +301,24 @@ class Matrix
 
 		@param	row	The row from which to copy the data from.
 		@param	vector3D	The Vector3D object from which to copy the data.
-        @return The modifed vector3D instance, for chaining.
+		@return The modifed vector3D instance, for chaining.
 	**/
-	public function copyRowTo(row:Int, vector3D:Vector3D):Vector3D
-	{
-		if (row > 2)
-		{
+	public function copyRowTo(row:Int, vector3D:Vector3D):Vector3D {
+		if (row > 2) {
 			throw "Row " + row + " out of bounds (2)";
-		}
-		else if (row == 0)
-		{
+		} else if (row == 0) {
 			vector3D.x = a;
 			vector3D.y = c;
 			vector3D.z = tx;
-		}
-		else if (row == 1)
-		{
+		} else if (row == 1) {
 			vector3D.x = b;
 			vector3D.y = d;
 			vector3D.z = ty;
-		}
-		else
-		{
+		} else {
 			vector3D.setTo(0, 0, 1);
 		}
 
-        return vector3D;
+		return vector3D;
 	}
 
 	/**
@@ -384,15 +349,13 @@ class Matrix
 		@param ty       The number of pixels to translate (move) down along
 						the _y_ axis.
 	**/
-	public function createBox(scaleX:Float, scaleY:Float, rotation:Float = 0, tx:Float = 0, ty:Float = 0):Matrix
-	{
+	public function createBox(scaleX:Float, scaleY:Float, rotation:Float = 0, tx:Float = 0, ty:Float = 0):Matrix {
 		// identity ();
 		// rotate (rotation);
 		// scale (scaleX, scaleY);
 		// translate (tx, ty);
 
-		if (rotation != 0)
-		{
+		if (rotation != 0) {
 			var cos = Math.cos(rotation);
 			var sin = Math.sin(rotation);
 
@@ -400,9 +363,7 @@ class Matrix
 			b = sin * scaleY;
 			c = -sin * scaleX;
 			d = cos * scaleY;
-		}
-		else
-		{
+		} else {
 			a = scaleX;
 			b = 0;
 			c = 0;
@@ -412,7 +373,7 @@ class Matrix
 		this.tx = tx;
 		this.ty = ty;
 
-        return this;
+		return this;
 	}
 
 	/**
@@ -448,16 +409,14 @@ class Matrix
 		@param ty       The distance, in pixels, to translate down along the
 						_y_ axis. This value is offset by half of the `height`
 						parameter.
-        @return The newly created Matrix, for chaining.
+		@return The newly created Matrix, for chaining.
 	**/
-	public function createGradientBox(width:Float, height:Float, rotation:Float = 0, tx:Float = 0, ty:Float = 0):Matrix
-	{
+	public function createGradientBox(width:Float, height:Float, rotation:Float = 0, tx:Float = 0, ty:Float = 0):Matrix {
 		a = width / 1638.4;
 		d = height / 1638.4;
 
 		// rotation is clockwise
-		if (rotation != 0)
-		{
+		if (rotation != 0) {
 			var cos = Math.cos(rotation);
 			var sin = Math.sin(rotation);
 
@@ -465,16 +424,14 @@ class Matrix
 			c = -sin * a;
 			a *= cos;
 			d *= cos;
-		}
-		else
-		{
+		} else {
 			b = 0;
 			c = 0;
 		}
 
 		this.tx = tx + width / 2;
 		this.ty = ty + height / 2;
-        return this;
+		return this;
 	}
 
 	/**
@@ -489,13 +446,11 @@ class Matrix
 					 transformation.
 		@return The point resulting from applying the matrix transformation.
 	**/
-	public function deltaTransformPoint(point:Point):Point
-	{
+	public function deltaTransformPoint(point:Point):Point {
 		return new Point(point.x * a + point.y * c, point.x * b + point.y * d);
 	}
 
-	@:dox(hide) @:noCompletion @SuppressWarnings("checkstyle:FieldDocComment") public function equals(matrix:Matrix):Bool
-	{
+	@:dox(hide) @:noCompletion @SuppressWarnings("checkstyle:FieldDocComment") public function equals(matrix:Matrix):Bool {
 		return (matrix != null && tx == matrix.tx && ty == matrix.ty && a == matrix.a && b == matrix.b && c == matrix.c && d == matrix.d);
 	}
 
@@ -509,10 +464,9 @@ class Matrix
 		In matrix notation, the identity matrix looks like this:
 
 		![Matrix class properties in matrix notation](/images/matrix_identity.jpg)
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function identity():Matrix
-	{
+	public function identity():Matrix {
 		a = 1;
 		b = 0;
 		c = 0;
@@ -520,7 +474,7 @@ class Matrix
 		tx = 0;
 		ty = 0;
 
-        return this;
+		return this;
 	}
 
 	/**
@@ -529,18 +483,14 @@ class Matrix
 		applying the original matrix.
 
 	**/
-	public function invert():Matrix
-	{
+	public function invert():Matrix {
 		var norm = a * d - b * c;
 
-		if (norm == 0)
-		{
+		if (norm == 0) {
 			a = b = c = d = 0;
 			tx = -tx;
 			ty = -ty;
-		}
-		else
-		{
+		} else {
 			norm = 1.0 / norm;
 			var a1 = d * norm;
 			d = a * norm;
@@ -567,10 +517,9 @@ class Matrix
 		![Matrix notation of scale method parameters](/images/matrix_rotate.jpg)
 
 		@param angle The rotation angle in radians.
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function rotate(theta:Float):Matrix
-	{
+	public function rotate(theta:Float):Matrix {
 		/**
 			Rotate object "after" other transforms
 
@@ -600,7 +549,7 @@ class Matrix
 		ty = tx * sin + ty * cos;
 		tx = tx1;
 
-        return this;
+		return this;
 		// __cleanValues ();
 	}
 
@@ -615,10 +564,9 @@ class Matrix
 
 		@param sx A multiplier used to scale the object along the _x_ axis.
 		@param sy A multiplier used to scale the object along the _y_ axis.
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function scale(sx:Float, sy:Float):Matrix
-	{
+	public function scale(sx:Float, sy:Float):Matrix {
 		/*
 
 			Scale object "after" other transforms
@@ -635,18 +583,17 @@ class Matrix
 		tx *= sx;
 		ty *= sy;
 
-        return this;
+		return this;
 		// __cleanValues ();
 	}
 
-	@:noCompletion private function setRotation(theta:Float, scale:Float = 1):Matrix
-	{
+	@:noCompletion private function setRotation(theta:Float, scale:Float = 1):Matrix {
 		a = Math.cos(theta) * scale;
 		c = Math.sin(theta) * scale;
 		b = -c;
 		d = a;
 
-        return this;
+		return this;
 		// __cleanValues ();
 	}
 
@@ -659,35 +606,29 @@ class Matrix
 		@param	da
 		@param	txa
 		@param	tya
-        @return This modified Matrix instance, for chaining.
+		@return This modified Matrix instance, for chaining.
 	**/
-	public function setTo(a:Float, b:Float, c:Float, d:Float, tx:Float, ty:Float):Matrix
-	{
+	public function setTo(a:Float, b:Float, c:Float, d:Float, tx:Float, ty:Float):Matrix {
 		this.a = a;
 		this.b = b;
 		this.c = c;
 		this.d = d;
 		this.tx = tx;
 		this.ty = ty;
-        return this;
+		return this;
 	}
 
 	@SuppressWarnings("checkstyle:FieldDocComment")
-	@:dox(hide) @:noCompletion public inline function to3DString(roundPixels:Bool = false):String
-	{
-		if (roundPixels)
-		{
+	@:dox(hide) @:noCompletion public inline function to3DString(roundPixels:Bool = false):String {
+		if (roundPixels) {
 			return 'matrix3d($a, $b, 0, 0, $c, $d, 0, 0, 0, 0, 1, 0, ${Std.int(tx)}, ${Std.int(ty)}, 0, 1)';
-		}
-		else
-		{
+		} else {
 			return 'matrix3d($a, $b, 0, 0, $c, $d, 0, 0, 0, 0, 1, 0, $tx, $ty, 0, 1)';
 		}
 	}
 
 	@SuppressWarnings("checkstyle:FieldDocComment")
-	@:dox(hide) @:noCompletion public inline function toMozString():String
-	{
+	@:dox(hide) @:noCompletion public inline function toMozString():String {
 		return 'matrix($a, $b, $c, $d, ${tx}px, ${ty}px)';
 	}
 
@@ -698,8 +639,7 @@ class Matrix
 				object: `a`, `b`, `c`,
 				`d`, `tx`, and `ty`.
 	**/
-	public function toString():String
-	{
+	public function toString():String {
 		return 'matrix($a, $b, $c, $d, $tx, $ty)';
 	}
 
@@ -711,8 +651,7 @@ class Matrix
 					 transformation.
 		@return The point resulting from applying the Matrix transformation.
 	**/
-	public function transformPoint(pos:Point):Point
-	{
+	public function transformPoint(pos:Point):Point {
 		return new Point(__transformX(pos.x, pos.y), __transformY(pos.x, pos.y));
 	}
 
@@ -723,26 +662,22 @@ class Matrix
 		@param dx The amount of movement along the _x_ axis to the right, in
 				  pixels.
 		@param dy The amount of movement down along the _y_ axis, in pixels.
-        @return The translated Matrix, for chaining.
+		@return The translated Matrix, for chaining.
 	**/
-	public function translate(dx:Float, dy:Float):Matrix
-	{
+	public function translate(dx:Float, dy:Float):Matrix {
 		tx += dx;
 		ty += dy;
 
-        return this;
+		return this;
 	}
 
 	#if lime
-	@:noCompletion private function toArray(transpose:Bool = false):Float32Array
-	{
-		if (__array == null)
-		{
+	@:noCompletion private function toArray(transpose:Bool = false):Float32Array {
+		if (__array == null) {
 			__array = new Float32Array(9);
 		}
 
-		if (transpose)
-		{
+		if (transpose) {
 			__array[0] = a;
 			__array[1] = b;
 			__array[2] = 0;
@@ -752,9 +687,7 @@ class Matrix
 			__array[6] = tx;
 			__array[7] = ty;
 			__array[8] = 1;
-		}
-		else
-		{
+		} else {
 			__array[0] = a;
 			__array[1] = c;
 			__array[2] = tx;
@@ -770,8 +703,7 @@ class Matrix
 	}
 	#end
 
-	@:noCompletion private inline function __cleanValues():Void
-	{
+	@:noCompletion private inline function __cleanValues():Void {
 		a = Math.round(a * 1000) / 1000;
 		b = Math.round(b * 1000) / 1000;
 		c = Math.round(c * 1000) / 1000;
@@ -781,86 +713,69 @@ class Matrix
 	}
 
 	#if lime
-	@:noCompletion private function __toMatrix3():Matrix3
-	{
+	@:noCompletion private function __toMatrix3():Matrix3 {
 		__matrix3.setTo(a, b, c, d, tx, ty);
 		return __matrix3;
 	}
 	#end
 
-	@:noCompletion private inline function __transformInversePoint(point:Point):Point
-	{
+	@:noCompletion private inline function __transformInversePoint(point:Point):Point {
 		var norm = a * d - b * c;
 
-		if (norm == 0)
-		{
+		if (norm == 0) {
 			point.x = -tx;
 			point.y = -ty;
-		}
-		else
-		{
+		} else {
 			var px = (1.0 / norm) * (c * (ty - point.y) + d * (point.x - tx));
 			point.y = (1.0 / norm) * (a * (point.y - ty) + b * (tx - point.x));
 			point.x = px;
 		}
 
-        return point;
+		return point;
 	}
 
-	@:noCompletion private inline function __transformInverseX(px:Float, py:Float):Float
-	{
+	@:noCompletion private inline function __transformInverseX(px:Float, py:Float):Float {
 		var norm = a * d - b * c;
 
-		if (norm == 0)
-		{
+		if (norm == 0) {
 			return -tx;
-		}
-		else
-		{
+		} else {
 			return (1.0 / norm) * (c * (ty - py) + d * (px - tx));
 		}
 	}
 
-	@:noCompletion private inline function __transformInverseY(px:Float, py:Float):Float
-	{
+	@:noCompletion private inline function __transformInverseY(px:Float, py:Float):Float {
 		var norm = a * d - b * c;
 
-		if (norm == 0)
-		{
+		if (norm == 0) {
 			return -ty;
-		}
-		else
-		{
+		} else {
 			return (1.0 / norm) * (a * (py - ty) + b * (tx - px));
 		}
 	}
 
-	@:noCompletion private inline function __transformPoint(point:Point):Point
-	{
+	@:noCompletion private inline function __transformPoint(point:Point):Point {
 		var px = point.x;
 		var py = point.y;
 
 		point.x = __transformX(px, py);
 		point.y = __transformY(px, py);
-        return point;
+		return point;
 	}
 
-	@:noCompletion private inline function __transformX(px:Float, py:Float):Float
-	{
+	@:noCompletion private inline function __transformX(px:Float, py:Float):Float {
 		return px * a + py * c + tx;
 	}
 
-	@:noCompletion private inline function __transformY(px:Float, py:Float):Float
-	{
+	@:noCompletion private inline function __transformY(px:Float, py:Float):Float {
 		return px * b + py * d + ty;
 	}
 
-	@:noCompletion private inline function __translateTransformed(px:Float, py:Float):Matrix
-	{
+	@:noCompletion private inline function __translateTransformed(px:Float, py:Float):Matrix {
 		tx = __transformX(px, py);
 		ty = __transformY(px, py);
 
-        return this;
+		return this;
 		// __cleanValues ();
 	}
 }

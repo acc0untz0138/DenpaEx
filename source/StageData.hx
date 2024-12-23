@@ -7,14 +7,14 @@ import openfl.utils.Assets;
 #end
 
 /**
-* Typedef defining the contents of a `Stage` file.
-*/
+ * Typedef defining the contents of a `Stage` file.
+ */
 typedef StageFile = {
 	var directory:String;
 	var defaultZoom:Float;
 	var isPixelStage:Bool;
 
-	var boyfriend:Array<Single>; //who made these dynamic lmao
+	var boyfriend:Array<Single>; // who made these dynamic lmao
 	var girlfriend:Array<Single>;
 	var opponent:Array<Single>;
 	var p4:Array<Single>;
@@ -31,8 +31,8 @@ typedef StageFile = {
 }
 
 /**
-* Typedef defining the contents of a sprite in a `Stage` file.
-*/
+ * Typedef defining the contents of a sprite in a `Stage` file.
+ */
 typedef StageSprite = {
 	var animated:Bool;
 	var front:Bool;
@@ -68,8 +68,8 @@ typedef StageSprite = {
 }
 
 /**
-* Typedef defining the contents of an animation in a `Stage` file.
-*/
+ * Typedef defining the contents of an animation in a `Stage` file.
+ */
 typedef StageAnimation = {
 	var name:String;
 	var xml_prefix:String;
@@ -80,17 +80,17 @@ typedef StageAnimation = {
 }
 
 /**
-* Class containing all related functions for stage loading and control.
-*/
+ * Class containing all related functions for stage loading and control.
+ */
 class StageData {
 	public static var forceNextDirectory:String = null;
+
 	public static function loadDirectory(SONG:SwagSong) {
 		var stage:String = '';
-		if(SONG.assets.stage != null) {
+		if (SONG.assets.stage != null) {
 			stage = SONG.assets.stage;
-		} else if(SONG.header.song != null) {
-			switch (SONG.header.song.toLowerCase().replace(' ', '-'))
-			{
+		} else if (SONG.header.song != null) {
+			switch (SONG.header.song.toLowerCase().replace(' ', '-')) {
 				case 'spookeez' | 'south' | 'monster':
 					stage = 'spooky';
 				case 'pico' | 'blammed' | 'philly' | 'philly-nice':
@@ -124,20 +124,19 @@ class StageData {
 
 		#if MODS_ALLOWED
 		var modPath:String = Paths.modFolders('data/stages/' + stage + '.json');
-		if(FileSystem.exists(modPath)) {
+		if (FileSystem.exists(modPath)) {
 			rawJson = File.getContent(modPath);
-		} else if(FileSystem.exists(path)) {
+		} else if (FileSystem.exists(path)) {
 			rawJson = File.getContent(path);
 		}
 		#else
-		if(Assets.exists(path)) {
+		if (Assets.exists(path)) {
 			rawJson = Assets.getText(path);
 		}
 		#end
-		else
-		{
-			return null;
-		}
+	else {
+		return null;
+	}
 		return cast Json.parse(rawJson);
 	}
 }

@@ -12,10 +12,9 @@ import Discord.DiscordClient;
 #end
 
 /**
-* State with shortcuts to all other editor menus.
-*/
-class MasterEditorMenu extends MusicBeatState
-{
+ * State with shortcuts to all other editor menus.
+ */
+class MasterEditorMenu extends MusicBeatState {
 	final options:Array<String> = [
 		'Week Editor',
 		'Menu Character Editor',
@@ -34,8 +33,7 @@ class MasterEditorMenu extends MusicBeatState
 	private var curDirectory = 0;
 	private var directoryTxt:FlxText;
 
-	override function create()
-	{	
+	override function create() {
 		FlxG.camera.bgColor = FlxColor.BLACK;
 		#if desktop
 		// Updating Discord Rich Presence
@@ -53,14 +51,14 @@ class MasterEditorMenu extends MusicBeatState
 			bgScroll.velocity.set(29, 30);
 			bgScroll.color = 0xFF353535;
 			add(bgScroll);
-	
+
 			var bgScroll2:FlxBackdrop = new FlxBackdrop(Paths.image('menuBGHexL6'));
 			bgScroll2.velocity.set(-29, -30);
 			bgScroll2.color = 0xFF353535;
 			add(bgScroll2);
 		}
 
-		var gradient:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('gradient'));
+		var gradient:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('gradient'));
 		gradient.color = 0xFF353535;
 		gradient.active = false;
 		add(gradient);
@@ -68,14 +66,13 @@ class MasterEditorMenu extends MusicBeatState
 		grpTexts = new FlxTypedGroup<Alphabet>();
 		add(grpTexts);
 
-		for (i in 0...options.length)
-		{
+		for (i in 0...options.length) {
 			var leText:Alphabet = new Alphabet(0, (70 * i) + 30, options[i], true, false);
 			leText.isMenuItem = true;
 			leText.targetY = i;
 			grpTexts.add(leText);
 		}
-		
+
 		#if MODS_ALLOWED
 		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 42).makeGraphic(FlxG.width, 42, 0xFF000000);
 		textBG.alpha = 0.6;
@@ -87,14 +84,14 @@ class MasterEditorMenu extends MusicBeatState
 		directoryTxt.scrollFactor.set();
 		directoryTxt.active = false;
 		add(directoryTxt);
-		
-		for (folder in Paths.getModDirectories())
-		{
+
+		for (folder in Paths.getModDirectories()) {
 			directories.push(folder);
 		}
 
 		var found:Int = directories.indexOf(Paths.currentModDirectory);
-		if(found > -1) curDirectory = found;
+		if (found > -1)
+			curDirectory = found;
 		changeDirectory();
 		#end
 		changeSelection();
@@ -112,9 +109,9 @@ class MasterEditorMenu extends MusicBeatState
 		if (controls.UI_DOWN_P)
 			changeSelection(1);
 		#if MODS_ALLOWED
-		if(controls.UI_LEFT_P)
+		if (controls.UI_LEFT_P)
 			changeDirectory(-1);
-		if(controls.UI_RIGHT_P)
+		if (controls.UI_RIGHT_P)
 			changeDirectory(1);
 		#end
 		if (controls.BACK) {
@@ -122,9 +119,8 @@ class MasterEditorMenu extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (controls.ACCEPT)
-		{
-			switch(options[curSelected]) {
+		if (controls.ACCEPT) {
+			switch (options[curSelected]) {
 				case 'Character Editor':
 					LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
 				case 'Week Editor':
@@ -135,7 +131,7 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case 'Dialogue Editor':
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-				case 'Chart Editor'://felt it would be cool maybe
+				case 'Chart Editor': // felt it would be cool maybe
 					PlayState.chartingMode = true;
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
@@ -148,8 +144,7 @@ class MasterEditorMenu extends MusicBeatState
 		}
 	}
 
-	function changeSelection(change:Int = 0)
-	{
+	function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
 		curSelected += change;
@@ -160,37 +155,33 @@ class MasterEditorMenu extends MusicBeatState
 			curSelected = 0;
 
 		var bullShit:Int = 0;
-		for (item in grpTexts.members)
-		{
+		for (item in grpTexts.members) {
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
 			item.alpha = 0.6;
 
-			if (item.targetY == 0)
-			{
+			if (item.targetY == 0) {
 				item.alpha = 1;
 			}
 		}
 	}
 
 	#if MODS_ALLOWED
-	function changeDirectory(change:Int = 0)
-	{
+	function changeDirectory(change:Int = 0) {
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
 		curDirectory += change;
 
-		if(curDirectory < 0)
+		if (curDirectory < 0)
 			curDirectory = directories.length - 1;
-		if(curDirectory >= directories.length)
+		if (curDirectory >= directories.length)
 			curDirectory = 0;
-	
+
 		WeekData.setDirectoryFromWeek();
-		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
+		if (directories[curDirectory] == null || directories[curDirectory].length < 1)
 			directoryTxt.text = '< No Mod Directory Loaded >';
-		else
-		{
+		else {
 			Paths.currentModDirectory = directories[curDirectory];
 			directoryTxt.text = '< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
 		}

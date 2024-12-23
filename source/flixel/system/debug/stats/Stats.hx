@@ -25,8 +25,7 @@ private class GraphicMaximizeButton extends BitmapData {}
  * @author Anton Karlov
  */
 #if FLX_DEBUG
-class Stats extends Window
-{
+class Stats extends Window {
 	/**
 	 * How often to update the stats, in ms. The lower, the more performance-intense!
 	 */
@@ -84,8 +83,7 @@ class Stats extends Window
 	/**
 	 * Creates a new window with fps and memory graphs, as well as other useful stats for debugging.
 	 */
-	public function new()
-	{
+	public function new() {
 		super("Stats", new GraphicStats(0, 0), 0, 0, false);
 
 		var minHeight = if (FlxG.renderTile) 200 else 185;
@@ -116,8 +114,7 @@ class Stats extends Window
 		_leftTextField.multiline = _rightTextField.multiline = true;
 
 		var drawMethod = "";
-		if (FlxG.renderTile)
-		{
+		if (FlxG.renderTile) {
 			drawMethod =
 				#if FLX_RENDER_TRIANGLE
 				"DrawTrian.";
@@ -137,10 +134,8 @@ class Stats extends Window
 	/**
 	 * Starts Stats window update logic
 	 */
-	public function start():Void
-	{
-		if (_paused)
-		{
+	public function start():Void {
+		if (_paused) {
 			_paused = false;
 			_itvTime = FlxG.game.ticks;
 			_frameCount = 0;
@@ -150,37 +145,31 @@ class Stats extends Window
 	/**
 	 * Stops Stats window
 	 */
-	public function stop():Void
-	{
+	public function stop():Void {
 		_paused = true;
 	}
 
 	/**
 	 * Clean up memory.
 	 */
-	override public function destroy():Void
-	{
-		if (fpsGraph != null)
-		{
+	override public function destroy():Void {
+		if (fpsGraph != null) {
 			fpsGraph.destroy();
 			removeChild(fpsGraph);
 		}
 		fpsGraph = null;
 
-		if (memoryGraph != null)
-		{
+		if (memoryGraph != null) {
 			removeChild(memoryGraph);
 		}
 		memoryGraph = null;
 
-		if (_leftTextField != null)
-		{
+		if (_leftTextField != null) {
 			removeChild(_leftTextField);
 		}
 		_leftTextField = null;
 
-		if (_rightTextField != null)
-		{
+		if (_rightTextField != null) {
 			removeChild(_rightTextField);
 		}
 		_rightTextField = null;
@@ -198,18 +187,15 @@ class Stats extends Window
 	 * Called each frame, but really only updates once every second or so, to save on performance.
 	 * Takes all the data in the accumulators and parses it into useful performance data.
 	 */
-	override public function update():Void
-	{
-		if (_paused)
-		{
+	override public function update():Void {
+		if (_paused) {
 			return;
 		}
 		var time:Int = _currentTime = FlxG.game.ticks;
 
 		var elapsed:Int = time - _lastTime;
 
-		if (elapsed > UPDATE_DELAY)
-		{
+		if (elapsed > UPDATE_DELAY) {
 			elapsed = UPDATE_DELAY;
 		}
 		_lastTime = time;
@@ -218,8 +204,7 @@ class Stats extends Window
 
 		_frameCount++;
 
-		if (_updateTimer > UPDATE_DELAY)
-		{
+		if (_updateTimer > UPDATE_DELAY) {
 			fpsGraph.update(currentFps());
 			memoryGraph.update(currentMem());
 			updateTexts();
@@ -228,33 +213,27 @@ class Stats extends Window
 			_itvTime = _currentTime;
 
 			updateTime = 0;
-			for (i in 0..._updateMarker)
-			{
+			for (i in 0..._updateMarker) {
 				updateTime += _update[i];
 			}
 
-			for (i in 0..._activeObjectMarker)
-			{
+			for (i in 0..._activeObjectMarker) {
 				activeCount += _activeObject[i];
 			}
 			activeCount = Std.int(divide(activeCount, _activeObjectMarker));
 
 			drawTime = 0;
-			for (i in 0..._drawMarker)
-			{
+			for (i in 0..._drawMarker) {
 				drawTime += _draw[i];
 			}
 
-			for (i in 0..._visibleObjectMarker)
-			{
+			for (i in 0..._visibleObjectMarker) {
 				visibleCount += _visibleObject[i];
 			}
 			visibleCount = Std.int(divide(visibleCount, _visibleObjectMarker));
 
-			if (FlxG.renderTile)
-			{
-				for (i in 0..._drawCallsMarker)
-				{
+			if (FlxG.renderTile) {
+				for (i in 0..._drawCallsMarker) {
 					drawCallsCount += _drawCalls[i];
 				}
 				drawCallsCount = Std.int(divide(drawCallsCount, _drawCallsMarker));
@@ -264,8 +243,7 @@ class Stats extends Window
 			_drawMarker = 0;
 			_activeObjectMarker = 0;
 			_visibleObjectMarker = 0;
-			if (FlxG.renderTile)
-			{
+			if (FlxG.renderTile) {
 				_drawCallsMarker = 0;
 			}
 
@@ -273,8 +251,7 @@ class Stats extends Window
 		}
 	}
 
-	inline function updateTexts():Void
-	{
+	inline function updateTexts():Void {
 		var updTime = FlxMath.roundDecimal(divide(updateTime, _updateMarker), DECIMALS);
 		var drwTime = FlxMath.roundDecimal(divide(drawTime, _drawMarker), DECIMALS);
 
@@ -301,15 +278,15 @@ class Stats extends Window
 	 * Current RAM consumption.
 	 */
 	public inline function currentMem():Float
-		return Math.abs(Math.round(#if cpp cpp.vm.Gc.memInfo(0) #elseif sys cast(cast(System.totalMemory, UInt), Float) #else 0 #end / 1024 / 1024 * 100) / 100);
+		return Math.abs(Math.round(#if cpp cpp.vm.Gc.memInfo(0) #elseif sys cast(cast(System.totalMemory, UInt),
+			Float) #else 0 #end / 1024 / 1024 * 100) / 100);
 
 	/**
 	 * How long updates took.
 	 *
 	 * @param 	Time	How long this update took.
 	 */
-	public function flixelUpdate(Time:Int):Void
-	{
+	public function flixelUpdate(Time:Int):Void {
 		if (_paused)
 			return;
 		_update[_updateMarker++] = Time;
@@ -320,8 +297,7 @@ class Stats extends Window
 	 *
 	 * @param	Time	How long this render took.
 	 */
-	public function flixelDraw(Time:Int):Void
-	{
+	public function flixelDraw(Time:Int):Void {
 		if (_paused)
 			return;
 		_draw[_drawMarker++] = Time;
@@ -332,8 +308,7 @@ class Stats extends Window
 	 *
 	 * @param 	Count	How many objects were updated.
 	 */
-	public function activeObjects(Count:Int):Void
-	{
+	public function activeObjects(Count:Int):Void {
 		if (_paused)
 			return;
 		_activeObject[_activeObjectMarker++] = Count;
@@ -344,8 +319,7 @@ class Stats extends Window
 	 *
 	 * @param 	Count	How many objects were rendered.
 	 */
-	public function visibleObjects(Count:Int):Void
-	{
+	public function visibleObjects(Count:Int):Void {
 		if (_paused)
 			return;
 		_visibleObject[_visibleObjectMarker++] = Count;
@@ -356,8 +330,7 @@ class Stats extends Window
 	 *
 	 * @param 	Count	How many times drawTiles() method was called.
 	 */
-	public function drawCalls(Drawcalls:Int):Void
-	{
+	public function drawCalls(Drawcalls:Int):Void {
 		if (_paused)
 			return;
 		_drawCalls[_drawCallsMarker++] = Drawcalls;
@@ -366,28 +339,22 @@ class Stats extends Window
 	/**
 	 * Re-enables tracking of the stats.
 	 */
-	public function onFocus():Void
-	{
+	public function onFocus():Void {
 		_paused = false;
 	}
 
 	/**
 	 * Pauses tracking of the stats.
 	 */
-	public function onFocusLost():Void
-	{
+	public function onFocusLost():Void {
 		_paused = true;
 	}
 
-	function toggleSize():Void
-	{
-		if (_width == INITIAL_WIDTH)
-		{
+	function toggleSize():Void {
+		if (_width == INITIAL_WIDTH) {
 			resize(INITIAL_WIDTH * 2, _height);
 			x -= INITIAL_WIDTH;
-		}
-		else
-		{
+		} else {
 			resize(INITIAL_WIDTH, _height);
 			x += INITIAL_WIDTH;
 		}

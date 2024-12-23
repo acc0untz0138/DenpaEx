@@ -6,11 +6,11 @@ package external.memory;
  * for the program.
  * @author Leather128 (Haxe) - David Robert Nadeau (Original C Header)
  */
- #if ios
- @:buildXml('<include name="../../../../../../../source/external/memory/build.xml" />')
- #else
- @:buildXml('<include name="../../../../source/external/memory/build.xml" />')
- #end
+#if ios
+@:buildXml('<include name="../../../../../../../source/external/memory/build.xml" />')
+#else
+@:buildXml('<include name="../../../../source/external/memory/build.xml" />')
+#end
 @:include("memory.h")
 extern class Memory {
 	/**
@@ -22,13 +22,14 @@ extern class Memory {
 	public static function getPeakUsage():Float;
 
 	/**
- 	 * Returns the current resident set size (physical memory use) measured
- 	 * in bytes, or zero if the value cannot be determined on this OS.
+	 * Returns the current resident set size (physical memory use) measured
+	 * in bytes, or zero if the value cannot be determined on this OS.
 	 */
 	@:native("getCurrentRSS")
 	public static function getCurrentUsage():Float;
 }
 #else
+
 /**
  * If you are not running on a CPP Platform, the code just will not work properly, sorry!
  * @author Leather128
@@ -38,12 +39,14 @@ class Memory {
 	 * (Non cpp platform)
 	 * Returns 0.
 	 */
-	public static function getPeakUsage():Float return 0.0;
+	public static function getPeakUsage():Float
+		return 0.0;
 
 	/**
 	 * (Non cpp platform)
 	 * Returns 0.
 	 */
-	public static function getCurrentUsage():Float return 0.0;
+	public static function getCurrentUsage():Float
+		return 0.0;
 }
 #end

@@ -9,15 +9,14 @@ import flixel.util.helpers.FlxPointRangeBounds;
 import flixel.util.helpers.FlxRangeBounds;
 
 /**
-* Class used to create `PhillyGlowParticle`s for the Philly stage.
-*/
-class PhillyGlowParticle extends FlxSprite
-{
+ * Class used to create `PhillyGlowParticle`s for the Philly stage.
+ */
+class PhillyGlowParticle extends FlxSprite {
 	var lifeTime:Float = 0;
 	var decay:Float = 0;
 	var originalScale:Float = 1;
-	public function new(x:Float, y:Float, color:FlxColor)
-	{
+
+	public function new(x:Float, y:Float, color:FlxColor) {
 		super(x, y);
 		start(x, y, color);
 	}
@@ -30,8 +29,7 @@ class PhillyGlowParticle extends FlxSprite
 		loadGraphic(Paths.image('effectSprites/particle'));
 		lifeTime = FlxG.random.float(0.6, 0.9);
 		decay = FlxG.random.float(0.8, 1);
-		if(!ClientPrefs.settings.get("flashing"))
-		{
+		if (!ClientPrefs.settings.get("flashing")) {
 			decay *= 0.5;
 			alpha = 0.5;
 		}
@@ -44,15 +42,12 @@ class PhillyGlowParticle extends FlxSprite
 		acceleration.set(FlxG.random.float(-10, 10), 25);
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		lifeTime -= elapsed;
-		if(lifeTime < 0)
-		{
+		if (lifeTime < 0) {
 			lifeTime = 0;
 			alpha -= decay * elapsed;
-			if(alpha > 0)
-			{
+			if (alpha > 0) {
 				scale.set(originalScale * alpha, originalScale * alpha);
 			}
 		}
@@ -61,15 +56,14 @@ class PhillyGlowParticle extends FlxSprite
 }
 
 /**
-* Class used to create `PhillyGlowGradient`s for the Philly stage.
-*/
-class PhillyGlowGradient extends FlxSprite
-{
+ * Class used to create `PhillyGlowGradient`s for the Philly stage.
+ */
+class PhillyGlowGradient extends FlxSprite {
 	public var originalY:Float;
 	public var originalHeight:Int = 400;
 	public var intendedAlpha:Float = 1;
-	public function new(x:Float, y:Float)
-	{
+
+	public function new(x:Float, y:Float) {
 		super(x, y);
 		originalY = y;
 
@@ -79,18 +73,14 @@ class PhillyGlowGradient extends FlxSprite
 		updateHitbox();
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		var newHeight:Int = Math.round(height - 1000 * elapsed);
-		if(newHeight > 0)
-		{
+		if (newHeight > 0) {
 			alpha = intendedAlpha;
 			setGraphicSize(2000, newHeight);
 			updateHitbox();
 			y = originalY + (originalHeight - height);
-		}
-		else
-		{
+		} else {
 			alpha = 0;
 			y = -5000;
 		}
@@ -98,8 +88,7 @@ class PhillyGlowGradient extends FlxSprite
 		super.update(elapsed);
 	}
 
-	public function bop()
-	{
+	public function bop() {
 		setGraphicSize(2000, originalHeight);
 		updateHitbox();
 		y = originalY;
@@ -108,14 +97,12 @@ class PhillyGlowGradient extends FlxSprite
 }
 
 /**
-* Class used to create `BackgroundDancer`s for the Limo stage.
-*/
-class BackgroundDancer extends FlxSprite
-{
-	public function new(x:Float, y:Float, ?alt:Bool = false)
-	{
+ * Class used to create `BackgroundDancer`s for the Limo stage.
+ */
+class BackgroundDancer extends FlxSprite {
+	public function new(x:Float, y:Float, ?alt:Bool = false) {
 		super(x, y);
-		
+
 		frames = Paths.getSparrowAtlas('vanilla/week4/limo/limoDancer');
 		animation.addByIndices('danceLeft', 'bg dancer sketch PINK', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		animation.addByIndices('danceRight', 'bg dancer sketch PINK', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -123,22 +110,22 @@ class BackgroundDancer extends FlxSprite
 	}
 
 	public var danceDir(default, set):Bool = false;
+
 	var animSuffix:String = 'Left';
+
 	function set_danceDir(dir:Bool):Bool {
 		danceDir = dir;
 		animSuffix = danceDir ? 'Right' : 'Left';
 		return danceDir;
 	}
 
-	public function dance():Void
-	{
+	public function dance():Void {
 		danceDir = !danceDir;
 		animation.play('dance$animSuffix', true);
 	}
 }
 
-class SnowEmitter extends FlxEmitter
-{
+class SnowEmitter extends FlxEmitter {
 	public function new(x:Float = 0, y:Float = 0, size:Int = 0, color:FlxColor = 0xffffffff) {
 		super(x, y, size);
 		alpha = new FlxRangeBounds(0.8, 1);
@@ -160,14 +147,14 @@ class SnowEmitter extends FlxEmitter
 }
 
 /**
-* Class used to create `BackgroundGirls`s for the School stage.
-*/
-class BackgroundGirls extends FlxSprite
-{
+ * Class used to create `BackgroundGirls`s for the School stage.
+ */
+class BackgroundGirls extends FlxSprite {
 	var isPissed:Bool = true;
+
 	public var stopDancing:Bool = false;
-	public function new(x:Float, y:Float)
-	{
+
+	public function new(x:Float, y:Float) {
 		super(x, y);
 
 		frames = Paths.getSparrowAtlas('vanilla/week6/weeb/bgFreaks');
@@ -179,15 +166,16 @@ class BackgroundGirls extends FlxSprite
 	}
 
 	public var danceDir(default, set):Bool = false;
+
 	var animSuffix:String = 'Left';
+
 	function set_danceDir(dir:Bool):Bool {
 		danceDir = dir;
 		animSuffix = danceDir ? 'Right' : 'Left';
 		return danceDir;
 	}
 
-	public function swapDanceType():Void
-	{
+	public function swapDanceType():Void {
 		isPissed = !isPissed;
 		final xmlName:String = isPissed ? 'BG fangirls dissuaded' : 'BG girls group';
 
@@ -197,28 +185,29 @@ class BackgroundGirls extends FlxSprite
 		dance();
 	}
 
-	public function dance():Void
-	{
-		if (stopDancing) return;
+	public function dance():Void {
+		if (stopDancing)
+			return;
 		danceDir = !danceDir;
 		animation.play('dance$animSuffix', true);
 	}
 }
 
 /**
-* Class used to create `TankmenBG`s for the Tank stage.
-*/
-class TankmenBG extends FlxSprite
-{
+ * Class used to create `TankmenBG`s for the Tank stage.
+ */
+class TankmenBG extends FlxSprite {
 	public static var animationNotes:Array<Dynamic> = [];
+
 	private var tankSpeed(get, default):Float;
 	private var endingOffset:Float;
 	private var goingRight:Bool;
+
 	public var strumTime:Float;
+
 	var actualSpeed_:Float;
 
-	public function new(x:Float, y:Float, facingRight:Bool)
-	{
+	public function new(x:Float, y:Float, facingRight:Bool) {
 		goingRight = false;
 		strumTime = 0;
 		goingRight = facingRight;
@@ -232,7 +221,8 @@ class TankmenBG extends FlxSprite
 		animation.play('run');
 		animation.curAnim.curFrame = FlxG.random.int(0, animation.curAnim.frames.length - 1);
 		animation.finishCallback = function(name:String) {
-			if(name == 'shot') kill();
+			if (name == 'shot')
+				kill();
 		}
 
 		updateHitbox();
@@ -241,8 +231,8 @@ class TankmenBG extends FlxSprite
 	}
 
 	var runningOffset:Float = 0.02;
-	public function resetShit(x:Float, y:Float, goingRight:Bool):Void
-	{
+
+	public function resetShit(x:Float, y:Float, goingRight:Bool):Void {
 		this.x = x;
 		this.y = y;
 		this.goingRight = goingRight;
@@ -253,24 +243,23 @@ class TankmenBG extends FlxSprite
 	}
 
 	var stop:Bool = false;
-	override function update(elapsed:Float)
-	{
+
+	override function update(elapsed:Float) {
 		super.update(elapsed);
-		if(stop) return;
+		if (stop)
+			return;
 
 		visible = (x > -0.5 * FlxG.width && x < 1.2 * FlxG.width);
 
-		x = (runningOffset * FlxG.width + endingOffset) + tankSpeed; //summed up into one equation which is pre-set instead of checking constantly
+		x = (runningOffset * FlxG.width + endingOffset) + tankSpeed; // summed up into one equation which is pre-set instead of checking constantly
 
-		if(Conductor.songPosition > strumTime)
-		{
+		if (Conductor.songPosition > strumTime) {
 			animation.play('shot');
-			if(goingRight)
-			{
+			if (goingRight) {
 				offset.x = 300;
 				offset.y = 200;
 			}
-			stop = true; //no longer needs to run this update function (cant set active to false or else the entire sprite stops working!!)
+			stop = true; // no longer needs to run this update function (cant set active to false or else the entire sprite stops working!!)
 		}
 	}
 

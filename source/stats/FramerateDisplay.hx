@@ -13,11 +13,10 @@ import openfl.events.Event;
 import flixel.util.FlxColor;
 
 /**
-    stolen and modified from hope engine, with permission (aka the one by skqure)
-    go check it out lol
+	stolen and modified from hope engine, with permission (aka the one by skqure)
+	go check it out lol
 **/
-class FramerateDisplay extends TextField
-{
+class FramerateDisplay extends TextField {
 	/**
 		The current frame rate, expressed using frames-per-second
 	**/
@@ -28,8 +27,7 @@ class FramerateDisplay extends TextField
 	@:noCompletion private var times:Array<Float>;
 	@:noCompletion private var previousFPS:Array<Float>;
 
-	public function new(x:Float = 1, y:Float = 10, color:Int = 0x000000)
-	{
+	public function new(x:Float = 1, y:Float = 10, color:Int = 0x000000) {
 		super();
 
 		positionFPS(x, y);
@@ -46,8 +44,7 @@ class FramerateDisplay extends TextField
 		previousFPS = [];
 
 		#if flash
-		addEventListener(Event.ENTER_FRAME, function(e)
-		{
+		addEventListener(Event.ENTER_FRAME, function(e) {
 			var time = Lib.getTimer();
 			__enterFrame(time - currentTime);
 		});
@@ -60,15 +57,14 @@ class FramerateDisplay extends TextField
 
 	// Event Handlers
 	@:noCompletion
-	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
-	{
-		if (!visible) return;
+	private #if !flash override #end function __enterFrame(deltaTime:Float):Void {
+		if (!visible)
+			return;
 
 		currentTime += deltaTime;
 		times.push(currentTime);
 
-		while (times[0] < currentTime - 1000)
-		{
+		while (times[0] < currentTime - 1000) {
 			times.shift();
 		}
 
@@ -76,18 +72,18 @@ class FramerateDisplay extends TextField
 		currentFPS = (currentCount + cacheCount) / 2;
 
 		if (ClientPrefs.settings.get('rainbowFPS')) {
-			colorInterp += deltaTime / 328; //division is to normalize so it doesnt give you a seizure on lower fps
-			Main.setDisplayColors(FlxColor.interpolate(colors[curColor], (curColor+1 == colors.length ? colors[0] : colors[curColor+1]), Math.min(Math.max(colorInterp, 0), 1)));
-			if (textColor == (curColor+1 == colors.length ? colors[0] : colors[curColor+1])) {
-				curColor = (curColor+1 == colors.length ? 0 : curColor+1);
+			colorInterp += deltaTime / 328; // division is to normalize so it doesnt give you a seizure on lower fps
+			Main.setDisplayColors(FlxColor.interpolate(colors[curColor], (curColor + 1 == colors.length ? colors[0] : colors[curColor + 1]),
+				Math.min(Math.max(colorInterp, 0), 1)));
+			if (textColor == (curColor + 1 == colors.length ? colors[0] : colors[curColor + 1])) {
+				curColor = (curColor + 1 == colors.length ? 0 : curColor + 1);
 				colorInterp = 0;
 			}
 		}
 
-		if (currentCount != cacheCount)
-		{
+		if (currentCount != cacheCount) {
 			text = "FPS: " + (!ClientPrefs.settings.get("ffmpegMode") ? Math.round(currentFPS) : ClientPrefs.settings.get("targetFPS"));
-			//textColor = (currentFPS < ClientPrefs.settings.get('framerate')/3 ? 0xff0000 : 0xffffff);
+			// textColor = (currentFPS < ClientPrefs.settings.get('framerate')/3 ? 0xff0000 : 0xffffff);
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
@@ -99,7 +95,7 @@ class FramerateDisplay extends TextField
 		cacheCount = currentCount;
 	}
 
-	public inline function positionFPS(X:Float, Y:Float, ?scale:Float = 1){
+	public inline function positionFPS(X:Float, Y:Float, ?scale:Float = 1) {
 		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
 		x = FlxG.game.x + X;
 		y = FlxG.game.y + Y;

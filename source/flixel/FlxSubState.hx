@@ -8,19 +8,20 @@ import flixel.util.FlxColor;
  * By default, it also stops the parent state from updating,
  * making it convenient for pause screens or menus.
  */
-class FlxSubState extends FlxState
-{
+class FlxSubState extends FlxState {
 	/**
 	 * Callback method for state open/resume event.
 	 * @since 4.3.0
 	 */
 	public var openCallback:Void->Void;
 
-    //NOTE: Only reason im doing this is so we can check if there is currently a substate running (HSCRIPT)!! Might be useful though
-    /**
-     * The currently active substate, if there is one!
-     */
-    public static var curInstance:Dynamic = null;
+	// NOTE: Only reason im doing this is so we can check if there is currently a substate running (HSCRIPT)!! Might be useful though
+
+	/**
+	 * The currently active substate, if there is one!
+	 */
+	public static var curInstance:Dynamic = null;
+
 	public var name:String = '';
 	public var overrideable:Bool = false;
 
@@ -51,8 +52,7 @@ class FlxSubState extends FlxState
 	/**
 	 * @param   BGColor   background color for this substate
 	 */
-	public function new(BGColor:FlxColor = FlxColor.TRANSPARENT)
-	{
+	public function new(BGColor:FlxColor = FlxColor.TRANSPARENT) {
 		super();
 		closeCallback = null;
 		openCallback = null;
@@ -62,18 +62,13 @@ class FlxSubState extends FlxState
 		bgColor = BGColor;
 	}
 
-	override public function draw():Void
-	{
+	override public function draw():Void {
 		// Draw background
-		if (FlxG.renderBlit)
-		{
-			for (camera in cameras)
-			{
+		if (FlxG.renderBlit) {
+			for (camera in cameras) {
 				camera.fill(bgColor);
 			}
-		}
-		else
-		{
+		} else {
 			_bgSprite.draw();
 		}
 
@@ -81,9 +76,8 @@ class FlxSubState extends FlxState
 		super.draw();
 	}
 
-	override public function destroy():Void
-	{
-        curInstance = null;
+	override public function destroy():Void {
+		curInstance = null;
 
 		super.destroy();
 		closeCallback = null;
@@ -95,22 +89,19 @@ class FlxSubState extends FlxState
 	/**
 	 * Closes this substate.
 	 */
-	public function close():Void
-	{
-        curInstance = null;
+	public function close():Void {
+		curInstance = null;
 		if (_parentState != null && _parentState.subState == this)
 			_parentState.closeSubState();
 	}
 
 	@:noCompletion
-	override inline function get_bgColor():FlxColor
-	{
+	override inline function get_bgColor():FlxColor {
 		return _bgColor;
 	}
 
 	@:noCompletion
-	override function set_bgColor(Value:FlxColor):FlxColor
-	{
+	override function set_bgColor(Value:FlxColor):FlxColor {
 		if (FlxG.renderTile && _bgSprite != null)
 			_bgSprite.pixels.setPixel32(0, 0, Value);
 

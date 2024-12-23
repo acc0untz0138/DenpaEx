@@ -20,7 +20,6 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
 package mobile;
 
 #if mobile
@@ -45,9 +44,7 @@ using StringTools;
  * @author Karim Akra
  * @author Lily Ross (mcagabe19)
  */
-
-class CopyState extends MusicBeatState
-{
+class CopyState extends MusicBeatState {
 	public static var locatedFiles:Array<String> = [];
 	public static var maxLoopTimes:Int = 0;
 	public static final IGNORE_FOLDER_FILE_NAME:String = "CopyStateIgnore.txt";
@@ -65,19 +62,18 @@ class CopyState extends MusicBeatState
 
 	private static final textFilesExtensions:Array<String> = ['ini', 'txt', 'xml', 'hxs', 'hx', 'lua', 'json', 'frag', 'vert'];
 
-	override function create()
-	{
+	override function create() {
 		locatedFiles = [];
 		maxLoopTimes = 0;
 		checkExistingFiles();
-		if (maxLoopTimes <= 0)
-		{
+		if (maxLoopTimes <= 0) {
 			MusicBeatState.switchState(new InitState());
 			return;
 		}
 
-		lime.app.Application.current.window.alert("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process", "Notice!");
-		
+		lime.app.Application.current.window.alert("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process",
+			"Notice!");
+
 		shouldCopy = true;
 
 		add(new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d));
@@ -107,14 +103,10 @@ class CopyState extends MusicBeatState
 		super.create();
 	}
 
-	override function update(elapsed:Float)
-	{
-		if (shouldCopy && copyLoop != null)
-		{
-			if (copyLoop.finished && canUpdate)
-			{
-				if (failedFiles.length > 0)
-				{
+	override function update(elapsed:Float) {
+		if (shouldCopy && copyLoop != null) {
+			if (copyLoop.finished && canUpdate) {
+				if (failedFiles.length > 0) {
 					lime.app.Application.current.window.alert(failedFiles.join('\n'), 'Failed To Copy ${failedFiles.length} File.');
 					if (!FileSystem.exists('logs'))
 						FileSystem.createDirectory('logs');
@@ -134,62 +126,48 @@ class CopyState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	public function copyAsset()
-	{
+	public function copyAsset() {
 		var file = locatedFiles[loopTimes];
 		loopTimes++;
-		if (!FileSystem.exists(file))
-		{
+		if (!FileSystem.exists(file)) {
 			var directory = Path.directory(file);
 			if (!FileSystem.exists(directory))
 				SUtil.mkDirs(directory);
-			try
-			{
-				if (OpenFLAssets.exists(getFile(file)))
-				{
+			try {
+				if (OpenFLAssets.exists(getFile(file))) {
 					if (textFilesExtensions.contains(Path.extension(file)))
 						createContentFromInternal(file);
 					else
 						File.saveBytes(file, getFileBytes(getFile(file)));
-				}
-				else
-				{
+				} else {
 					failedFiles.push(getFile(file) + " (File Dosen't Exist)");
 					failedFilesStack.push('Asset ${getFile(file)} does not exist.');
 				}
-			}
-			catch (e:haxe.Exception)
-			{
+			} catch (e:haxe.Exception) {
 				failedFiles.push('${getFile(file)} (${e.message})');
 				failedFilesStack.push('${getFile(file)} (${e.stack})');
 			}
 		}
 	}
 
-	public function createContentFromInternal(file:String)
-	{
+	public function createContentFromInternal(file:String) {
 		var fileName = Path.withoutDirectory(file);
 		var directory = Path.directory(file);
-		try
-		{
+		try {
 			var fileData:String = OpenFLAssets.getText(getFile(file));
 			if (fileData == null)
 				fileData = '';
 			if (!FileSystem.exists(directory))
 				SUtil.mkDirs(directory);
 			File.saveContent(Path.join([directory, fileName]), fileData);
-		}
-		catch (e:haxe.Exception)
-		{
+		} catch (e:haxe.Exception) {
 			failedFiles.push('${getFile(file)} (${e.message})');
 			failedFilesStack.push('${getFile(file)} (${e.stack})');
 		}
 	}
 
-	public function getFileBytes(file:String):ByteArray
-	{
-		switch (Path.extension(file))
-		{
+	public function getFileBytes(file:String):ByteArray {
+		switch (Path.extension(file)) {
 			case 'otf' | 'ttf':
 				return ByteArray.fromFile(file);
 			default:
@@ -197,23 +175,22 @@ class CopyState extends MusicBeatState
 		}
 	}
 
-	public static function getFile(file:String):String
-	{
-		if(OpenFLAssets.exists(file)) return file;
+	public static function getFile(file:String):String {
+		if (OpenFLAssets.exists(file))
+			return file;
 
 		@:privateAccess
-		for(library in LimeAssets.libraries.keys()){
-			if(OpenFLAssets.exists('$library:$file') && library != 'default')
+		for (library in LimeAssets.libraries.keys()) {
+			if (OpenFLAssets.exists('$library:$file') && library != 'default')
 				return '$library:$file';
 		}
 
 		return file;
 	}
 
-	public static function checkExistingFiles():Bool
-	{
+	public static function checkExistingFiles():Bool {
 		locatedFiles = OpenFLAssets.list();
-		
+
 		// removes unwanted assets
 		var assets = locatedFiles.filter(folder -> folder.startsWith('assets/'));
 		var mods = locatedFiles.filter(folder -> folder.startsWith('mods/'));
@@ -221,10 +198,9 @@ class CopyState extends MusicBeatState
 
 		var filesToRemove:Array<String> = [];
 
-		for (file in locatedFiles)
-		{
-			if (FileSystem.exists(file) || OpenFLAssets.exists(getFile(Path.join([Path.directory(getFile(file)), IGNORE_FOLDER_FILE_NAME]))))
-			{
+		for (file in locatedFiles) {
+			if (FileSystem.exists(file)
+				|| OpenFLAssets.exists(getFile(Path.join([Path.directory(getFile(file)), IGNORE_FOLDER_FILE_NAME])))) {
 				filesToRemove.push(file);
 			}
 		}

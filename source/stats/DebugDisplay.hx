@@ -8,8 +8,7 @@ import openfl.system.Capabilities;
 import openfl.display3D.Context3D;
 import sys.io.Process;
 
-class DebugDisplay extends TextField
-{
+class DebugDisplay extends TextField {
 	private var storedPeak:Float = 0;
 	private var memPeakDisplayStr:String = ' B';
 	private var cachedMem:Float = 0;
@@ -19,14 +18,13 @@ class DebugDisplay extends TextField
 	public var showSystem:Bool = false;
 	public var forceUpdate:Bool = false;
 
-	//sys
+	// sys
 	private var platform:String = '???';
 	private var cpu:String = '???';
 	private var gpu:String = '???';
 	private var engVer:String = '???';
 
-	public function new(inX:Float = 10.0, inY:Float = 10.0, inCol:Int = 0x000000)
-	{
+	public function new(inX:Float = 10.0, inY:Float = 10.0, inCol:Int = 0x000000) {
 		super();
 
 		positionMEM(inX, inY);
@@ -43,8 +41,7 @@ class DebugDisplay extends TextField
 		resetMeta();
 	}
 
-	private function resetMeta()
-	{
+	private function resetMeta() {
 		platform = '${LimeSys.platformLabel} ${LimeSys.platformVersion}';
 		#if windows
 		var process = new Process('wmic', ['cpu', 'get', 'name']);
@@ -58,18 +55,19 @@ class DebugDisplay extends TextField
 	}
 
 	var lastFT:Float = 0.0;
-	private override function __enterFrame(deltaTime:Float):Void
-	{
-		if (!visible) return; //why would we calculate this if its not visible.
+
+	private override function __enterFrame(deltaTime:Float):Void {
+		if (!visible)
+			return; // why would we calculate this if its not visible.
 
 		if (!forceUpdate) {
 			lastFT += deltaTime;
-			lastFT -= (lastFT > 100 ? 100 : return); //Il s'agit d'une mémoire tampon pour éviter tout décalage!
+			lastFT -= (lastFT > 100 ? 100 : return); // Il s'agit d'une mémoire tampon pour éviter tout décalage!
 		}
 
-		//get the current used shit
+		// get the current used shit
 		final arr:Array<Any> = CoolUtil.getMemUsage();
-        var mem:Float = cast arr[0];
+		var mem:Float = cast arr[0];
 		#if debug
 		final uObj = @:privateAccess flixel.FlxBasic.activeCount;
 		final dObj = @:privateAccess flixel.FlxBasic.visibleCount;
@@ -79,54 +77,49 @@ class DebugDisplay extends TextField
 		else
 			cachedMem = mem;
 
-		
 		var memDisplayStr:String = cast arr[1];
-		if (mem > storedPeak) storedPeak = mem; //set max
-		var newArr = CoolUtil.truncateByteFormat(mem); //truncate
-		mem = newArr[0]; //truncated
-		memDisplayStr = newArr[1]; //format
+		if (mem > storedPeak)
+			storedPeak = mem; // set max
+		var newArr = CoolUtil.truncateByteFormat(mem); // truncate
+		mem = newArr[0]; // truncated
+		memDisplayStr = newArr[1]; // format
 
 		var memPeak = storedPeak;
 		newArr = CoolUtil.truncateByteFormat(memPeak);
 		memPeak = newArr[0];
 		memPeakDisplayStr = newArr[1];
 
-		text = 'MEM: ${Math.fround(mem * 100)/100} $memDisplayStr / ${Math.fround(memPeak * 100)/100} $memPeakDisplayStr';
+		text = 'MEM: ${Math.fround(mem * 100) / 100} $memDisplayStr / ${Math.fround(memPeak * 100) / 100} $memPeakDisplayStr';
 
 		if (showSystem) {
-			text += '\nVER: $engVer' +
-			'\nSYS: $platform' +
-			'\nCPU: $cpu';
+			text += '\nVER: $engVer' + '\nSYS: $platform' + '\nCPU: $cpu';
 			if (gpu != cpu)
 				text += '\nGPU: $gpu';
 		}
 
 		if (showConductor) {
-			text += '\nBPM: ${Conductor.bpm}' + 
-				'\nLPST: ${Math.round(SoundTestState.playingTrackLoopStart)}, ${Math.round(FlxG.sound.music.loopTime)}' +
-				'\nLPEN: ${Math.round(SoundTestState.playingTrackLoopEnd)}, ${Math.round(FlxG.sound.music.endTime)}' +
-				'\nTIME: ${Math.round(Conductor.songPosition)}';
+			text += '\nBPM: ${Conductor.bpm}'
+				+ '\nLPST: ${Math.round(SoundTestState.playingTrackLoopStart)}, ${Math.round(FlxG.sound.music.loopTime)}'
+				+ '\nLPEN: ${Math.round(SoundTestState.playingTrackLoopEnd)}, ${Math.round(FlxG.sound.music.endTime)}'
+				+ '\nTIME: ${Math.round(Conductor.songPosition)}';
 			if (MusicBeatSubstate.curInstance != null)
-				text += '\nSTEP: ${MusicBeatSubstate.curInstance.curStep}' +
-					'\nBEAT: ${MusicBeatSubstate.curInstance.curBeat}';
+				text += '\nSTEP: ${MusicBeatSubstate.curInstance.curStep}' + '\nBEAT: ${MusicBeatSubstate.curInstance.curBeat}';
 			else if (MusicBeatState.curInstance != null)
-				text += '\nSTEP: ${MusicBeatState.curInstance.curStep}' +
-					'\nBEAT: ${MusicBeatState.curInstance.curBeat}';
+				text += '\nSTEP: ${MusicBeatState.curInstance.curStep}' + '\nBEAT: ${MusicBeatState.curInstance.curBeat}';
 		}
 
 		if (showFlixel) {
-			text += '\nCUR: ${Type.getClassName(Type.getClass(FlxG.state))}' +
-				'${(flixel.FlxSubState.curInstance != null ? '\nSUB: ${Type.getClassName(Type.getClass(flixel.FlxSubState.curInstance))}' : '')}' +
-				'\nMEMBS: ${FlxG.state.members.length}' +
-				#if debug '\nACT-OBJ: $uObj | VIS-OBJ: $dObj' + #end
-				'\nSNDS: ${FlxG.sound.list.length}' + 
-				'\nBMPS: ${FlxG.bitmap.getTotalBitmaps()}';
+			text += '\nCUR: ${Type.getClassName(Type.getClass(FlxG.state))}'
+				+ '${(flixel.FlxSubState.curInstance != null ? '\nSUB: ${Type.getClassName(Type.getClass(flixel.FlxSubState.curInstance))}' : '')}'
+				+ '\nMEMBS: ${FlxG.state.members.length}'
+				+ #if debug '\nACT-OBJ: $uObj | VIS-OBJ: $dObj'
+				+ #end '\nSNDS: ${FlxG.sound.list.length}' + '\nBMPS: ${FlxG.bitmap.getTotalBitmaps()}';
 		}
 
 		forceUpdate = false;
 	}
 
-	public inline function positionMEM(X:Float, Y:Float, ?scale:Float = 1){
+	public inline function positionMEM(X:Float, Y:Float, ?scale:Float = 1) {
 		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
 		x = FlxG.game.x + X;
 		y = FlxG.game.y + Y;

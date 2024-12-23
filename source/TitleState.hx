@@ -19,9 +19,8 @@ import openfl.display.BitmapData;
 import Discord.DiscordClient;
 #end
 
-//this typedef shit is a mess LMAO
-typedef TitleData =
-{
+// this typedef shit is a mess LMAO
+typedef TitleData = {
 	titleOffsets:Array<Float>,
 	titleAntialiasing:Bool,
 	startOffsets:Array<Float>,
@@ -35,12 +34,11 @@ typedef TitleData =
 	endY:Float
 }
 
-typedef NGSprJson =
-{
+typedef NGSprJson = {
 	data:Array<NGSprData>,
 }
-typedef NGSprData =
-{
+
+typedef NGSprData = {
 	sprite:String,
 	textArray:Array<String>,
 	height:Float
@@ -49,17 +47,18 @@ typedef NGSprData =
 typedef IntroData = {
 	beats:Array<BeatSet>
 }
+
 typedef BeatSet = {
 	beat:Int,
 	actions:Array<ActionSet>
 }
+
 typedef ActionSet = {
 	name:String,
 	values:Array<Dynamic>
 }
 
-class TitleState extends MusicBeatState
-{
+class TitleState extends MusicBeatState {
 	public static var initialized:Bool = false;
 
 	var blackScreen:FlxSprite;
@@ -77,30 +76,28 @@ class TitleState extends MusicBeatState
 	var curWacky:Array<String> = [];
 
 	var mustUpdate:Bool = false;
-	
+
 	var titleJSON:TitleData;
 	var ngSprJSON:NGSprJson;
 	var introJSON:IntroData;
-	
+
 	public static var updateVersion:String = '';
 
-	override public function create():Void
-	{
+	override public function create():Void {
 		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
 		WeekData.loadTheFirstEnabledMod();
-		
+
 		MusicBeatState.disableManual = true;
 		if (ClientPrefs.settings.get("checkForUpdates")) {
-			if(!closedState) {
+			if (!closedState) {
 				trace('checking for update');
 				var http = new haxe.Http("https://raw.githubusercontent.com/acc0untz0138/DenpaEx/master/assets/preload/update/tracking/GitVer.txt");
-				
-				http.onData = function (data:String)
-				{
+
+				http.onData = function(data:String) {
 					updateVersion = data.split('\n')[0].trim();
 					var curVersion:String = Main.denpaEngineVersion.version;
 					trace('version online: ' + updateVersion + ', your version: ' + curVersion);
-					if(updateVersion != curVersion) {
+					if (updateVersion != curVersion) {
 						trace('versions arent matching!');
 						#if !debug
 						mustUpdate = true;
@@ -110,11 +107,11 @@ class TitleState extends MusicBeatState
 						#end
 					}
 				}
-				
-				http.onError = function (error) {
+
+				http.onError = function(error) {
 					trace('error: $error');
 				}
-				
+
 				http.request();
 			}
 		}
@@ -131,17 +128,17 @@ class TitleState extends MusicBeatState
 		ngSprJSON = Json.parse(Paths.getTextFromFile('data/title/shoutouts.json'));
 		introJSON = Json.parse(Paths.getTextFromFile('data/title/intro.json'));
 
-		if(FlxG.save.data.epilepsyCheck == null && !FlashingState.leftState) {
+		if (FlxG.save.data.epilepsyCheck == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.save.data.epilepsyCheck = true;
 			FlxG.save.flush();
 			MusicBeatState.switchState(new FlashingState());
 		} else {
-			//new FlxTimer().start(1, function(tmr:FlxTimer)
-			//{
-				startIntro();
-			//});
+			// new FlxTimer().start(1, function(tmr:FlxTimer)
+			// {
+			startIntro();
+			// });
 		}
 	}
 
@@ -154,11 +151,9 @@ class TitleState extends MusicBeatState
 	var animatedBg:Bool = false;
 	var bg:FlxSprite;
 
-	function startIntro()
-	{
-		if (!initialized)
-		{
-			if(FlxG.sound.music == null) {
+	function startIntro() {
+		if (!initialized) {
+			if (FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('funkyMenu'), 0);
 				FlxG.sound.music.loopTime = 37647.058823;
 				FlxG.sound.music.endTime = null;
@@ -171,19 +166,20 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 		bg = new FlxSprite();
-		
+
 		if (titleJSON.background != null && titleJSON.background.length > 0 && titleJSON.background.toLowerCase() != "none")
 			if (FileSystem.exists(Paths.getXmlPath('title/${titleJSON.background}'))) {
 				bg.frames = Paths.getSparrowAtlas('title/${titleJSON.background}');
 				var arr:Array<String> = [];
-				//get the first xml animation
+				// get the first xml animation
 				var data:Access = new Access(Xml.parse(Paths.getTextFromFile('images/title/${titleJSON.background}.xml')).firstElement());
-				for (texture in data.nodes.SubTexture) arr.push(texture.att.name.substr(0, texture.att.name.length - 3));
+				for (texture in data.nodes.SubTexture)
+					arr.push(texture.att.name.substr(0, texture.att.name.length - 3));
 				arr = CoolUtil.removeDuplicates(arr);
 				bg.animation.addByPrefix('idle', arr[0], 24, false);
 				bg.animation.play('idle', true);
 				animatedBg = true;
-				//! for some reason, the animation does not actually play.
+				// ! for some reason, the animation does not actually play.
 			} else {
 				bg.loadGraphic(Paths.image(titleJSON.background));
 			}
@@ -212,24 +208,24 @@ class TitleState extends MusicBeatState
 		gfDance.scale.set(titleJSON.gfScale[0], titleJSON.gfScale[1]);
 		gfDance.updateHitbox();
 		gfDance.antialiasing = titleJSON.gfAntialiasing ? ClientPrefs.settings.get("globalAntialiasing") : false;
-		
+
 		add(gfDance);
 		add(logoBl);
 		if (!ClientPrefs.settings.get("lowQuality")) {
 			gfDance.shader = swagShader.shader;
 			logoBl.shader = swagShader.shader;
 		}
-		
+
 		titleText = new FlxSprite(titleJSON.startOffsets[0], titleJSON.startOffsets[1]);
 		#if (desktop && MODS_ALLOWED)
 		var path = "mods/" + Paths.currentModDirectory + "/images/title/titleEnter.png";
-		if (!FileSystem.exists(path)){
+		if (!FileSystem.exists(path)) {
 			path = "mods/images/title/titleEnter.png";
 		}
-		if (!FileSystem.exists(path)){
+		if (!FileSystem.exists(path)) {
 			path = "assets/images/title/titleEnter.png";
 		}
-		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(StringTools.replace(path,".png",".xml")));
+		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path), File.getContent(StringTools.replace(path, ".png", ".xml")));
 		#else
 		titleText.frames = Paths.getSparrowAtlas('title/titleEnter');
 		#end
@@ -238,20 +234,19 @@ class TitleState extends MusicBeatState
 			titleText.animation.findByPrefix(animFrames, "ENTER IDLE");
 			titleText.animation.findByPrefix(animFrames, "ENTER FREEZE");
 		}
-		
+
 		if (animFrames.length > 0) {
 			newTitle = true;
-			
+
 			titleText.animation.addByPrefix('idle', "ENTER IDLE", 24);
 			titleText.animation.addByPrefix('press', ClientPrefs.settings.get("flashing") ? "ENTER PRESSED" : "ENTER FREEZE", 24);
-		}
-		else {
+		} else {
 			newTitle = false;
-			
+
 			titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 			titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		}
-		
+
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		titleText.antialiasing = titleJSON.startAntialiasing ? ClientPrefs.settings.get("globalAntialiasing") : false;
@@ -272,12 +267,11 @@ class TitleState extends MusicBeatState
 		var sprite:String = 'newgrounds_logo';
 		ngSpr = new FlxSprite();
 		#if DENPA_WATERMARKS
-		final r = FlxG.random.int(0, ngSprJSON.data.length-1);
-		switch (r)
-		{
+		final r = FlxG.random.int(0, ngSprJSON.data.length - 1);
+		switch (r) {
 			case 0:
 				sex[0] = 'Not associated';
-			//allow for infinite shit lol
+			// allow for infinite shit lol
 			default:
 				sprite = ngSprJSON.data[r].sprite;
 				height = ngSprJSON.data[r].height;
@@ -294,24 +288,24 @@ class TitleState extends MusicBeatState
 		ngSpr.active = false;
 
 		#if DENPA_WATERMARKS
-		credIcon1 = new FlxSprite(150,150).loadGraphic(Paths.image('credits/at'));
+		credIcon1 = new FlxSprite(150, 150).loadGraphic(Paths.image('credits/at'));
 		add(credIcon1);
 		credIcon1.visible = false;
 
-		credIcon2 = new FlxSprite(FlxG.width-300,150).loadGraphic(Paths.image('credits/toadette'));
+		credIcon2 = new FlxSprite(FlxG.width - 300, 150).loadGraphic(Paths.image('credits/toadette'));
 		add(credIcon2);
 		credIcon2.visible = false;
 		credIcon2.flipX = true;
 
-		credIcon3 = new FlxSprite(150,FlxG.height-300).loadGraphic(Paths.image('credits/yanniz06'));
+		credIcon3 = new FlxSprite(150, FlxG.height - 300).loadGraphic(Paths.image('credits/yanniz06'));
 		add(credIcon3);
 		credIcon3.visible = false;
 
-		credIcon4 = new FlxSprite(FlxG.width-300,FlxG.height-300).loadGraphic(Paths.image('credits/thrift'));
+		credIcon4 = new FlxSprite(FlxG.width - 300, FlxG.height - 300).loadGraphic(Paths.image('credits/thrift'));
 		add(credIcon4);
 		credIcon4.visible = false;
 		credIcon4.flipX = true;
-		
+
 		credIcon1.active = false;
 		credIcon2.active = false;
 		credIcon3.active = false;
@@ -326,9 +320,8 @@ class TitleState extends MusicBeatState
 			initialized = true;
 	}
 
-	function getIntroTextShit():Array<Array<String>>
-	{
-		var fullText:String = Paths.getTextFromFile('data/introText.txt'); //allows mod intro sex
+	function getIntroTextShit():Array<Array<String>> {
+		var fullText:String = Paths.getTextFromFile('data/introText.txt'); // allows mod intro sex
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -340,6 +333,7 @@ class TitleState extends MusicBeatState
 	}
 
 	var transitioning:Bool = false;
+
 	private static var playJingle:Bool = false;
 
 	var newTitle:Bool = false;
@@ -347,43 +341,38 @@ class TitleState extends MusicBeatState
 	var idling:Bool = false;
 	var idlingTimer:Float = 180;
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
 
-		for (touch in FlxG.touches.list)
-		{
-			if (touch.justPressed)
-			{
+		for (touch in FlxG.touches.list) {
+			if (touch.justPressed) {
 				pressedEnter = true;
 			}
 		}
 
 		if (newTitle) {
 			titleTimer += CoolUtil.clamp(elapsed, 0, 1);
-			if (titleTimer > 2) titleTimer -= 2;
+			if (titleTimer > 2)
+				titleTimer -= 2;
 		}
 
-		if (initialized && !transitioning && skippedIntro)
-		{
-			if (newTitle && !pressedEnter)
-			{
+		if (initialized && !transitioning && skippedIntro) {
+			if (newTitle && !pressedEnter) {
 				var timer:Float = titleTimer;
 				if (timer >= 1)
 					timer = (-timer) + 2;
-				
+
 				timer = FlxEase.quadInOut(timer);
-					
+
 				titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
 				titleText.alpha = FlxMath.lerp(1, .64, timer);
 			}
 
-			if(pressedEnter)
-			{
-				if(titleText != null) {
+			if (pressedEnter) {
+				if (titleText != null) {
 					titleText.color = FlxColor.WHITE;
 					titleText.alpha = 1;
 					titleText.animation.play('press');
@@ -398,8 +387,7 @@ class TitleState extends MusicBeatState
 
 				transitioning = true;
 
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-				{
+				new FlxTimer().start(1, function(tmr:FlxTimer) {
 					if (mustUpdate) {
 						FlxG.sound.music.fadeOut(0.5);
 						MusicBeatState.switchState(new OutdatedState());
@@ -411,8 +399,7 @@ class TitleState extends MusicBeatState
 			}
 		}
 
-		if (initialized && pressedEnter && !skippedIntro)
-		{
+		if (initialized && pressedEnter && !skippedIntro) {
 			skipIntro();
 		}
 
@@ -425,26 +412,25 @@ class TitleState extends MusicBeatState
 			}
 		}
 		FlxG.watch.addQuick("idler", idlingTimer);
-		if (FlxG.keys.justPressed.ANY){
+		if (FlxG.keys.justPressed.ANY) {
 			idlingTimer = 180;
 			idling = false;
 		}
 
 		if (!ClientPrefs.settings.get("lowQuality")) {
-			if(swagShader != null)
-			{
-				if(controls.UI_LEFT){
+			if (swagShader != null) {
+				if (controls.UI_LEFT) {
 					swagShader.hue -= elapsed * 0.1;
-				} 
-				if(controls.UI_RIGHT){
+				}
+				if (controls.UI_RIGHT) {
 					swagShader.hue += elapsed * 0.1;
-				} 
-				if(controls.UI_DOWN){
+				}
+				if (controls.UI_DOWN) {
 					swagShader.brightness -= elapsed * 0.1;
-				} 
-				if(controls.UI_UP){
+				}
+				if (controls.UI_UP) {
 					swagShader.brightness += elapsed * 0.1;
-				} 
+				}
 				if (idling) {
 					swagShader.hue += elapsed * 0.05;
 				}
@@ -454,23 +440,20 @@ class TitleState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	function createCoolText(textArray:Array<String>, ?offset:Float = 0)
-	{
-		for (i in 0...textArray.length)
-		{
+	function createCoolText(textArray:Array<String>, ?offset:Float = 0) {
+		for (i in 0...textArray.length) {
 			var money:Alphabet = new Alphabet(0, 0, textArray[i], true, false);
 			money.screenCenter(X);
 			money.y += (i * 60) + 200 + offset;
-			if(credGroup != null && textGroup != null) {
+			if (credGroup != null && textGroup != null) {
 				credGroup.add(money);
 				textGroup.add(money);
 			}
 		}
 	}
 
-	function addMoreText(text:String, ?offset:Float = 0)
-	{
-		if(textGroup != null && credGroup != null) {
+	function addMoreText(text:String, ?offset:Float = 0) {
+		if (textGroup != null && credGroup != null) {
 			var coolText:Alphabet = new Alphabet(0, 0, text, true, false);
 			coolText.screenCenter(X);
 			coolText.y += (textGroup.length * 60) + 200 + offset;
@@ -479,21 +462,21 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	function deleteCoolText()
-	{
-		while (textGroup.members.length > 0)
-		{
+	function deleteCoolText() {
+		while (textGroup.members.length > 0) {
 			credGroup.remove(textGroup.members[0], true);
 			textGroup.remove(textGroup.members[0], true);
 		}
 	}
 
 	var zoomies:Float = 1.025;
-	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+	private var sickBeats:Int = 0; // Basically curBeat but won't be skipped if you hold the tab or resize the screen
+
 	public static var closedState:Bool = false;
+
 	var incrementor:Int = 0;
-	override function beatHit()
-	{
+
+	override function beatHit() {
 		super.beatHit();
 
 		FlxG.camera.zoom = zoomies;
@@ -502,10 +485,10 @@ class TitleState extends MusicBeatState
 			ease: FlxEase.quadOut
 		});
 
-		if(logoBl != null) 
+		if (logoBl != null)
 			logoBl.animation.play('bump', true);
 
-		if(gfDance != null) {
+		if (gfDance != null) {
 			danceLeft = !danceLeft;
 			if (danceLeft)
 				gfDance.animation.play('danceRight');
@@ -517,12 +500,11 @@ class TitleState extends MusicBeatState
 			bg.animation.play('idle', true);
 		}
 
-		if(!closedState) {
+		if (!closedState) {
 			sickBeats++;
 			if (!skippedIntro) {
-				switch (sickBeats)
-				{
-					//so soft coded
+				switch (sickBeats) {
+					// so soft coded
 					default:
 						runBeatHandler(introJSON.beats[incrementor]);
 				}
@@ -531,27 +513,36 @@ class TitleState extends MusicBeatState
 	}
 
 	function runBeatHandler(beatSet:BeatSet) {
-		if (beatSet == null || (beatSet.beat != sickBeats || beatSet.actions == null)) return;
+		if (beatSet == null || (beatSet.beat != sickBeats || beatSet.actions == null))
+			return;
 		incrementor++;
 		for (actionSet in beatSet.actions) {
-			if (actionSet.name == null) return;
+			if (actionSet.name == null)
+				return;
 			switch (actionSet.name.toLowerCase()) {
-				case "setzoom": zoomies = cast (actionSet.values[0], Float);
-				case "createstarttext": createCoolText(cast actionSet.values[0], cast (actionSet.values[1], Float));
-				case "addmoretext": addMoreText(cast (actionSet.values[0], String), (actionSet.values[1] == null ? 0 : cast (actionSet.values[1], Float)));
-				case "deletetext": deleteCoolText();
-				case "skipintro": skipIntro();
-				case "changebpm": Conductor.changeBPM(cast (actionSet.values[0], Float));
-				case "setrandomtext": curWacky = FlxG.random.getObject(getIntroTextShit());
+				case "setzoom":
+					zoomies = cast(actionSet.values[0], Float);
+				case "createstarttext":
+					createCoolText(cast actionSet.values[0], cast(actionSet.values[1], Float));
+				case "addmoretext":
+					addMoreText(cast(actionSet.values[0], String), (actionSet.values[1] == null ? 0 : cast(actionSet.values[1], Float)));
+				case "deletetext":
+					deleteCoolText();
+				case "skipintro":
+					skipIntro();
+				case "changebpm":
+					Conductor.changeBPM(cast(actionSet.values[0], Float));
+				case "setrandomtext":
+					curWacky = FlxG.random.getObject(getIntroTextShit());
 				case "addrandomtext":
-					switch (cast (actionSet.values[0], Int)) {
+					switch (cast(actionSet.values[0], Int)) {
 						case 0:
 							createCoolText([curWacky[0]]);
 						default:
-							addMoreText(curWacky[cast (actionSet.values[0], Int)]);
+							addMoreText(curWacky[cast(actionSet.values[0], Int)]);
 					}
 				case "newgrounds":
-					switch (cast (actionSet.values[0], Int)) {
+					switch (cast(actionSet.values[0], Int)) {
 						case 0:
 							createCoolText([sex[0], sex[1]], -115);
 						case 1:
@@ -563,7 +554,7 @@ class TitleState extends MusicBeatState
 					}
 				#if DENPA_WATERMARKS
 				case "icons":
-					switch (cast (actionSet.values[0], Int)) {
+					switch (cast(actionSet.values[0], Int)) {
 						case 0:
 							for (i in [credIcon1, credIcon2, credIcon3, credIcon4])
 								i.visible = true;
@@ -580,23 +571,22 @@ class TitleState extends MusicBeatState
 
 	var skippedIntro:Bool = false;
 	var updateStuffText:FlxText;
-	function skipIntro():Void
-	{
-		if (!skippedIntro)
-		{
+
+	function skipIntro():Void {
+		if (!skippedIntro) {
 			FlxTween.tween(logoBl, {y: titleJSON.endY}, 1.4, {ease: FlxEase.expoInOut});
 
 			logoBl.angle = -4;
 
-			new FlxTimer().start(0.01, function(tmr:FlxTimer)
-			{
+			new FlxTimer().start(0.01, function(tmr:FlxTimer) {
 				if (logoBl.angle == -4)
 					FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
 				if (logoBl.angle == 4)
 					FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
 			}, 0);
 			zoomies = 1.025;
-			if (!SoundTestState.isPlaying) Conductor.changeBPM(titleJSON.bpm);
+			if (!SoundTestState.isPlaying)
+				Conductor.changeBPM(titleJSON.bpm);
 			remove(ngSpr);
 			remove(credGroup);
 			#if DENPA_WATERMARKS

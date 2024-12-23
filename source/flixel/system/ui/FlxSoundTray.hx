@@ -20,8 +20,7 @@ import flash.text.GridFitType;
  * The flixel sound tray, the little volume meter that pops down sometimes.
  * Accessed via `FlxG.game.soundTray` or `FlxG.sound.soundTray`.
  */
-class FlxSoundTray extends Sprite
-{
+class FlxSoundTray extends Sprite {
 	/**
 	 * Because reading any data from DisplayObject is insanely expensive in hxcpp, keep track of whether we need to update it or not.
 	 */
@@ -37,10 +36,10 @@ class FlxSoundTray extends Sprite
 	 */
 	var _bars:Array<Bitmap>;
 
-    /**
+	/**
 	 * Displays the actual volume as text.
 	 */
-    var _volumeDisplay:TextField;
+	var _volumeDisplay:TextField;
 
 	/**
 	 * How wide the sound tray background is.
@@ -50,7 +49,7 @@ class FlxSoundTray extends Sprite
 	var _defaultScale:Float = 2.0;
 
 	/**The sound used when increasing the volume.**/
-	//public var volumeSound:String = "flixel/sounds/beep";
+	// public var volumeSound:String = "flixel/sounds/beep";
 
 	/**Whether or not changing the volume should make noise.**/
 	public var silent:Bool = false;
@@ -59,8 +58,7 @@ class FlxSoundTray extends Sprite
 	 * Sets up the "sound tray", the little volume meter that pops down sometimes.
 	 */
 	@:keep
-	public function new()
-	{
+	public function new() {
 		super();
 
 		visible = false;
@@ -90,7 +88,7 @@ class FlxSoundTray extends Sprite
 		text.text = "VOLUME";
 		text.y = 18;
 
-        _volumeDisplay = new TextField();
+		_volumeDisplay = new TextField();
 		_volumeDisplay.width = tmp.width;
 		_volumeDisplay.height = tmp.height;
 		_volumeDisplay.multiline = true;
@@ -114,8 +112,7 @@ class FlxSoundTray extends Sprite
 		var by:Int = 12;
 		_bars = new Array();
 
-		for (i in 0...10)
-		{
+		for (i in 0...10) {
 			tmp = new Bitmap(new BitmapData(4, i + 1, false, FlxColor.WHITE));
 			tmp.x = bx;
 			tmp.y = by;
@@ -132,25 +129,19 @@ class FlxSoundTray extends Sprite
 	/**
 	 * This function just updates the soundtray object.
 	 */
-	public function update(MS:Float):Void
-	{
+	public function update(MS:Float):Void {
 		// Animate stupid sound tray thing
-		if (_timer > 0)
-		{
+		if (_timer > 0) {
 			_timer -= MS / 1000;
-		}
-		else if (y > -height)
-		{
+		} else if (y > -height) {
 			y -= (MS / 1000) * FlxG.height * 2;
 
-			if (y <= -height)
-			{
+			if (y <= -height) {
 				visible = false;
 				active = false;
 
 				// Save sound preferences
-				if (FlxG.save.isBound)
-				{
+				if (FlxG.save.isBound) {
 					FlxG.save.data.mute = FlxG.sound.muted;
 					FlxG.save.data.volume = FlxG.sound.volume;
 					FlxG.save.flush();
@@ -164,11 +155,9 @@ class FlxSoundTray extends Sprite
 	 *
 	 * @param	up Whether the volume is increasing.
 	 */
-	public function show(up:Bool = false, _silent:Bool = false):Void
-	{
-		if (!_silent && !silent)
-		{
-			//atleast its better than the ear piercing beep 
+	public function show(up:Bool = false, _silent:Bool = false):Void {
+		if (!_silent && !silent) {
+			// atleast its better than the ear piercing beep
 			FlxG.sound.play(Paths.sound('bfBeep'));
 		}
 
@@ -178,29 +167,23 @@ class FlxSoundTray extends Sprite
 		active = true;
 		var globalVolume:Int = Math.round(FlxG.sound.volume * 10);
 
-		if (FlxG.sound.muted)
-		{
+		if (FlxG.sound.muted) {
 			globalVolume = 0;
 		}
 
-		for (i in 0..._bars.length)
-		{
-			if (i < globalVolume)
-			{
+		for (i in 0..._bars.length) {
+			if (i < globalVolume) {
 				_bars[i].alpha = 1;
-			}
-			else
-			{
+			} else {
 				_bars[i].alpha = 0.5;
 			}
 		}
 
-        final vol = Math.round(FlxG.sound.volume*100);
-        _volumeDisplay.text = '$vol%${(FlxG.sound.muted ? ' (MUTE)' : '')}';
+		final vol = Math.round(FlxG.sound.volume * 100);
+		_volumeDisplay.text = '$vol%${(FlxG.sound.muted ? ' (MUTE)' : '')}';
 	}
 
-	public function screenCenter():Void
-	{
+	public function screenCenter():Void {
 		scaleX = _defaultScale;
 		scaleY = _defaultScale;
 

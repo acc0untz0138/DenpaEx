@@ -19,10 +19,9 @@ import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
 
 /**
-* State used to create and edit `Stage` jsons.
-*/
-class StageEditorState extends MusicBeatState
-{
+ * State used to create and edit `Stage` jsons.
+ */
+class StageEditorState extends MusicBeatState {
 	var music:EditorMusic;
 	var stageFile:StageFile = null;
 
@@ -31,93 +30,92 @@ class StageEditorState extends MusicBeatState
 		super.destroy();
 	}
 
-	override function create()
-	{
+	override function create() {
 		music = new EditorMusic();
 		stageFile = {
-				directory: "",
-				defaultZoom: 0.9,
-				isPixelStage: false,
+			directory: "",
+			defaultZoom: 0.9,
+			isPixelStage: false,
 
-				boyfriend: [770, 100],
-				girlfriend: [400, 130],
-				opponent: [100, 100],
-				p4: [0, 0],
-				hide_girlfriend: false,
-			
-				camera_boyfriend: [0, 0],
-				camera_opponent: [0, 0],
-				camera_girlfriend: [0, 0],
-				camera_p4: [0,0],
-				camera_speed: 1,
+			boyfriend: [770, 100],
+			girlfriend: [400, 130],
+			opponent: [100, 100],
+			p4: [0, 0],
+			hide_girlfriend: false,
 
-				sprites: [
-					{
-						animated: false,
-						front: false,
-						glitch_shader: null,
-					
-						position: [-600,-200],
-						scroll: [0.9,0.9],
-						size: [1,1],
-					
-						alpha: null,
-					
-						angle: null,
-						layer_pos: 0,
-					
-						glitch_speed: null,
-						glitch_amplitude: null,
-						glitch_frequency: null,
-					
-						animation_index: 0,
-					
-						antialiasing: true,
-					
-						tag: "bg",
-						image: "stageback",
+			camera_boyfriend: [0, 0],
+			camera_opponent: [0, 0],
+			camera_girlfriend: [0, 0],
+			camera_p4: [0, 0],
+			camera_speed: 1,
 
-						flip_x: null,
-						flip_y: null,
+			sprites: [
+				{
+					animated: false,
+					front: false,
+					glitch_shader: null,
 
-						gf_front: false,
-						origin: null,
-						hide_lq: false
-					},
-					{
-						animated: false,
-						front: false,
-						glitch_shader: null,
-					
-						position: [-650,-600],
-						scroll: [0.9,0.9],
-						size: [1.1,1.1],
-					
-						alpha: null,
-					
-						angle: null,
-						layer_pos: 1,
-					
-						glitch_speed: null,
-						glitch_amplitude: null,
-						glitch_frequency: null,
-					
-						animation_index: 0,
-					
-						antialiasing: true,
-					
-						tag: "stageFront",
-						image: "stagefront",
+					position: [-600, -200],
+					scroll: [0.9, 0.9],
+					size: [1, 1],
 
-						flip_x: null,
-						flip_y: null,
+					alpha: null,
 
-						gf_front: false,
-						origin: null,
-						hide_lq: false
-					}
-				],
-				animations: [[]]
+					angle: null,
+					layer_pos: 0,
+
+					glitch_speed: null,
+					glitch_amplitude: null,
+					glitch_frequency: null,
+
+					animation_index: 0,
+
+					antialiasing: true,
+
+					tag: "bg",
+					image: "stageback",
+
+					flip_x: null,
+					flip_y: null,
+
+					gf_front: false,
+					origin: null,
+					hide_lq: false
+				},
+				{
+					animated: false,
+					front: false,
+					glitch_shader: null,
+
+					position: [-650, -600],
+					scroll: [0.9, 0.9],
+					size: [1.1, 1.1],
+
+					alpha: null,
+
+					angle: null,
+					layer_pos: 1,
+
+					glitch_speed: null,
+					glitch_amplitude: null,
+					glitch_frequency: null,
+
+					animation_index: 0,
+
+					antialiasing: true,
+
+					tag: "stageFront",
+					image: "stagefront",
+
+					flip_x: null,
+					flip_y: null,
+
+					gf_front: false,
+					origin: null,
+					hide_lq: false
+				}
+			],
+			animations: [[]]
 		};
 		#if desktop
 		// Updating Discord Rich Presence
@@ -134,11 +132,9 @@ class StageEditorState extends MusicBeatState
 	var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
 	var blockPressWhileTypingOnStepper:Array<FlxUINumericStepper> = [];
 	var blockPressWhileScrolling:Array<FlxUIDropDownMenuCustom> = [];
+
 	function addEditorBox() {
-		var tabs = [
-			{name: 'Stage', label: 'Stage'},
-			{name: 'Sprites', label: 'Sprites'}
-		];
+		var tabs = [{name: 'Stage', label: 'Stage'}, {name: 'Sprites', label: 'Sprites'}];
 		UI_mainbox = new FlxUITabMenu(null, tabs, true);
 		UI_mainbox.resize(300, 650);
 		UI_mainbox.x = FlxG.width - UI_mainbox.width - 50;
@@ -153,7 +149,7 @@ class StageEditorState extends MusicBeatState
 		});
 		loadButton.x -= 60;
 		add(loadButton);
-	
+
 		var saveButton:FlxButton = new FlxButton(loadButton.x + 100, loadButton.y, "Save Stage", function() {
 			saveStage();
 		});
@@ -181,10 +177,11 @@ class StageEditorState extends MusicBeatState
 	var dadCamXStepper:FlxUINumericStepper;
 	var dadCamYStepper:FlxUINumericStepper;
 	var camSpeedStepper:FlxUINumericStepper;
+
 	function addStageUI() {
 		var tab_group = new FlxUI(null, UI_mainbox);
 		tab_group.name = "Stage";
-		
+
 		stageInputText = new FlxUIInputText(10, 20, 80, '', 8);
 		blockPressWhileTypingOn.push(stageInputText);
 		directoryInputText = new FlxUIInputText(10, stageInputText.y + 60, 80, stageFile.directory, 8);
@@ -233,15 +230,13 @@ class StageEditorState extends MusicBeatState
 
 		pixelStageCheckbox = new FlxUICheckBox(10, zoomStepper.y + 60, null, null, "Pixel Stage", 100);
 		pixelStageCheckbox.checked = stageFile.isPixelStage;
-		pixelStageCheckbox.callback = function()
-		{
+		pixelStageCheckbox.callback = function() {
 			stageFile.isPixelStage = pixelStageCheckbox.checked;
 		};
 
 		hideGfCheckbox = new FlxUICheckBox(10, pixelStageCheckbox.y + 60, null, null, "Hide Girlfriend", 100);
 		hideGfCheckbox.checked = stageFile.hide_girlfriend;
-		hideGfCheckbox.callback = function()
-		{
+		hideGfCheckbox.callback = function() {
 			stageFile.hide_girlfriend = hideGfCheckbox.checked;
 		};
 
@@ -309,10 +304,11 @@ class StageEditorState extends MusicBeatState
 	var indexStepper:FlxUINumericStepper;
 	var loadedIndex:Int = 0;
 	var maxIndex:Int = 0;
+
 	function addSpritesUI() {
 		var tab_group = new FlxUI(null, UI_mainbox);
 		tab_group.name = "Sprites";
-		
+
 		tagInputText = new FlxUIInputText(10, 20, 80, '', 8);
 		blockPressWhileTypingOn.push(tagInputText);
 		imageInputText = new FlxUIInputText(10, tagInputText.y + 60, 80, '', 8);
@@ -320,22 +316,19 @@ class StageEditorState extends MusicBeatState
 
 		animatedCheckbox = new FlxUICheckBox(10, imageInputText.y + 60, null, null, "Animated", 100);
 		animatedCheckbox.checked = stageFile.sprites[loadedIndex].animated;
-		animatedCheckbox.callback = function()
-		{
+		animatedCheckbox.callback = function() {
 			stageFile.sprites[loadedIndex].animated = animatedCheckbox.checked;
 		};
 
 		frontCheckbox = new FlxUICheckBox(10, animatedCheckbox.y + 60, null, null, "Front", 100);
 		frontCheckbox.checked = stageFile.sprites[loadedIndex].front;
-		frontCheckbox.callback = function()
-		{
+		frontCheckbox.callback = function() {
 			stageFile.sprites[loadedIndex].front = frontCheckbox.checked;
 		};
 
 		glitchCheckbox = new FlxUICheckBox(10, frontCheckbox.y + 60, null, null, "Glitch Shader", 100);
 		glitchCheckbox.checked = stageFile.sprites[loadedIndex].glitch_shader;
-		glitchCheckbox.callback = function()
-		{
+		glitchCheckbox.callback = function() {
 			stageFile.sprites[loadedIndex].glitch_shader = glitchCheckbox.checked;
 		};
 
@@ -372,7 +365,7 @@ class StageEditorState extends MusicBeatState
 		animIndexStepper = new FlxUINumericStepper(210, glitchFrequencyStepper.y + 60, 1, 0, 0, 9999, 1);
 		blockPressWhileTypingOnStepper.push(animIndexStepper);
 
-		indexStepper = new FlxUINumericStepper(210, animIndexStepper.y + 60, 1, 0, 0, maxIndex-1, 1);
+		indexStepper = new FlxUINumericStepper(210, animIndexStepper.y + 60, 1, 0, 0, maxIndex - 1, 1);
 		blockPressWhileTypingOnStepper.push(indexStepper);
 
 		tab_group.add(new FlxText(tagInputText.x, tagInputText.y - 18, 0, 'Tag:'));
@@ -415,19 +408,16 @@ class StageEditorState extends MusicBeatState
 		UI_mainbox.addGroup(tab_group);
 	}
 
-
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
-		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
-			if(sender == stageInputText) {
-
-			} else if(sender == directoryInputText) {
+		if (id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
+			if (sender == stageInputText) {} else if (sender == directoryInputText) {
 				stageFile.directory = sender.text;
-			} else if(sender == tagInputText) {
+			} else if (sender == tagInputText) {
 				stageFile.sprites[loadedIndex].tag = sender.text;
-			} else if(sender == imageInputText) {
+			} else if (sender == imageInputText) {
 				stageFile.sprites[loadedIndex].image = sender.text;
 			}
-		} else if(id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
+		} else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
 			if (sender == zoomStepper) {
 				stageFile.defaultZoom = sender.value;
 			} else if (sender == bfXStepper) {
@@ -488,7 +478,7 @@ class StageEditorState extends MusicBeatState
 				stageFile.sprites[loadedIndex].animation_index = sender.value;
 			} else if (sender == indexStepper) {
 				loadedIndex = sender.value;
-				trace (loadedIndex);
+				trace(loadedIndex);
 				updateSpritesUI();
 			}
 		}
@@ -497,8 +487,8 @@ class StageEditorState extends MusicBeatState
 	override function update(elapsed:Float) {
 		var blockInput:Bool = false;
 		for (inputText in blockPressWhileTypingOn) {
-			if(inputText.hasFocus) {
-				if(FlxG.keys.justPressed.ENTER) {
+			if (inputText.hasFocus) {
+				if (FlxG.keys.justPressed.ENTER) {
 					inputText.hasFocus = false;
 				}
 				FlxG.sound.muteKeys = [];
@@ -506,17 +496,18 @@ class StageEditorState extends MusicBeatState
 				FlxG.sound.volumeUpKeys = [];
 				blockInput = true;
 
-				if(FlxG.keys.justPressed.ENTER) inputText.hasFocus = false;
+				if (FlxG.keys.justPressed.ENTER)
+					inputText.hasFocus = false;
 				break;
 			}
 		}
 
-		if(!blockInput) {
+		if (!blockInput) {
 			for (stepper in blockPressWhileTypingOnStepper) {
 				@:privateAccess
 				var leText:Dynamic = stepper.text_field;
 				var leText:FlxUIInputText = leText;
-				if(leText.hasFocus) {
+				if (leText.hasFocus) {
 					FlxG.sound.muteKeys = [];
 					FlxG.sound.volumeDownKeys = [];
 					FlxG.sound.volumeUpKeys = [];
@@ -526,26 +517,26 @@ class StageEditorState extends MusicBeatState
 			}
 		}
 
-		if(!blockInput) {
+		if (!blockInput) {
 			FlxG.sound.muteKeys = InitState.muteKeys;
 			FlxG.sound.volumeDownKeys = InitState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = InitState.volumeUpKeys;
 			for (dropDownMenu in blockPressWhileScrolling) {
-				if(dropDownMenu.dropPanel.visible) {
+				if (dropDownMenu.dropPanel.visible) {
 					blockInput = true;
 					break;
 				}
 			}
 		}
 
-		if(!blockInput) {
+		if (!blockInput) {
 			FlxG.sound.muteKeys = InitState.muteKeys;
 			FlxG.sound.volumeDownKeys = InitState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = InitState.volumeUpKeys;
-			if(FlxG.keys.justPressed.ESCAPE) {
+			if (FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music("funkyMenu"));
-				
+
 				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 			}
 		}
@@ -560,7 +551,7 @@ class StageEditorState extends MusicBeatState
 				loadedIndex = 0;
 			}
 			if (maxIndex > 0) {
-				indexStepper.max = maxIndex-1;
+				indexStepper.max = maxIndex - 1;
 			} else {
 				indexStepper.max = 0;
 			}
@@ -666,6 +657,7 @@ class StageEditorState extends MusicBeatState
 	}
 
 	var _file:FileReference = null;
+
 	function loadStage() {
 		var jsonFilter:FileFilter = new FileFilter('JSON', 'json');
 		_file = new FileReference();
@@ -675,8 +667,7 @@ class StageEditorState extends MusicBeatState
 		_file.browse([jsonFilter]);
 	}
 
-	function onLoadComplete(_):Void
-	{
+	function onLoadComplete(_):Void {
 		_file.removeEventListener(Event.SELECT, onLoadComplete);
 		_file.removeEventListener(Event.CANCEL, onLoadCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
@@ -684,11 +675,12 @@ class StageEditorState extends MusicBeatState
 		#if sys
 		var fullPath:String = null;
 		@:privateAccess
-		if(_file.__path != null) fullPath = _file.__path;
+		if (_file.__path != null)
+			fullPath = _file.__path;
 
-		if(fullPath != null) {
+		if (fullPath != null) {
 			var rawJson:String = File.getContent(fullPath);
-			if(rawJson != null) {
+			if (rawJson != null) {
 				var loadedStage:StageFile = cast Json.parse(rawJson);
 				var cutName:String = _file.name.substr(0, _file.name.length - 5);
 				trace("Successfully loaded file: " + cutName);
@@ -709,10 +701,9 @@ class StageEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called when the save file dialog is cancelled.
-		*/
-	function onLoadCancel(_):Void
-	{
+	 * Called when the save file dialog is cancelled.
+	 */
+	function onLoadCancel(_):Void {
 		_file.removeEventListener(Event.SELECT, onLoadComplete);
 		_file.removeEventListener(Event.CANCEL, onLoadCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
@@ -721,10 +712,9 @@ class StageEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called if there is an error while saving the gameplay recording.
-		*/
-	function onLoadError(_):Void
-	{
+	 * Called if there is an error while saving the gameplay recording.
+	 */
+	function onLoadError(_):Void {
 		_file.removeEventListener(Event.SELECT, onLoadComplete);
 		_file.removeEventListener(Event.CANCEL, onLoadCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
@@ -734,10 +724,9 @@ class StageEditorState extends MusicBeatState
 
 	function saveStage() {
 		var data:String = Json.stringify(stageFile, "\t");
-		if (data.length > 0)
-		{
+		if (data.length > 0) {
 			var splittedStage:Array<String> = stageInputText.text.trim().split('_');
-			var stageName:String = splittedStage[splittedStage.length-1].toLowerCase().replace(' ', '');
+			var stageName:String = splittedStage[splittedStage.length - 1].toLowerCase().replace(' ', '');
 
 			#if mobile
 			SUtil.saveContent(stageName + ".json", data);
@@ -759,7 +748,7 @@ class StageEditorState extends MusicBeatState
 		path = Paths.modFolders(stagePath);
 		if (!FileSystem.exists(path))
 		#end
-			path = Paths.getPreloadPath(stagePath);
+		path = Paths.getPreloadPath(stagePath);
 
 		return path;
 	}
@@ -772,8 +761,7 @@ class StageEditorState extends MusicBeatState
 		return path;
 	}
 
-	function onSaveComplete(_):Void
-	{
+	function onSaveComplete(_):Void {
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
@@ -782,10 +770,9 @@ class StageEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called when the save file dialog is cancelled.
-		*/
-	function onSaveCancel(_):Void
-	{
+	 * Called when the save file dialog is cancelled.
+	 */
+	function onSaveCancel(_):Void {
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
@@ -793,10 +780,9 @@ class StageEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called if there is an error while saving the gameplay recording.
-		*/
-	function onSaveError(_):Void
-	{
+	 * Called if there is an error while saving the gameplay recording.
+	 */
+	function onSaveError(_):Void {
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);

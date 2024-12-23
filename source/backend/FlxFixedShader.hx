@@ -8,23 +8,19 @@ using StringTools;
  * A modded FlxShader that allows using GLSL Es 300 and GLSL 330
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
-class FlxFixedShader extends OriginalFlxShader
-{
+class FlxFixedShader extends OriginalFlxShader {
 	public var custom:Bool = false;
 	public var save:Bool = true;
 
-	public override function new(?save:Bool)
-	{
+	public override function new(?save:Bool) {
 		if (save != null)
 			this.save = save;
 
 		super();
 	}
 
-	@:noCompletion private override function __initGL():Void
-	{
-		if (__glSourceDirty || __paramBool == null)
-		{
+	@:noCompletion private override function __initGL():Void {
+		if (__glSourceDirty || __paramBool == null) {
 			__glSourceDirty = false;
 			program = null;
 
@@ -42,14 +38,12 @@ class FlxFixedShader extends OriginalFlxShader
 			initGLforce();
 	}
 
-	public function initGLforce()
-	{
+	public function initGLforce() {
 		if (!custom)
 			initGood(glFragmentSource, glVertexSource);
 	}
 
-	public function initGood(glFragmentSource:String, glVertexSource:String)
-	{
+	public function initGood(glFragmentSource:String, glVertexSource:String) {
 		@:privateAccess
 		var gl = __context.gl;
 
@@ -85,85 +79,63 @@ class FlxFixedShader extends OriginalFlxShader
 		#end
 
 		var id = vertex + fragment;
-
 		@:privateAccess
-		if (__context.__programs.exists(id) && save)
-		{
+		if (__context.__programs.exists(id) && save) {
 			@:privateAccess
 			program = __context.__programs.get(id);
-		}
-		else
-		{
+		} else {
 			program = __context.createProgram(GLSL);
 
 			@:privateAccess
 			program.__glProgram = __createGLProgram(vertex, fragment);
-
 			@:privateAccess
 			if (save)
 				__context.__programs.set(id, program);
 		}
 
-		if (program != null)
-		{
+		if (program != null) {
 			@:privateAccess
 			glProgram = program.__glProgram;
 
-			for (input in __inputBitmapData)
-			{
+			for (input in __inputBitmapData) {
 				@:privateAccess
-				if (input.__isUniform)
-				{
+				if (input.__isUniform) {
 					@:privateAccess
 					input.index = gl.getUniformLocation(glProgram, input.name);
-				}
-				else
-				{
+				} else {
 					@:privateAccess
 					input.index = gl.getAttribLocation(glProgram, input.name);
 				}
 			}
 
-			for (parameter in __paramBool)
-			{
+			for (parameter in __paramBool) {
 				@:privateAccess
-				if (parameter.__isUniform)
-				{
+				if (parameter.__isUniform) {
 					@:privateAccess
 					parameter.index = gl.getUniformLocation(glProgram, parameter.name);
-				}
-				else
-				{
+				} else {
 					@:privateAccess
 					parameter.index = gl.getAttribLocation(glProgram, parameter.name);
 				}
 			}
 
-			for (parameter in __paramFloat)
-			{
+			for (parameter in __paramFloat) {
 				@:privateAccess
-				if (parameter.__isUniform)
-				{
+				if (parameter.__isUniform) {
 					@:privateAccess
 					parameter.index = gl.getUniformLocation(glProgram, parameter.name);
-				}
-				else
-				{
+				} else {
 					@:privateAccess
 					parameter.index = gl.getAttribLocation(glProgram, parameter.name);
 				}
 			}
 
-			for (parameter in __paramInt)
-			{
+			for (parameter in __paramInt) {
 				@:privateAccess
-				if (parameter.__isUniform)
-				{
+				if (parameter.__isUniform) {
 					@:privateAccess
 					parameter.index = gl.getUniformLocation(glProgram, parameter.name);
-				}
-				else
-				{
+				} else {
 					@:privateAccess
 					parameter.index = gl.getAttribLocation(glProgram, parameter.name);
 				}

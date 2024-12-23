@@ -32,13 +32,11 @@ import cpp.vm.Gc;
 import mobile.CopyState;
 #end
 
-class Main extends Sprite
-{
+class Main extends Sprite {
 	public static function main():Void
 		Lib.current.addChild(new Main());
 
-	public function new()
-	{
+	public function new() {
 		#if mobile
 		#if android
 		SUtil.doPermissionsShit();
@@ -60,8 +58,7 @@ class Main extends Sprite
 			addEventListener(Event.ADDED_TO_STAGE, init);
 	}
 
-	private function init(?E:Event):Void
-	{
+	private function init(?E:Event):Void {
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 
@@ -84,21 +81,23 @@ class Main extends Sprite
 	public static var ramPie:DebugPie;
 
 	inline public static function toggleFPS(fpsEnabled:Bool):Void
-		if(fpsCounter != null) fpsCounter.visible = fpsEnabled;
- 
+		if (fpsCounter != null)
+			fpsCounter.visible = fpsEnabled;
+
 	inline public static function toggleMEM(memEnabled:Bool):Void
-		if(ramCount != null) ramCount.visible = memEnabled;
+		if (ramCount != null)
+			ramCount.visible = memEnabled;
 
 	inline public static function togglePIE(pieEnabled:Bool):Void
-		if(ramPie != null) ramPie.visible = pieEnabled;
+		if (ramPie != null)
+			ramPie.visible = pieEnabled;
 
 	#if (target.threaded && sys)
 	public static var threadPool:ElasticThreadPool;
 	#end
-	
-	private function setupGame():Void
-	{
-		#if cpp 
+
+	private function setupGame():Void {
+		#if cpp
 		Gc.enable(true);
 		#end
 
@@ -109,14 +108,15 @@ class Main extends Sprite
 		final skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 		final startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
-		//do not "funkingame" me, it is slower
-		addChild(new FlxGame(gameWidth, gameHeight, #if mobile !CopyState.checkExistingFiles() ? CopyState : #end initialState, framerate, framerate, skipSplash, startFullscreen));
+		// do not "funkingame" me, it is slower
+		addChild(new FlxGame(gameWidth, gameHeight, #if mobile !CopyState.checkExistingFiles() ? CopyState : #end initialState, framerate, framerate,
+			skipSplash, startFullscreen));
 
 		fpsCounter = new FramerateDisplay(6, 3, 0xFFFFFF);
 		FlxG.addChildBelowMouse(fpsCounter, 1);
 		addChild(fpsCounter);
 
-		//me on my way to perfectly position this fucking debug display so it doesnt piss me off:
+		// me on my way to perfectly position this fucking debug display so it doesnt piss me off:
 		ramCount = new DebugDisplay(6, 13, 0xffffff);
 		addChild(ramCount);
 		toggleMEM(#if mobile true #else false #end);
@@ -132,8 +132,9 @@ class Main extends Sprite
 		inline function gc(?minor:Bool = false) {
 			#if cpp
 			Gc.run(!minor);
-			if (!minor) Gc.compact();
-			//trace('${Gc.memInfo(0) / 1024 / 1024} MB NEEDED\n${Gc.memInfo(1) / 1024 / 1024} MB RESERVED\n${Gc.memInfo(2) / 1024 / 1024} MB IN USE');
+			if (!minor)
+				Gc.compact();
+			// trace('${Gc.memInfo(0) / 1024 / 1024} MB NEEDED\n${Gc.memInfo(1) / 1024 / 1024} MB RESERVED\n${Gc.memInfo(2) / 1024 / 1024} MB IN USE');
 			#else
 			openfl.system.System.gc();
 			#end
@@ -143,15 +144,15 @@ class Main extends Sprite
 		FlxG.gamepads.deviceConnected.add(gamepad -> ClientPrefs.controllerEnabled = true);
 		FlxG.gamepads.deviceDisconnected.add(gamepad -> ClientPrefs.controllerEnabled = false);
 
-		//negates need for constant clearStored etc
+		// negates need for constant clearStored etc
 		FlxG.signals.preStateSwitch.add(() -> {
 			Paths.clearStoredCache(true);
 			FlxG.sound.destroy(false);
 
 			var cache = cast(Assets.cache, AssetCache);
-			for (key=>font in cache.font)
+			for (key => font in cache.font)
 				cache.removeFont(key);
-			for (key=>sound in cache.sound)
+			for (key => sound in cache.sound)
 				cache.removeSound(key);
 			cache = null;
 
@@ -163,14 +164,14 @@ class Main extends Sprite
 		});
 
 		#if (openfl >= "9.2.0" && mobile)
-		FlxG.signals.gameResized.add(function (w, h) {
-			if(fpsCounter != null)
+		FlxG.signals.gameResized.add(function(w, h) {
+			if (fpsCounter != null)
 				fpsCounter.positionFPS(10, 3, Math.min(w / FlxG.width, h / FlxG.height));
 
-			if(ramCount != null)
+			if (ramCount != null)
 				ramCount.positionMEM(10, 13, Math.min(w / FlxG.width, h / FlxG.height));
 
-			if(ramPie != null)
+			if (ramPie != null)
 				ramPie.positionPIE(10, 156, Math.min(w / FlxG.width, h / FlxG.height));
 		});
 		#end
@@ -197,91 +198,108 @@ class Main extends Sprite
 	}
 
 	public static var colorblindMode:Int = -1;
+
 	public static function updateColorblindFilter(type:Int = -1, intensity:Float = 1) {
 		FlxG.game.setFilters([]);
-		
+
 		colorblindMode = type;
-		if (type == -1) return; //early return to avoid unnecessary calcs
+		if (type == -1)
+			return; // early return to avoid unnecessary calcs
 
 		var matrixShit:Array<Float> = [];
 		switch (type) {
-			//4x5 colour matrix
-			//1st in each row is red mult
-			//2nd in each row is green mult
-			//3rd in each row is blue mult
-			//4th in each row is alpha mult
-			//5th in each row is offset
-			//each row corresponds to rgba
-			//the value for each row is (matrixR * pixelR) + (matrixG * pixelG) + (matrixB * pixelB) + (matrixA * pixelA) + matrixO
-			case -1: //unchanged
+			// 4x5 colour matrix
+			// 1st in each row is red mult
+			// 2nd in each row is green mult
+			// 3rd in each row is blue mult
+			// 4th in each row is alpha mult
+			// 5th in each row is offset
+			// each row corresponds to rgba
+			// the value for each row is (matrixR * pixelR) + (matrixG * pixelG) + (matrixB * pixelB) + (matrixA * pixelA) + matrixO
+			case -1: // unchanged
 				matrixShit = [
 					1, 0, 0, 0, 0,
 					0, 1, 0, 0, 0,
 					0, 0, 1, 0, 0,
-					0, 0, 0, 1, 0];
-			case 0: //deutranopia
+					0, 0, 0, 1, 0
+				];
+			case 0: // deutranopia
 				matrixShit = [
-					0.43, 0.72, -0.15, 0, 0,
-					0.34, 0.57, 0.09, 0, 0,
-					-0.02, 0.03, 1, 0, 0,
-					0, 0, 0, 1, 0];
-			case 1: //protanopia
+					 0.43, 0.72, -0.15, 0, 0,
+					 0.34, 0.57,  0.09, 0, 0,
+					-0.02, 0.03,     1, 0, 0,
+					    0,    0,     0, 1, 0
+				];
+			case 1: // protanopia
 				matrixShit = [
-					0.2, 0.99, -0.19, 0, 0,
-					0.16, 0.79, 0.04, 0, 0,
-					0.01, -0.01, 1, 0, 0,
-					0, 0, 0, 1, 0];
-			case 2: //tritanopia
+					 0.2,  0.99, -0.19, 0, 0,
+					0.16,  0.79,  0.04, 0, 0,
+					0.01, -0.01,     1, 0, 0,
+					   0,     0,     0, 1, 0
+				];
+			case 2: // tritanopia
 				matrixShit = [
 					0.97, 0.11, -0.08, 0, 0,
-					0.02, 0.82, 0.16, 0, 0,
-					0.06, 0.88, 0.18, 0, 0,
-					0, 0, 0, 1, 0];
-			case 3: //gameboy mode
+					0.02, 0.82,  0.16, 0, 0,
+					0.06, 0.88,  0.18, 0, 0,
+					   0,    0,     0, 1, 0
+				];
+			case 3: // gameboy mode
 				matrixShit = [
-					0, 0, 0, 0, 0,
+					   0,    0,    0, 0, 0,
 					0.33, 0.34, 0.33, 0, 0,
-					0, 0, 0, 0, 0,
-					0, 0, 0, 1, 0];
-			case 4: //virtual boy mode
+					   0,    0,    0, 0, 0,
+					   0,    0,    0, 1, 0
+				];
+			case 4: // virtual boy mode
 				matrixShit = [
 					0.34, 0.33, 0.33, 0, 0,
-					0, 0, 0, 0, 0,
-					0, 0, 0, 0, 0,
-					0, 0, 0, 1, 0];
-			case 5: //b/w mode
+					   0,    0,    0, 0, 0,
+					   0,    0,    0, 0, 0,
+					   0,    0,    0, 1, 0
+				];
+			case 5: // b/w mode
 				matrixShit = [
 					0.33, 0.34, 0.33, 0, 0,
 					0.33, 0.34, 0.33, 0, 0,
 					0.33, 0.34, 0.33, 0, 0,
-					0, 0, 0, 1, 0];
-			case 6: //inverted mode
+					   0,    0,    0, 1, 0
+				];
+			case 6: // inverted mode
 				matrixShit = [
-					0, 0.5, 0.5, 0, 0,
-					0.5, 0, 0.5, 0, 0,
-					0.5, 0.5, 0, 0, 0,
-					0, 0, 0, 1, 0];
-			case 7: //idfk mode
+					  0, 0.5, 0.5, 0, 0,
+					0.5,   0, 0.5, 0, 0,
+					0.5, 0.5,   0, 0, 0,
+					  0,   0,   0, 1, 0
+				];
+			case 7: // idfk mode
 				matrixShit = [
-					0.07, 0.9, 0.03, 0, 0,
-					0.25, 0, 0.75, 0, 0,
-					0, 0.33, 0.67, 0, 0,
-					0, 0, 0, 1, 0];
-			case 8: //random mode
+					0.07,  0.9, 0.03, 0, 0,
+					0.25,    0, 0.75, 0, 0,
+					   0, 0.33, 0.67, 0, 0,
+					   0,    0,    0, 1, 0
+				];
+			case 8: // random mode
 				matrixShit = [
 					FlxG.random.float(0, 1), FlxG.random.float(0, 1), FlxG.random.float(0, 1), 0, 0,
 					FlxG.random.float(0, 1), FlxG.random.float(0, 1), FlxG.random.float(0, 1), 0, 0,
 					FlxG.random.float(0, 1), FlxG.random.float(0, 1), FlxG.random.float(0, 1), 0, 0,
-					0, 0, 0, 1, 0];
+					                      0,                       0,                       0, 1, 0
+				];
 		}
 		inline function checkRange(val:Int, low:Int, high:Int)
 			return (val >= low && val <= high);
 
 		for (i in 0...matrixShit.length) {
-			if (i % 5 == 4) continue; //dont fuck with the colour offsets
-			if (i > 14) break; //dont fuck with the alpha
-			if (matrixShit[i] == 0) matrixShit[i] = 0.00001;
-			if ((i % 5 == 0 && checkRange(i, 0, 4)) || (i % 5 == 1 && checkRange(i, 5, 9)) || (i % 5 == 2 && checkRange(i, 10, 14))) { //is color, we are on color.
+			if (i % 5 == 4)
+				continue; // dont fuck with the colour offsets
+			if (i > 14)
+				break; // dont fuck with the alpha
+			if (matrixShit[i] == 0)
+				matrixShit[i] = 0.00001;
+			if ((i % 5 == 0 && checkRange(i, 0, 4))
+				|| (i % 5 == 1 && checkRange(i, 5, 9))
+				|| (i % 5 == 2 && checkRange(i, 10, 14))) { // is color, we are on color.
 				matrixShit[i] = FlxMath.lerp(matrixShit[i], 1, CoolUtil.clamp(1 - intensity, 0, 1));
 				continue;
 			}
@@ -289,7 +307,8 @@ class Main extends Sprite
 		}
 
 		var filter = new ColorMatrixFilter(matrixShit);
-		if (filter == null) return;
+		if (filter == null)
+			return;
 
 		FlxG.game.setFilters([filter]);
 	}
@@ -299,8 +318,7 @@ class Main extends Sprite
 	}
 
 	#if CRASH_HANDLER
-	function onCrash(e:UncaughtErrorEvent):Void
-	{
+	function onCrash(e:UncaughtErrorEvent):Void {
 		var errMsg:String = "";
 		final callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var dateNow:String = Date.now().toString();
@@ -309,10 +327,8 @@ class Main extends Sprite
 
 		final path = "./crshhndlr/logs/" + "DenpaEx_" + dateNow + ".txt";
 
-		for (stackItem in callStack)
-		{
-			switch (stackItem)
-			{
+		for (stackItem in callStack) {
+			switch (stackItem) {
 				case FilePos(s, file, line, column):
 					errMsg += file + " (line " + line + ")\n";
 				default:
@@ -321,14 +337,17 @@ class Main extends Sprite
 		}
 
 		final errorLinesSorted:Array<String> = [
-			'\nUncaught Error: ${e.error}!' #if (!mobile),
-			'\nPlease report this error to the GitHub page\n(Will automatically open when exiting!)',
+			'\nUncaught Error: ${e.error}!'
+			#if (!mobile), '\nPlease report this error to the GitHub page\n(Will automatically open when exiting!)',
 			'\nAlternatively, report it in the official server\n(Will also be opened automatically!)',
 			'\n\nOriginal CrashHandler code written by squirra-rng (https://github.com/gedehari)' #end
 		];
-		for(line in errorLinesSorted) { errMsg += line; }
+		for (line in errorLinesSorted) {
+			errMsg += line;
+		}
 
-		if (!FileSystem.exists("./crshhndlr/logs/")) FileSystem.createDirectory("./crshhndlr/logs/");
+		if (!FileSystem.exists("./crshhndlr/logs/"))
+			FileSystem.createDirectory("./crshhndlr/logs/");
 
 		File.saveContent(path, errMsg + "\n");
 

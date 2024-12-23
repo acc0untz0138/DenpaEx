@@ -60,7 +60,6 @@ class SpriteMovieClip extends Sprite {
 	private function get_currentLabel():String {
 		return symbol.currentLabel;
 	}
-	
 
 	private function set_currentFrame(value:Int):Int {
 		symbol.currentFrame = value;

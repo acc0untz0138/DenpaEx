@@ -12,10 +12,9 @@ import flixel.util.FlxTimer;
 import openfl.display.BlendMode;
 
 /**
-* State used to inform the user of updates.
-*/
-class OutdatedState extends MusicBeatState
-{
+ * State used to inform the user of updates.
+ */
+class OutdatedState extends MusicBeatState {
 	public static var leftState:Bool = false;
 
 	var warnText:FlxText;
@@ -28,8 +27,8 @@ class OutdatedState extends MusicBeatState
 	var clouds:FlxBackdrop;
 	var window:FlxUI9SliceSprite;
 	var selected:Int = 0;
-	override function create()
-	{
+
+	override function create() {
 		super.create();
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
@@ -37,33 +36,33 @@ class OutdatedState extends MusicBeatState
 
 		bottomLayer = new FlxBackdrop(Paths.image('oscillators/bottom'), XY, 0, 0);
 		bottomLayer.velocity.set(-12, -5);
-		bottomLayer.scale.set(2,2);
+		bottomLayer.scale.set(2, 2);
 		bottomLayer.updateHitbox();
 		bottomLayer.blend = BlendMode.MULTIPLY;
 
 		middleLayer = new FlxBackdrop(Paths.image('oscillators/top'), XY, 0, 0);
 		middleLayer.velocity.set(-5, -12);
 		middleLayer.alpha = 0.5;
-		middleLayer.scale.set(2,2);
+		middleLayer.scale.set(2, 2);
 		middleLayer.updateHitbox();
 		middleLayer.blend = BlendMode.DIFFERENCE;
 
 		topLayer = new FlxBackdrop(Paths.image('oscillators/verytop'), XY, 0, 0);
 		topLayer.velocity.set(-24, -14);
 		topLayer.alpha = 0;
-		topLayer.scale.set(2,2);
+		topLayer.scale.set(2, 2);
 		topLayer.updateHitbox();
 		topLayer.blend = BlendMode.ADD;
 
 		clouds = new FlxBackdrop(Paths.image('oscillators/clouds'), XY, 40, 20);
 		clouds.velocity.set(27, 20);
-		clouds.scale.set(13,13);
+		clouds.scale.set(13, 13);
 		clouds.updateHitbox();
 		clouds.alpha = 0;
 		clouds.color = FlxColor.BLACK;
 		clouds.blend = BlendMode.MULTIPLY;
 
-		window = new FlxUI9SliceSprite(0,0, Paths.image('oscillators/sex'), new Rectangle(0, 0, 896, 512), [32, 32, 96, 96]);
+		window = new FlxUI9SliceSprite(0, 0, Paths.image('oscillators/sex'), new Rectangle(0, 0, 896, 512), [32, 32, 96, 96]);
 		window.screenCenter();
 		window.alpha = 0;
 		window.y += 700;
@@ -73,7 +72,7 @@ class OutdatedState extends MusicBeatState
 		buttonYes.animation.addByPrefix('idle', "yesbutton", 12);
 		buttonYes.animation.addByPrefix('selected', "yes lit", 12);
 		buttonYes.animation.play('idle');
-		buttonYes.scale.set(2.5,2.5);
+		buttonYes.scale.set(2.5, 2.5);
 		buttonYes.updateHitbox();
 		buttonYes.screenCenter();
 		buttonYes.y += 186;
@@ -86,7 +85,7 @@ class OutdatedState extends MusicBeatState
 		buttonNo.animation.addByPrefix('selected', "no lit", 12);
 		buttonNo.animation.play('idle');
 		buttonNo.screenCenter();
-		buttonNo.scale.set(2.5,2.5);
+		buttonNo.scale.set(2.5, 2.5);
 		buttonNo.updateHitbox();
 		buttonNo.y += 186;
 		buttonNo.y -= 25;
@@ -111,12 +110,14 @@ class OutdatedState extends MusicBeatState
 			ease: FlxEase.quadInOut
 		});
 
-		warnText = new FlxText(10, 0, FlxG.width,
-			"Your version of DenpaEx is outdated!\n
-			Your version is: " + Main.denpaEngineVersion.version + ",\n
-			The current version is: " + TitleState.updateVersion + ".\n
-			Would you like to update?",
-			32);
+		warnText = new FlxText(10, 0, FlxG.width, "Your version of DenpaEx is outdated!\n
+			Your version is: "
+			+ Main.denpaEngineVersion.version
+			+ ",\n
+			The current version is: "
+			+ TitleState.updateVersion
+			+ ".\n
+			Would you like to update?", 32);
 		warnText.setFormat(Paths.font("calibri-regular.ttf"), 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		warnText.y -= 40;
@@ -141,9 +142,8 @@ class OutdatedState extends MusicBeatState
 		});
 	}
 
-	override function update(elapsed:Float)
-	{
-		if(!leftState) {
+	override function update(elapsed:Float) {
+		if (!leftState) {
 			if ((controls.ACCEPT) && selected == 0) {
 				leftState = true;
 				CoolUtil.browserLoad("https://github.com/acc0untz0138/DenpaEx");
@@ -152,14 +152,13 @@ class OutdatedState extends MusicBeatState
 				leftState = true;
 			}
 
-			if(leftState)
-			{
+			if (leftState) {
 				FlxG.sound.play(Paths.sound('windowClose'));
 				FlxTween.tween(warnText, {alpha: 0}, 0.5, {
-					onComplete: function (twn:FlxTween) {
-						if(FlxG.sound.music == null) {
+					onComplete: function(twn:FlxTween) {
+						if (FlxG.sound.music == null) {
 							FlxG.sound.playMusic(Paths.music('funkyMenu'), 0);
-			
+
 							FlxG.sound.music.fadeIn(4, 0, 0.7);
 						}
 						MusicBeatState.switchState(new MainMenuState());
@@ -170,29 +169,27 @@ class OutdatedState extends MusicBeatState
 				FlxTween.tween(buttonYes, {alpha: 0}, 0.5);
 			}
 		}
-		if (selected == 0){
+		if (selected == 0) {
 			buttonNo.animation.play('idle');
 			buttonYes.animation.play('selected');
 		}
-		if (selected == 1){
+		if (selected == 1) {
 			buttonNo.animation.play('selected');
 			buttonYes.animation.play('idle');
 		}
-		if (controls.UI_LEFT_P)
-			{
-				if (selected != 0) {
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					selected = 0;
-				}
+		if (controls.UI_LEFT_P) {
+			if (selected != 0) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				selected = 0;
 			}
+		}
 
-		if (controls.UI_RIGHT_P)
-			{
-				if (selected != 1) {
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					selected = 1;
-				}
+		if (controls.UI_RIGHT_P) {
+			if (selected != 1) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				selected = 1;
 			}
+		}
 		super.update(elapsed);
 	}
 }

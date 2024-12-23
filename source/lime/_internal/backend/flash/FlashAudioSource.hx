@@ -5,8 +5,7 @@ import lime.math.Vector4;
 import lime.media.AudioSource;
 
 @:access(lime.media.AudioBuffer)
-class FlashAudioSource
-{
+class FlashAudioSource {
 	private var channel:SoundChannel;
 	private var completed:Bool;
 	private var length:Null<Int>;
@@ -16,8 +15,7 @@ class FlashAudioSource
 	private var playing:Bool;
 	private var position:Vector4;
 
-	public function new(parent:AudioSource)
-	{
+	public function new(parent:AudioSource) {
 		this.parent = parent;
 
 		position = new Vector4();
@@ -27,43 +25,36 @@ class FlashAudioSource
 
 	public function init():Void {}
 
-	public function play():Void
-	{
-		if (channel != null) channel.stop();
+	public function play():Void {
+		if (channel != null)
+			channel.stop();
 		channel = parent.buffer.__srcSound.play(pauseTime / 1000 + parent.offset, loops + 1);
 	}
 
-	public function pause():Void
-	{
-		if (channel != null)
-		{
+	public function pause():Void {
+		if (channel != null) {
 			pauseTime = Std.int(channel.position * 1000);
 			channel.stop();
 		}
 	}
 
-	public function stop():Void
-	{
+	public function stop():Void {
 		pauseTime = 0;
 
-		if (channel != null)
-		{
+		if (channel != null) {
 			channel.stop();
 		}
 	}
 
 	// Get & Set Methods
-	public function getCurrentTime():Int
-	{
+	public function getCurrentTime():Int {
 		return (channel != null) ? Std.int(channel.position) - parent.offset : 0;
 	}
 
-	public function setCurrentTime(value:Int):Int
-	{
+	public function setCurrentTime(value:Int):Int {
 		pauseTime = value;
 
-		if (channel != null && value != getCurrentTime())
-		{
+		if (channel != null && value != getCurrentTime()) {
 			pauseTime = value;
 			channel.stop();
 			play();
@@ -72,62 +63,52 @@ class FlashAudioSource
 		return value;
 	}
 
-	public function getGain():Float
-	{
+	public function getGain():Float {
 		return channel.soundTransform.volume;
 	}
 
-	public function setGain(value:Float):Float
-	{
+	public function setGain(value:Float):Float {
 		var soundTransform = channel.soundTransform;
 		soundTransform.volume = value;
 		channel.soundTransform = soundTransform;
 		return value;
 	}
 
-	public function getLength():Int
-	{
+	public function getLength():Int {
 		if (length != null)
 			return length;
 
 		return Std.int(parent.buffer.__srcSound.length) - parent.offset;
 	}
 
-	public function setLength(value:Int):Int
-	{
+	public function setLength(value:Int):Int {
 		return length = value;
 	}
 
-	public function getLoops():Int
-	{
+	public function getLoops():Int {
 		return loops;
 	}
 
-	public function setLoops(value:Int):Int
-	{
+	public function setLoops(value:Int):Int {
 		return loops = value;
 	}
 
-	public function getPitch():Float
-	{
+	public function getPitch():Float {
 		lime.utils.Log.verbose("Pitch is not supported in Flash.");
 		return 1;
 	}
 
-	public function setPitch(value:Float):Float
-	{
+	public function setPitch(value:Float):Float {
 		return getPitch();
 	}
 
-	public function getPosition():Vector4
-	{
+	public function getPosition():Vector4 {
 		position.x = channel.soundTransform.pan;
 
 		return position;
 	}
 
-	public function setPosition(value:Vector4):Vector4
-	{
+	public function setPosition(value:Vector4):Vector4 {
 		position.x = value.x;
 		position.y = value.y;
 		position.z = value.z;

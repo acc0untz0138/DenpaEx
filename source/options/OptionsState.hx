@@ -12,29 +12,46 @@ import Discord.DiscordClient;
 #end
 
 /**
-* State used to take the player to the different options substates.
-*/
-class OptionsState extends MusicBeatState
-{
-	var options:Array<String> = ['General', 'Gameplay', 'Graphics', 'Customization', 'Misc', 'Notes', 'Keybinds', 'Offsets'];
+ * State used to take the player to the different options substates.
+ */
+class OptionsState extends MusicBeatState {
+	var options:Array<String> = [
+		'General',
+		'Gameplay',
+		'Graphics',
+		'Customization',
+		'Misc',
+		'Notes',
+		'Keybinds',
+		'Offsets'
+	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
+
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
-		if (label != "Offsets"){
+		if (label != "Offsets") {
 			removeVirtualPad();
 			persistentUpdate = false;
 		}
-		switch(label) {
-			case 'General': openSubState(new options.OptionsSubState.GeneralSettingsSubState());
-			case 'Gameplay': openSubState(new options.OptionsSubState.GameplaySettingsSubState());
-			case 'Graphics': openSubState(new options.OptionsSubState.GraphicsSettingsSubState());
-			case 'Customization': openSubState(new options.OptionsSubState.CustomizationSettingsSubState());
-			case 'Misc': openSubState(new options.OptionsSubState.MiscSettingsSubState());
-			case 'Notes': openSubState(new options.OptionsSubState.NotesSubState());
-			case 'Keybinds': openSubState(new options.OptionsSubState.ControlsSubState());
-			case 'Offsets': MusicBeatState.switchState(new options.NoteOffsetState());
+		switch (label) {
+			case 'General':
+				openSubState(new options.OptionsSubState.GeneralSettingsSubState());
+			case 'Gameplay':
+				openSubState(new options.OptionsSubState.GameplaySettingsSubState());
+			case 'Graphics':
+				openSubState(new options.OptionsSubState.GraphicsSettingsSubState());
+			case 'Customization':
+				openSubState(new options.OptionsSubState.CustomizationSettingsSubState());
+			case 'Misc':
+				openSubState(new options.OptionsSubState.MiscSettingsSubState());
+			case 'Notes':
+				openSubState(new options.OptionsSubState.NotesSubState());
+			case 'Keybinds':
+				openSubState(new options.OptionsSubState.ControlsSubState());
+			case 'Offsets':
+				MusicBeatState.switchState(new options.NoteOffsetState());
 		}
 	}
 
@@ -51,8 +68,7 @@ class OptionsState extends MusicBeatState
 	var camMain:FlxCamera;
 	var camSub:FlxCamera;
 
-	override function create()
-	{
+	override function create() {
 		#if desktop
 		DiscordClient.changePresence("In the Options Menu", null);
 		#end
@@ -95,24 +111,24 @@ class OptionsState extends MusicBeatState
 			bgScroll.velocity.set(29, 30);
 			bgScroll.scrollFactor.set(0, 0);
 			add(bgScroll);
-	
+
 			bgScroll2 = new FlxBackdrop(Paths.image('menuBGHexL6'));
 			bgScroll2.velocity.set(-29, -30);
 			bgScroll2.scrollFactor.set(0, 0);
 			add(bgScroll2);
 		}
 
-		gradient = new FlxSprite(0,0).loadGraphic(Paths.image('gradient'));
+		gradient = new FlxSprite(0, 0).loadGraphic(Paths.image('gradient'));
 		gradient.scrollFactor.set(0, 0);
 		add(gradient);
 
-		if (controls.mobileC) options.remove("Keybinds");
+		if (controls.mobileC)
+			options.remove("Keybinds");
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
-		for (i in 0...options.length)
-		{
+		for (i in 0...options.length) {
 			var optionText:Alphabet = new Alphabet(0, 0, options[i], true, false);
 			optionText.screenCenter();
 			optionText.y += (110 * (i - (options.length / 2))) + 50;
@@ -168,7 +184,7 @@ class OptionsState extends MusicBeatState
 
 		var lerpVal:Float = CoolUtil.clamp(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
-	
+
 		var mult:Float = FlxMath.lerp(1.07, bg.scale.x, CoolUtil.clamp(1 - (elapsed * 9), 0, 1));
 		bg.scale.set(mult, mult);
 		bg.updateHitbox();
@@ -183,11 +199,10 @@ class OptionsState extends MusicBeatState
 
 		var shiftMult:Int = 1;
 
-		if(FlxG.mouse.wheel != 0)
-			{
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-				changeSelection(-shiftMult * FlxG.mouse.wheel);
-			}
+		if (FlxG.mouse.wheel != 0) {
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
+			changeSelection(-shiftMult * FlxG.mouse.wheel);
+		}
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -198,8 +213,8 @@ class OptionsState extends MusicBeatState
 			} else {
 				MusicBeatState.switchState(new MainMenuState());
 				FlxG.sound.playMusic(Paths.music("funkyMenu"));
-				
-				Conductor.changeBPM(SoundTestState.playingTrackBPM);		
+
+				Conductor.changeBPM(SoundTestState.playingTrackBPM);
 			}
 		}
 
@@ -207,7 +222,7 @@ class OptionsState extends MusicBeatState
 			openSelectedSubstate(options[curSelected]);
 		}
 	}
-	
+
 	function changeSelection(change:Int = 0) {
 		curSelected += change;
 		if (curSelected < 0)

@@ -10,8 +10,7 @@ import flixel.util.FlxArrayUtil;
 import flixel.math.FlxPoint;
 import flixel.util.FlxStringUtil;
 
-class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements IFlxUIClickable implements IHasParams
-{
+class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements IFlxUIClickable implements IHasParams {
 	private var button_plus:FlxUITypedButton<FlxSprite>;
 	private var button_minus:FlxUITypedButton<FlxSprite>;
 	private var text_field:FlxText;
@@ -34,16 +33,14 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 
 	public var params(default, set):Array<Dynamic>;
 
-	private function set_params(p:Array<Dynamic>):Array<Dynamic>
-	{
+	private function set_params(p:Array<Dynamic>):Array<Dynamic> {
 		params = p;
 		return params;
 	}
 
 	public var skipButtonUpdate(default, set):Bool;
 
-	private function set_skipButtonUpdate(b:Bool):Bool
-	{
+	private function set_skipButtonUpdate(b:Bool):Bool {
 		skipButtonUpdate = b;
 		button_plus.skipButtonUpdate = b;
 		button_minus.skipButtonUpdate = b;
@@ -51,109 +48,86 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 		return b;
 	}
 
-	private override function set_color(Value:Int):Int
-	{
+	private override function set_color(Value:Int):Int {
 		color = Value;
 		button_plus.color = Value;
 		button_minus.color = Value;
-		if ((text_field is FlxInputText))
-		{
+		if ((text_field is FlxInputText)) {
 			var fit:FlxInputText = cast text_field;
 			fit.backgroundColor = Value;
-		}
-		else
-		{
+		} else {
 			text_field.color = Value;
 		}
 		return Value;
 	}
 
-	private function set_min(f:Float):Float
-	{
+	private function set_min(f:Float):Float {
 		min = f;
-		if (value < min)
-		{
+		if (value < min) {
 			value = min;
 		}
 		return min;
 	}
 
-	private function set_max(f:Float):Float
-	{
+	private function set_max(f:Float):Float {
 		max = f;
-		if (value > max)
-		{
+		if (value > max) {
 			value = max;
 		}
 		return max;
 	}
 
-	private function set_value(f:Float):Float
-	{
+	private function set_value(f:Float):Float {
 		value = f;
-		if (value < min)
-		{
+		if (value < min) {
 			value = min;
 		}
-		if (value > max)
-		{
+		if (value > max) {
 			value = max;
 		}
-		if (text_field != null)
-		{
+		if (text_field != null) {
 			var displayValue:Float = value;
-			if (isPercent)
-			{
+			if (isPercent) {
 				displayValue *= 100;
 				text_field.text = Std.string(decimalize(displayValue, decimals)) + "%";
-			}
-			else
-			{
+			} else {
 				text_field.text = decimalize(displayValue, decimals);
 			}
 		}
 		return value;
 	}
 
-	private function set_decimals(i:Int):Int
-	{
+	private function set_decimals(i:Int):Int {
 		decimals = i;
-		if (i < 0)
-		{
+		if (i < 0) {
 			decimals = 0;
 		}
 		value = value;
 		return decimals;
 	}
 
-	private function set_isPercent(b:Bool):Bool
-	{
+	private function set_isPercent(b:Bool):Bool {
 		isPercent = b;
 		value = value;
 		return isPercent;
 	}
 
-	private function set_stack(s:Int):Int
-	{
+	private function set_stack(s:Int):Int {
 		stack = s;
 		var btnSize:Int = 10;
 		var offsetX:Int = 0;
 		var offsetY:Int = 0;
-		if ((text_field is FlxUIInputText))
-		{
+		if ((text_field is FlxUIInputText)) {
 			offsetX = 1;
 			offsetY = 1; // border for input text
 		}
-		switch (stack)
-		{
+		switch (stack) {
 			case STACK_HORIZONTAL | STACK_HORIZONTAL_REVERSED:
 				btnSize = 2 + cast text_field.height;
-				if (button_plus.height != btnSize)
-				{
+				if (button_plus.height != btnSize) {
 					button_plus.resize(btnSize, btnSize);
 				}
-				if (button_minus.height != btnSize)
-				{
+				if (button_minus.height != btnSize) {
 					button_minus.resize(btnSize, btnSize);
 				}
 				button_plus.x = offsetX + text_field.x + text_field.width + (stack == STACK_HORIZONTAL_REVERSED ? button_plus.width : 0);
@@ -162,12 +136,10 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 				button_minus.y = button_plus.y;
 			case STACK_VERTICAL:
 				btnSize = 1 + cast text_field.height / 2;
-				if (button_plus.height != btnSize)
-				{
+				if (button_plus.height != btnSize) {
 					button_plus.resize(btnSize * 2, btnSize);
 				}
-				if (button_minus.height != btnSize)
-				{
+				if (button_minus.height != btnSize) {
 					button_minus.resize(btnSize * 2, btnSize);
 				}
 				button_plus.x = offsetX + text_field.x + text_field.width;
@@ -178,8 +150,7 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 		return stack;
 	}
 
-	private inline function decimalize(f:Float, digits:Int):String
-	{
+	private inline function decimalize(f:Float, digits:Int):String {
 		var tens:Float = Math.pow(10, digits);
 		return Std.string(Math.round(f * tens) / tens);
 	}
@@ -202,12 +173,10 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 	 */
 	public function new(X:Float = 0, Y:Float = 0, StepSize:Float = 1, DefaultValue:Float = 0, Min:Float = -999, Max:Float = 999, Decimals:Int = 0,
 			Stack:Int = STACK_HORIZONTAL_REVERSED, ?TextField:FlxText, ?ButtonPlus:FlxUITypedButton<FlxSprite>, ?ButtonMinus:FlxUITypedButton<FlxSprite>,
-			IsPercent:Bool = false)
-	{
+			IsPercent:Bool = false) {
 		super(X, Y);
 
-		if (TextField == null)
-		{
+		if (TextField == null) {
 			TextField = new FlxUIInputText(0, 0, 25);
 		}
 		TextField.x = 0;
@@ -215,8 +184,7 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 		text_field = TextField;
 		text_field.text = Std.string(DefaultValue);
 
-		if ((text_field is FlxUIInputText))
-		{
+		if ((text_field is FlxUIInputText)) {
 			var fuit:FlxUIInputText = cast text_field;
 			fuit.lines = 1;
 			fuit.callback = _onInputTextEvent; // internal communication only
@@ -232,15 +200,13 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 
 		var btnSize:Int = 1 + cast TextField.height;
 
-		if (ButtonPlus == null)
-		{
+		if (ButtonPlus == null) {
 			ButtonPlus = new FlxUITypedButton<FlxSprite>(0, 0);
 			ButtonPlus.loadGraphicSlice9([FlxUIAssets.IMG_BUTTON_THIN], btnSize, btnSize, [FlxStringUtil.toIntArray(FlxUIAssets.SLICE9_BUTTON_THIN)],
 				FlxUI9SliceSprite.TILE_NONE, -1, false, FlxUIAssets.IMG_BUTTON_SIZE, FlxUIAssets.IMG_BUTTON_SIZE);
 			ButtonPlus.label = new FlxSprite(0, 0, FlxUIAssets.IMG_PLUS);
 		}
-		if (ButtonMinus == null)
-		{
+		if (ButtonMinus == null) {
 			ButtonMinus = new FlxUITypedButton<FlxSprite>(0, 0);
 			ButtonMinus.loadGraphicSlice9([FlxUIAssets.IMG_BUTTON_THIN], btnSize, btnSize, [FlxStringUtil.toIntArray(FlxUIAssets.SLICE9_BUTTON_THIN)],
 				FlxUI9SliceSprite.TILE_NONE, -1, false, FlxUIAssets.IMG_BUTTON_SIZE, FlxUIAssets.IMG_BUTTON_SIZE);
@@ -263,20 +229,16 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 		stack = Stack;
 	}
 
-	private function _onInputTextEvent(text:String, action:String):Void
-	{
+	private function _onInputTextEvent(text:String, action:String):Void {
 		text = text.replace(" ", "");
-		if (text == "" || text == "-")
-		{
-			return; //FFS
+		if (text == "" || text == "-") {
+			return; // FFS
 		}
 
 		var numDecimals:Int = 0;
-		for (i in 0...text.length)
-		{
+		for (i in 0...text.length) {
 			var char = text.charAt(i);
-			if (char == ".")
-			{
+			if (char == ".") {
 				numDecimals++;
 			}
 		}
@@ -284,32 +246,27 @@ class FlxUINumericStepper extends FlxUIGroup implements IFlxUIWidget implements 
 		var justAddedDecimal = (numDecimals == 1 && text.indexOf(".") == text.length - 1);
 
 		// if I just added a decimal don't treat that as having changed the value just yet
-		if (!justAddedDecimal)
-		{
+		if (!justAddedDecimal) {
 			value = Std.parseFloat(text);
 			_doCallback(EDIT_EVENT);
 			_doCallback(CHANGE_EVENT);
 		}
 	}
 
-	private function _onPlus():Void
-	{
+	private function _onPlus():Void {
 		value += stepSize;
 		_doCallback(CLICK_EVENT);
 		_doCallback(CHANGE_EVENT);
 	}
 
-	private function _onMinus():Void
-	{
+	private function _onMinus():Void {
 		value -= stepSize;
 		_doCallback(CLICK_EVENT);
 		_doCallback(CHANGE_EVENT);
 	}
 
-	private function _doCallback(event_name:String):Void
-	{
-		if (broadcastToFlxUI)
-		{
+	private function _doCallback(event_name:String):Void {
+		if (broadcastToFlxUI) {
 			FlxUI.event(event_name, this, value, params);
 		}
 	}

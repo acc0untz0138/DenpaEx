@@ -8,14 +8,17 @@ import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 
 /**
-* Class used to create the fade transition between states.
-* By default, an `FlxGradient` is used.
-*/
+ * Class used to create the fade transition between states.
+ * By default, an `FlxGradient` is used.
+ */
 class CustomFadeTransition extends MusicBeatSubstate {
 	public static var finishCallback:Void->Void;
+
 	private var leTween:FlxTween;
+
 	public static var nextCamera:FlxCamera;
 	public static var colorForFunnyGrad:FlxColor = FlxColor.BLACK;
+
 	var isTransIn:Bool = false;
 	var transBlack:FlxSprite;
 	var transGradient:FlxSprite;
@@ -32,37 +35,40 @@ class CustomFadeTransition extends MusicBeatSubstate {
 			transGradient.scrollFactor.set();
 			transGradient.active = false;
 			add(transGradient);
-	
+
 			transBlack = new FlxSprite().makeGraphic(width, height + 400, colorForFunnyGrad);
 			transBlack.scrollFactor.set();
 			transBlack.active = false;
 			add(transBlack);
-	
+
 			transGradient.x -= (width - FlxG.width) / 2;
 			transBlack.x = transGradient.x;
-	
-			if(isTransIn) {
+
+			if (isTransIn) {
 				transGradient.y = transBlack.y - transBlack.height;
 				FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
 					onComplete: function(twn:FlxTween) {
 						close();
 					},
-				ease: FlxEase.linear});
+					ease: FlxEase.linear
+				});
 			} else {
 				transGradient.y = -transGradient.height;
 				transBlack.y = transGradient.y - transBlack.height + 50;
 				leTween = FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
 					onComplete: function(twn:FlxTween) {
-						if(finishCallback != null) {
+						if (finishCallback != null) {
 							finishCallback();
 						}
 					},
-				ease: FlxEase.linear});
+					ease: FlxEase.linear
+				});
 			}
 		} else {
 			transGradient = new FlxSprite();
-			transGradient.frames = Paths.getSparrowAtlas(cast (animatedSpriteValues[0], String));
-			transGradient.animation.addByPrefix(cast (animatedSpriteValues[1], String), cast (animatedSpriteValues[1], String), cast (animatedSpriteValues[2], Int), false);
+			transGradient.frames = Paths.getSparrowAtlas(cast(animatedSpriteValues[0], String));
+			transGradient.animation.addByPrefix(cast(animatedSpriteValues[1], String), cast(animatedSpriteValues[1], String),
+				cast(animatedSpriteValues[2], Int), false);
 			transGradient.animation.finishCallback = function(name:String) {
 				close();
 			}
@@ -72,7 +78,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 			transGradient.active = false;
 		}
 
-		if(nextCamera != null) {
+		if (nextCamera != null) {
 			transBlack.cameras = [nextCamera];
 			transGradient.cameras = [nextCamera];
 		}
@@ -81,7 +87,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
-		if(isTransIn) {
+		if (isTransIn) {
 			transBlack.y = transGradient.y + transGradient.height;
 		} else {
 			transBlack.y = transGradient.y - transBlack.height;
@@ -89,7 +95,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 	}
 
 	override function destroy() {
-		if(leTween != null) {
+		if (leTween != null) {
 			finishCallback();
 			leTween.cancel();
 			leTween.destroy();

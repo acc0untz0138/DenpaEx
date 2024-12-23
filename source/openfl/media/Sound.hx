@@ -83,8 +83,7 @@ import lime.media.AudioSource;
 @:access(openfl.media.SoundMixer)
 @:access(openfl.media.SoundChannel.new)
 @:autoBuild(openfl.utils._internal.AssetsMacro.embedSound())
-class Sound extends EventDispatcher
-{
+class Sound extends EventDispatcher {
 	/**
 		Returns the currently available number of bytes in this sound object. This
 		property is usually useful only for externally loaded files.
@@ -233,8 +232,7 @@ class Sound extends EventDispatcher
 	#end
 
 	#if openfljs
-	@:noCompletion private static function __init__()
-	{
+	@:noCompletion private static function __init__() {
 		untyped Object.defineProperties(Sound.prototype, {
 			"id3": {get: untyped #if haxe4 js.Syntax.code #else __js__ #end ("function () { return this.get_id3 (); }")},
 			"length": {get: untyped #if haxe4 js.Syntax.code #else __js__ #end ("function () { return this.get_length (); }")},
@@ -264,8 +262,7 @@ class Sound extends EventDispatcher
 					   whether the application should check for a cross-domain
 					   policy file prior to loading the sound.
 	**/
-	public function new(stream:URLRequest = null, context:SoundLoaderContext = null)
-	{
+	public function new(stream:URLRequest = null, context:SoundLoaderContext = null) {
 		super(this);
 
 		bytesLoaded = 0;
@@ -273,8 +270,7 @@ class Sound extends EventDispatcher
 		isBuffering = false;
 		url = null;
 
-		if (stream != null)
-		{
+		if (stream != null) {
 			load(stream, context);
 		}
 	}
@@ -286,11 +282,9 @@ class Sound extends EventDispatcher
 		@throws IOError The stream could not be closed, or the stream was not
 						open.
 	**/
-	public function close():Void
-	{
+	public function close():Void {
 		#if lime
-		if (__buffer != null)
-		{
+		if (__buffer != null) {
 			__buffer.dispose();
 			__buffer = null;
 		}
@@ -330,8 +324,7 @@ class Sound extends EventDispatcher
 		@param	buffer	An AudioBuffer instance
 		@returns	A new Sound
 	**/
-	public static function fromAudioBuffer(buffer:AudioBuffer):Sound
-	{
+	public static function fromAudioBuffer(buffer:AudioBuffer):Sound {
 		var sound = new Sound();
 		sound.__buffer = buffer;
 		return sound;
@@ -351,8 +344,7 @@ class Sound extends EventDispatcher
 		@param	path	A local file path containing a sound
 		@returns	A new Sound if successful, or `null` if unsuccessful
 	**/
-	public static function fromFile(path:String):Sound
-	{
+	public static function fromFile(path:String):Sound {
 		#if lime
 		return fromAudioBuffer(AudioBuffer.fromFile(path));
 		#else
@@ -433,28 +425,22 @@ class Sound extends EventDispatcher
 							  Networking APIs" in the _ActionScript 3.0
 							  Developer's Guide_.
 	**/
-	public function load(stream:URLRequest, context:SoundLoaderContext = null):Void
-	{
+	public function load(stream:URLRequest, context:SoundLoaderContext = null):Void {
 		url = stream.url;
 
 		#if lime
 		#if (js && html5)
 		var defaultLibrary = lime.utils.Assets.getLibrary("default"); // TODO: Improve this
 
-		if (defaultLibrary != null && defaultLibrary.cachedAudioBuffers.exists(url))
-		{
+		if (defaultLibrary != null && defaultLibrary.cachedAudioBuffers.exists(url)) {
 			AudioBuffer_onURLLoad(defaultLibrary.cachedAudioBuffers.get(url));
-		}
-		else
-		{
-			AudioBuffer.loadFromFile(url).onComplete(AudioBuffer_onURLLoad).onError(function(_)
-			{
+		} else {
+			AudioBuffer.loadFromFile(url).onComplete(AudioBuffer_onURLLoad).onError(function(_) {
 				AudioBuffer_onURLLoad(null);
 			});
 		}
 		#else
-		AudioBuffer.loadFromFile(url).onComplete(AudioBuffer_onURLLoad).onError(function(_)
-		{
+		AudioBuffer.loadFromFile(url).onComplete(AudioBuffer_onURLLoad).onError(function(_) {
 			AudioBuffer_onURLLoad(null);
 		});
 		#end
@@ -470,16 +456,13 @@ class Sound extends EventDispatcher
 		@param	bytes
 		@param	bytesLength
 	**/
-	public function loadCompressedDataFromByteArray(bytes:ByteArray, bytesLength:Int):Void
-	{
-		if (bytes == null || bytesLength <= 0)
-		{
+	public function loadCompressedDataFromByteArray(bytes:ByteArray, bytesLength:Int):Void {
+		if (bytes == null || bytesLength <= 0) {
 			dispatchEvent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
 			return;
 		}
 
-		if (bytes.position > 0 || bytes.length > bytesLength)
-		{
+		if (bytes.position > 0 || bytes.length > bytesLength) {
 			var copy = new ByteArray(bytesLength);
 			copy.writeBytes(bytes, bytes.position, bytesLength);
 			bytes = copy;
@@ -488,12 +471,9 @@ class Sound extends EventDispatcher
 		#if lime
 		__buffer = AudioBuffer.fromBytes(bytes);
 
-		if (__buffer == null)
-		{
+		if (__buffer == null) {
 			dispatchEvent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
-		}
-		else
-		{
+		} else {
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		#else
@@ -511,11 +491,9 @@ class Sound extends EventDispatcher
 		@param	path	A local file path or web address containing a sound
 		@returns	A Future Sound
 	**/
-	public static function loadFromFile(path:String):Future<Sound>
-	{
+	public static function loadFromFile(path:String):Future<Sound> {
 		#if lime
-		return AudioBuffer.loadFromFile(path).then(function(audioBuffer)
-		{
+		return AudioBuffer.loadFromFile(path).then(function(audioBuffer) {
 			return Future.withValue(fromAudioBuffer(audioBuffer));
 		});
 		#else
@@ -534,11 +512,9 @@ class Sound extends EventDispatcher
 		@param	paths	A set of local file paths or web addresses containing sound
 		@returns	A Future Sound
 	**/
-	public static function loadFromFiles(paths:Array<String>):Future<Sound>
-	{
+	public static function loadFromFiles(paths:Array<String>):Future<Sound> {
 		#if lime
-		return AudioBuffer.loadFromFiles(paths).then(function(audioBuffer)
-		{
+		return AudioBuffer.loadFromFiles(paths).then(function(audioBuffer) {
 			return Future.withValue(fromAudioBuffer(audioBuffer));
 		});
 		#else
@@ -565,10 +541,8 @@ class Sound extends EventDispatcher
 		@param	stereo
 		@param	sampleRate
 	**/
-	public function loadPCMFromByteArray(bytes:ByteArray, samples:Int, format:String = "float", stereo:Bool = true, sampleRate:Float = 44100):Void
-	{
-		if (bytes == null)
-		{
+	public function loadPCMFromByteArray(bytes:ByteArray, samples:Int, format:String = "float", stereo:Bool = true, sampleRate:Float = 44100):Void {
+		if (bytes == null) {
 			dispatchEvent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
 			return;
 		}
@@ -577,8 +551,7 @@ class Sound extends EventDispatcher
 		var channels = (stereo ? 2 : 1);
 		var bytesLength = Std.int(samples * channels * (bitsPerSample / 8));
 
-		if (bytes.position > 0 || bytes.length > bytesLength)
-		{
+		if (bytes.position > 0 || bytes.length > bytesLength) {
 			var copy = new ByteArray(bytesLength);
 			copy.writeBytes(bytes, bytes.position, bytesLength);
 			bytes = copy;
@@ -617,33 +590,31 @@ class Sound extends EventDispatcher
 				you run out of available sound channels. The maximum number of
 				sound channels available at once is 32.
 	**/
-	public function play(startTime:Float = 0.0, loops:Int = 0, sndTransform:SoundTransform = null):SoundChannel
-	{
+	public function play(startTime:Float = 0.0, loops:Int = 0, sndTransform:SoundTransform = null):SoundChannel {
 		#if lime
-		if (__buffer == null || SoundMixer.__soundChannels.length >= SoundMixer.MAX_ACTIVE_CHANNELS)
-		{
+		if (__buffer == null || SoundMixer.__soundChannels.length >= SoundMixer.MAX_ACTIVE_CHANNELS) {
 			return null;
 		}
 
-		if (sndTransform == null)
-		{
+		if (sndTransform == null) {
 			sndTransform = new SoundTransform();
-		}
-		else
-		{
+		} else {
 			sndTransform = sndTransform.clone();
 		}
 
 		var pan = SoundMixer.__soundTransform.pan + sndTransform.pan;
 
-		if (pan > 1) pan = 1;
-		if (pan < -1) pan = -1;
+		if (pan > 1)
+			pan = 1;
+		if (pan < -1)
+			pan = -1;
 
 		var volume = SoundMixer.__soundTransform.volume * sndTransform.volume;
 
 		var source = new AudioSource(__buffer);
 		source.offset = Std.int(startTime);
-		if (loops > 1) source.loops = loops - 1;
+		if (loops > 1)
+			source.loops = loops - 1;
 
 		source.gain = volume;
 
@@ -659,31 +630,23 @@ class Sound extends EventDispatcher
 	}
 
 	// Get & Set Methods
-	@:noCompletion private function get_id3():ID3Info
-	{
+	@:noCompletion private function get_id3():ID3Info {
 		return new ID3Info();
 	}
 
-	@:noCompletion private function get_length():Int
-	{
+	@:noCompletion private function get_length():Int {
 		#if lime
-		if (__buffer != null)
-		{
+		if (__buffer != null) {
 			#if (js && html5 && howlerjs)
 			return Std.int(__buffer.src.duration() * 1000);
 			#else
-			if (__buffer.data != null)
-			{
-				final samples = __buffer.data.length / ((__buffer.channels * __buffer.bitsPerSample)/8);
+			if (__buffer.data != null) {
+				final samples = __buffer.data.length / ((__buffer.channels * __buffer.bitsPerSample) / 8);
 				return Std.int(Math.min(Math.max((samples / __buffer.sampleRate * 1000), 0), 12173936));
-			}
-			else if (__buffer.__srcVorbisFile != null)
-			{
+			} else if (__buffer.__srcVorbisFile != null) {
 				final samples = Int64.toInt(__buffer.__srcVorbisFile.pcmTotal());
 				return Std.int(samples / __buffer.sampleRate * 1000);
-			}
-			else
-			{
+			} else {
 				return 0;
 			}
 			#end
@@ -695,14 +658,10 @@ class Sound extends EventDispatcher
 
 	// Event Handlers
 	#if lime
-	@:noCompletion private function AudioBuffer_onURLLoad(buffer:AudioBuffer):Void
-	{
-		if (buffer == null)
-		{
+	@:noCompletion private function AudioBuffer_onURLLoad(buffer:AudioBuffer):Void {
+		if (buffer == null) {
 			dispatchEvent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
-		}
-		else
-		{
+		} else {
 			__buffer = buffer;
 			dispatchEvent(new Event(Event.COMPLETE));
 		}

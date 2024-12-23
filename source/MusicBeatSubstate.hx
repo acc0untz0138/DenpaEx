@@ -9,13 +9,11 @@ import flixel.input.actions.FlxActionInput;
 import flixel.util.FlxDestroyUtil;
 
 /**
-* Basic substate to use for substates in the game.
-* Contains beat/step functions.
-*/
-class MusicBeatSubstate extends FlxSubState
-{
-	public function new()
-	{
+ * Basic substate to use for substates in the game.
+ * Contains beat/step functions.
+ */
+class MusicBeatSubstate extends FlxSubState {
+	public function new() {
 		super();
 		curInstance = this;
 	}
@@ -24,8 +22,9 @@ class MusicBeatSubstate extends FlxSubState
 	private var curStep:Int = 0;
 	@:allow(stats.DebugDisplay)
 	private var curBeat:Int = 0;
-	
+
 	private var controls(get, never):Controls;
+
 	public static var curInstance:MusicBeatSubstate = null;
 
 	inline function get_controls():Controls
@@ -35,8 +34,7 @@ class MusicBeatSubstate extends FlxSubState
 	var virtualPad:FlxVirtualPad;
 	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
 
-	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode, visible:Bool = true):Void
-	{
+	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode, visible:Bool = true):Void {
 		if (virtualPad != null)
 			removeVirtualPad();
 
@@ -49,10 +47,8 @@ class MusicBeatSubstate extends FlxSubState
 		controls.trackedInputs = [];
 	}
 
-	public function addVirtualPadCamera(DefaultDrawTarget:Bool = false):Void
-	{
-		if (virtualPad != null)
-		{
+	public function addVirtualPadCamera(DefaultDrawTarget:Bool = false):Void {
+		if (virtualPad != null) {
 			var camControls:FlxCamera = new FlxCamera();
 			camControls.bgColor.alpha = 0;
 			FlxG.cameras.add(camControls, DefaultDrawTarget);
@@ -60,8 +56,7 @@ class MusicBeatSubstate extends FlxSubState
 		}
 	}
 
-	public function removeVirtualPad():Void
-	{
+	public function removeVirtualPad():Void {
 		if (trackedInputsVirtualPad.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
 
@@ -69,8 +64,7 @@ class MusicBeatSubstate extends FlxSubState
 			remove(virtualPad);
 	}
 
-	public function addHitbox(visible:Bool = true):Void
-	{
+	public function addHitbox(visible:Bool = true):Void {
 		final ammo:Int = PlayState.mania + 1;
 		if (hitbox != null)
 			removeHitbox();
@@ -80,10 +74,8 @@ class MusicBeatSubstate extends FlxSubState
 		add(hitbox);
 	}
 
-	public function addHitboxCamera(DefaultDrawTarget:Bool = false):Void
-	{
-		if (hitbox != null)
-		{
+	public function addHitboxCamera(DefaultDrawTarget:Bool = false):Void {
+		if (hitbox != null) {
 			var camControls:FlxCamera = new FlxCamera();
 			camControls.bgColor.alpha = 0;
 			FlxG.cameras.add(camControls, DefaultDrawTarget);
@@ -95,8 +87,7 @@ class MusicBeatSubstate extends FlxSubState
 		if (hitbox != null)
 			remove(hitbox);
 
-	override function destroy():Void
-	{
+	override function destroy():Void {
 		if (trackedInputsVirtualPad.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
 
@@ -109,8 +100,7 @@ class MusicBeatSubstate extends FlxSubState
 			hitbox = FlxDestroyUtil.destroy(hitbox);
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		var oldStep:Int = curStep;
 
 		updateCurStep();
@@ -122,15 +112,13 @@ class MusicBeatSubstate extends FlxSubState
 		super.update(elapsed);
 	}
 
-	private function updateCurStep():Void
-	{
+	private function updateCurStep():Void {
 		var lastChange:BPMChangeEvent = {
 			stepTime: 0,
 			songTime: 0,
 			bpm: 0
 		}
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
+		for (i in 0...Conductor.bpmChangeMap.length) {
 			if (Conductor.songPosition > Conductor.bpmChangeMap[i].songTime)
 				lastChange = Conductor.bpmChangeMap[i];
 		}
@@ -138,17 +126,15 @@ class MusicBeatSubstate extends FlxSubState
 		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
-	public function stepHit():Void
-	{
+	public function stepHit():Void {
 		if (curStep % 4 == 0)
 			beatHit();
 	}
 
-	public function beatHit():Void
-	{
-		//do literally nothing dumbass
+	public function beatHit():Void {
+		// do literally nothing dumbass
 	}
-	
+
 	override public function close() {
 		curInstance = null;
 		super.close();

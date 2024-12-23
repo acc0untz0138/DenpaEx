@@ -12,7 +12,7 @@ import sys.FileTools;
 
 @:structInit class StaticVarContents {
 	public var name:String;
-	public var path:String; //full class-path
+	public var path:String; // full class-path
 	public var isPublic:Bool;
 	public var content:Dynamic;
 
@@ -23,10 +23,9 @@ import sys.FileTools;
 #end
 
 /**
-* State used on boot to initialize the game.
-*/
-class InitState extends FlxState
-{
+ * State used on boot to initialize the game.
+ */
+class InitState extends FlxState {
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
@@ -36,9 +35,8 @@ class InitState extends FlxState
 	public static var scriptStaticVars:Map<String, StaticVarContents> = [];
 	#end
 
-	override public function create():Void
-	{
-		//DO NOT THREAD THIS.
+	override public function create():Void {
+		// DO NOT THREAD THIS.
 		localInit();
 		swapState();
 	}
@@ -57,7 +55,7 @@ class InitState extends FlxState
 		PlayerSettings.init();
 
 		FlxG.save.bind('funkin');
-		
+
 		ClientPrefs.loadPrefs();
 
 		Highscore.load();
@@ -67,13 +65,13 @@ class InitState extends FlxState
 
 		FlxG.mouse.visible = false;
 
-		//Prevent crash on charter -AT
+		// Prevent crash on charter -AT
 		CoolUtil.difficulties = CoolUtil.defaultDifficulties;
-		PlayState.storyDifficulty = 0; //aka "Normal"
-		
+		PlayState.storyDifficulty = 0; // aka "Normal"
+
 		FlxG.fixedTimestep = false;
 
-		//why does the fps shit fail to work
+		// why does the fps shit fail to work
 		Main.toggleFPS(ClientPrefs.settings.get("showFPS"));
 
 		Paths.refreshModsMaps(true, true, true);
@@ -82,21 +80,21 @@ class InitState extends FlxState
 		final foldersToCheck:Array<String> = ["classes", "states", "substates"];
 		final folderType:Array<HscriptType> = [H_CLASS, H_STATE, H_SUBSTATE];
 		function parseClasses(foldersToCheck:Array<String>, folderType:Array<HscriptType>) {
-			for(i => folder in foldersToCheck) {
+			for (i => folder in foldersToCheck) {
 				final presentFilesRaw = sys.FileTools.readDirectoryFull('assets/scripts/$folder', true);
-				for(file in presentFilesRaw) 
-				{
-					if(FileSystem.isDirectory('assets/scripts/$folder/$file') || !file.endsWith('.hscript')) continue; //Not a Valid file
-					if(folderType[i] == H_CLASS) {
+				for (file in presentFilesRaw) {
+					if (FileSystem.isDirectory('assets/scripts/$folder/$file') || !file.endsWith('.hscript'))
+						continue; // Not a Valid file
+					if (folderType[i] == H_CLASS) {
 						var loader:HscriptClass = new HscriptClass(file);
 						scriptClassPool.set(file, loader);
 						continue;
-					} 
+					}
 					var varLoader:Hscript = new Hscript('assets/scripts/$folder/$file', true, folderType[i], true);
 					@:privateAccess {
-						for(var_ in varLoader.interpreter.trackedVars) {
-							if(!var_.access.contains(AStatic)) continue; //We can ignore
-							
+						for (var_ in varLoader.interpreter.trackedVars) {
+							if (!var_.access.contains(AStatic))
+								continue; // We can ignore
 						}
 					}
 				}
@@ -104,15 +102,16 @@ class InitState extends FlxState
 		}
 		parseClasses(["classes", "states", "substates"], [H_CLASS, H_STATE, H_SUBSTATE]);
 
-		//For now we dont need to init twice to get our desired results
+		// For now we dont need to init twice to get our desired results
 		/*hInit = true;
-		parseClasses(["classes"], [H_CLASS]);*/ //Reparse classes with hInit on to do any stuff that needs to be done after all classes have been parsed once!!
+			parseClasses(["classes"], [H_CLASS]); */ // Reparse classes with hInit on to do any stuff that needs to be done after all classes have been parsed once!!
 		#end
 
 		#if (HSCRIPT_ALLOWED && HSCRIPT_DEBUG)
 		trace(InitState.scriptStaticVars);
 		#end
 	}
+
 	public static var hInit:Bool = false;
 
 	inline function swapState() {

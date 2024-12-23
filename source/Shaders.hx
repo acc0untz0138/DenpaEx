@@ -10,21 +10,21 @@ import flixel.FlxG;
 import openfl.Lib;
 import flixel.util.FlxColor;
 import openfl.display.ShaderParameter;
+
 using StringTools;
+
 typedef ShaderEffect = {
-  var shader:Dynamic;
+	var shader:Dynamic;
 }
 
-class GlitchEffect extends Effect
-{
-    public var shader:GlitchShader = new GlitchShader();
+class GlitchEffect extends Effect {
+	public var shader:GlitchShader = new GlitchShader();
 
-    public var waveSpeed(default, set):Float = 0;
+	public var waveSpeed(default, set):Float = 0;
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
-	{
+	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void {
 		shader.uTime.value = [0];
 		this.waveSpeed = waveSpeed;
 		this.waveFrequency = waveFrequency;
@@ -32,45 +32,37 @@ class GlitchEffect extends Effect
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
+	public function update(elapsed:Float):Void {
+		shader.uTime.value[0] += elapsed;
+	}
 
+	function set_waveSpeed(v:Float):Float {
+		waveSpeed = v;
+		shader.uSpeed.value = [waveSpeed];
+		return v;
+	}
 
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
+	function set_waveFrequency(v:Float):Float {
+		waveFrequency = v;
+		shader.uFrequency.value = [waveFrequency];
+		return v;
+	}
 
+	function set_waveAmplitude(v:Float):Float {
+		waveAmplitude = v;
+		shader.uWaveAmplitude.value = [waveAmplitude];
+		return v;
+	}
 }
 
-class DistortBGEffect extends Effect
-{
-    public var shader:DistortBGShader = new DistortBGShader();
+class DistortBGEffect extends Effect {
+	public var shader:DistortBGShader = new DistortBGShader();
 
-    public var waveSpeed(default, set):Float = 0;
+	public var waveSpeed(default, set):Float = 0;
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
-	{
+	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void {
 		this.waveSpeed = waveSpeed;
 		this.waveFrequency = waveFrequency;
 		this.waveAmplitude = waveAmplitude;
@@ -78,156 +70,129 @@ class DistortBGEffect extends Effect
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
-
-
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
-
-}
-
-class PulseEffectAlt
-{
-    public var shader(default,null):PulseShader = new PulseShader();
-
-    public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
-    public var Enabled(default, set):Bool = false;
-
-	public function new():Void
-	{
-		shader.uTime.value = [0];
-        shader.uampmul.value = [0];
-        shader.uEnabled.value = [false];
+	public function update(elapsed:Float):Void {
+		shader.uTime.value[0] += elapsed;
 	}
 
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
+	function set_waveSpeed(v:Float):Float {
+		waveSpeed = v;
+		shader.uSpeed.value = [waveSpeed];
+		return v;
+	}
 
+	function set_waveFrequency(v:Float):Float {
+		waveFrequency = v;
+		shader.uFrequency.value = [waveFrequency];
+		return v;
+	}
 
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-
-    function set_Enabled(v:Bool):Bool
-    {
-        Enabled = v;
-        shader.uEnabled.value = [Enabled];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
-
+	function set_waveAmplitude(v:Float):Float {
+		waveAmplitude = v;
+		shader.uWaveAmplitude.value = [waveAmplitude];
+		return v;
+	}
 }
 
-class PulseEffect extends Effect
-{
-    public var shader:PulseShader = new PulseShader();
+class PulseEffectAlt {
+	public var shader(default, null):PulseShader = new PulseShader();
 
-    public var waveSpeed(default, set):Float = 0;
+	public var waveSpeed(default, set):Float = 0;
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
-    public var Enabled(default, set):Bool = false;
+	public var Enabled(default, set):Bool = false;
 
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
-	{
+	public function new():Void {
+		shader.uTime.value = [0];
+		shader.uampmul.value = [0];
+		shader.uEnabled.value = [false];
+	}
+
+	public function update(elapsed:Float):Void {
+		shader.uTime.value[0] += elapsed;
+	}
+
+	function set_waveSpeed(v:Float):Float {
+		waveSpeed = v;
+		shader.uSpeed.value = [waveSpeed];
+		return v;
+	}
+
+	function set_Enabled(v:Bool):Bool {
+		Enabled = v;
+		shader.uEnabled.value = [Enabled];
+		return v;
+	}
+
+	function set_waveFrequency(v:Float):Float {
+		waveFrequency = v;
+		shader.uFrequency.value = [waveFrequency];
+		return v;
+	}
+
+	function set_waveAmplitude(v:Float):Float {
+		waveAmplitude = v;
+		shader.uWaveAmplitude.value = [waveAmplitude];
+		return v;
+	}
+}
+
+class PulseEffect extends Effect {
+	public var shader:PulseShader = new PulseShader();
+
+	public var waveSpeed(default, set):Float = 0;
+	public var waveFrequency(default, set):Float = 0;
+	public var waveAmplitude(default, set):Float = 0;
+	public var Enabled(default, set):Bool = false;
+
+	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void {
 		this.waveSpeed = waveSpeed;
 		this.waveFrequency = waveFrequency;
 		this.waveAmplitude = waveAmplitude;
 		shader.uTime.value = [0];
-        shader.uampmul.value = [0];
-        shader.uEnabled.value = [false];
+		shader.uampmul.value = [0];
+		shader.uEnabled.value = [false];
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
-
-
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-
-    function set_Enabled(v:Bool):Bool
-    {
-        Enabled = v;
-        shader.uEnabled.value = [Enabled];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
-
-}
-
-
-class InvertColorsEffect extends Effect
-{
-    public var shader:InvertShader = new InvertShader();
-	public function new(lockAlpha){
-	//	shader.lockAlpha.value = [lockAlpha];
+	public function update(elapsed:Float):Void {
+		shader.uTime.value[0] += elapsed;
 	}
 
+	function set_waveSpeed(v:Float):Float {
+		waveSpeed = v;
+		shader.uSpeed.value = [waveSpeed];
+		return v;
+	}
+
+	function set_Enabled(v:Bool):Bool {
+		Enabled = v;
+		shader.uEnabled.value = [Enabled];
+		return v;
+	}
+
+	function set_waveFrequency(v:Float):Float {
+		waveFrequency = v;
+		shader.uFrequency.value = [waveFrequency];
+		return v;
+	}
+
+	function set_waveAmplitude(v:Float):Float {
+		waveAmplitude = v;
+		shader.uWaveAmplitude.value = [waveAmplitude];
+		return v;
+	}
 }
 
-class GlitchShader extends FlxShader
-{
-    @:glFragmentSource('
+class InvertColorsEffect extends Effect {
+	public var shader:InvertShader = new InvertShader();
+
+	public function new(lockAlpha) {
+		//	shader.lockAlpha.value = [lockAlpha];
+	}
+}
+
+class GlitchShader extends FlxShader {
+	@:glFragmentSource('
     #pragma header
     //uniform float tx, ty; // x,y waves phase
 
@@ -267,16 +232,13 @@ class GlitchShader extends FlxShader
         vec2 uv = sineWave(openfl_TextureCoordv);
         gl_FragColor = texture2D(bitmap, uv);
     }')
-
-    public function new()
-    {
-       super();
-    }
+	public function new() {
+		super();
+	}
 }
 
-class DistortBGShader extends FlxShader
-{
-    @:glFragmentSource('
+class DistortBGShader extends FlxShader {
+	@:glFragmentSource('
     #pragma header
     //uniform float tx, ty; // x,y waves phase
 
@@ -321,16 +283,13 @@ class DistortBGShader extends FlxShader
         vec2 uv = sineWave(openfl_TextureCoordv);
         gl_FragColor = makeBlack(texture2D(bitmap, uv)) + texture2D(bitmap,openfl_TextureCoordv);
     }')
-
-    public function new()
-    {
-       super();
-    }
+	public function new() {
+		super();
+	}
 }
 
-class PulseShader extends FlxShader
-{
-    @:glFragmentSource('
+class PulseShader extends FlxShader {
+	@:glFragmentSource('
     #pragma header
     uniform float uampmul;
 
@@ -373,16 +332,13 @@ class PulseShader extends FlxShader
         vec2 uv = openfl_TextureCoordv;
         gl_FragColor = sineWave(texture2D(bitmap, uv),uv);
     }')
-
-    public function new()
-    {
-       super();
-    }
+	public function new() {
+		super();
+	}
 }
 
-class InvertShader extends FlxShader
-{
-    @:glFragmentSource('
+class InvertShader extends FlxShader {
+	@:glFragmentSource('
     #pragma header
     
     vec4 sineWave(vec4 pt)
@@ -397,16 +353,12 @@ class InvertShader extends FlxShader
         gl_FragColor = sineWave(texture2D(bitmap, uv));
 		gl_FragColor.a = 1.0 - gl_FragColor.a;
     }')
-
-    public function new()
-    {
-       super();
-    }
+	public function new() {
+		super();
+	}
 }
 
-
-enum WiggleEffectType
-{
+enum WiggleEffectType {
 	DREAMY;
 	WAVY;
 	HEAT_WAVE_HORIZONTAL;
@@ -414,60 +366,51 @@ enum WiggleEffectType
 	FLAG;
 }
 
-class WiggleEffect
-{
+class WiggleEffect {
 	public var shader(default, null):WiggleShader = new WiggleShader();
 	public var effectType(default, set):WiggleEffectType = DREAMY;
 	public var waveSpeed(default, set):Float = 0;
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
 
-	public function new():Void
-	{
+	public function new():Void {
 		shader.uTime.value = [0];
 	}
 
-	public function update(elapsed:Float):Void
-	{
+	public function update(elapsed:Float):Void {
 		shader.uTime.value[0] += elapsed;
 	}
 
-	public function setValue(value:Float):Void
-	{
+	public function setValue(value:Float):Void {
 		shader.uTime.value[0] = value;
 	}
 
-	function set_effectType(v:WiggleEffectType):WiggleEffectType
-	{
+	function set_effectType(v:WiggleEffectType):WiggleEffectType {
 		effectType = v;
 		shader.effectType.value = [WiggleEffectType.getConstructors().indexOf(Std.string(v))];
 		return v;
 	}
 
-	function set_waveSpeed(v:Float):Float
-	{
+	function set_waveSpeed(v:Float):Float {
 		waveSpeed = v;
 		shader.uSpeed.value = [waveSpeed];
 		return v;
 	}
 
-	function set_waveFrequency(v:Float):Float
-	{
+	function set_waveFrequency(v:Float):Float {
 		waveFrequency = v;
 		shader.uFrequency.value = [waveFrequency];
 		return v;
 	}
 
-	function set_waveAmplitude(v:Float):Float
-	{
+	function set_waveAmplitude(v:Float):Float {
 		waveAmplitude = v;
 		shader.uWaveAmplitude.value = [waveAmplitude];
 		return v;
 	}
 }
 
-class WiggleShader extends FlxShader
-{
+class WiggleShader extends FlxShader {
 	@:glFragmentSource('
 		#pragma header
 		//uniform float tx, ty; // x,y waves phase
@@ -533,33 +476,28 @@ class WiggleShader extends FlxShader
 			vec2 uv = sineWave(openfl_TextureCoordv);
 			gl_FragColor = texture2D(bitmap, uv);
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
 
-typedef BlendModeShader =
-{
+typedef BlendModeShader = {
 	var uBlendColor:ShaderParameter<Float>;
 }
 
-class BlendModeEffect
-{
+class BlendModeEffect {
 	public var shader(default, null):BlendModeShader;
 
 	@:isVar
 	public var color(default, set):FlxColor;
 
-	public function new(shader:BlendModeShader, color:FlxColor):Void
-	{
+	public function new(shader:BlendModeShader, color:FlxColor):Void {
 		shader.uBlendColor.value = [];
 		this.shader = shader;
 		this.color = color;
 	}
 
-	function set_color(color:FlxColor):FlxColor
-	{
+	function set_color(color:FlxColor):FlxColor {
 		shader.uBlendColor.value[0] = color.redFloat;
 		shader.uBlendColor.value[1] = color.greenFloat;
 		shader.uBlendColor.value[2] = color.blueFloat;
@@ -570,8 +508,8 @@ class BlendModeEffect
 }
 
 /**
-* Shader used to HSB shift the Title Screen, as well as the notes.
-*/
+ * Shader used to HSB shift the Title Screen, as well as the notes.
+ */
 class ColorSwap {
 	public var shader(default, null):ColorSwapShader = new ColorSwapShader();
 	public var hue(default, set):Float = 0;
@@ -596,8 +534,7 @@ class ColorSwap {
 		return brightness;
 	}
 
-	public function new()
-	{
+	public function new() {
 		shader.uTime.value = [0, 0, 0];
 		shader.awesomeOutline.value = [false];
 	}
@@ -778,15 +715,12 @@ class ColorSwapShader extends FlxShader {
 				openfl_ColorMultiplierv = colorMultiplier;
 			}
 		}')
-
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
 
-class OverlayShader extends FlxShader
-{
+class OverlayShader extends FlxShader {
 	@:glFragmentSource('
 		#pragma header
 		uniform vec4 uBlendColor;
@@ -809,29 +743,30 @@ class OverlayShader extends FlxShader
 			vec4 base = texture2D(bitmap, openfl_TextureCoordv);
 			gl_FragColor = blendLighten(base, uBlendColor, uBlendColor.a);
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
 
 class BuildingEffect {
-  public var shader:BuildingShader = new BuildingShader();
-  public function new(){
-    shader.alphaShit.value = [0];
-  }
-  public function addAlpha(alpha:Float){
-    trace(shader.alphaShit.value[0]);
-    shader.alphaShit.value[0]+=alpha;
-  }
-  public function setAlpha(alpha:Float){
-    shader.alphaShit.value[0]=alpha;
-  }
+	public var shader:BuildingShader = new BuildingShader();
+
+	public function new() {
+		shader.alphaShit.value = [0];
+	}
+
+	public function addAlpha(alpha:Float) {
+		trace(shader.alphaShit.value[0]);
+		shader.alphaShit.value[0] += alpha;
+	}
+
+	public function setAlpha(alpha:Float) {
+		shader.alphaShit.value[0] = alpha;
+	}
 }
 
-class BuildingShader extends FlxShader
-{
-  @:glFragmentSource('
+class BuildingShader extends FlxShader {
+	@:glFragmentSource('
     #pragma header
     uniform float alphaShit;
     void main()
@@ -844,14 +779,12 @@ class BuildingShader extends FlxShader
       gl_FragColor = color;
     }
   ')
-  public function new()
-  {
-    super();
-  }
+	public function new() {
+		super();
+	}
 }
 
-class ChromaticAberrationShader extends FlxShader
-{
+class ChromaticAberrationShader extends FlxShader {
 	@:glFragmentSource('
 		#pragma header
 
@@ -872,47 +805,38 @@ class ChromaticAberrationShader extends FlxShader
 
 			gl_FragColor = toUse;
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
 
-class ChromaticAberrationEffect extends Effect
-{
+class ChromaticAberrationEffect extends Effect {
 	public var shader:ChromaticAberrationShader;
-  public function new(offset:Float = 0.00){
-	shader = new ChromaticAberrationShader();
-    shader.rOffset.value = [offset];
-    shader.gOffset.value = [0.0];
-    shader.bOffset.value = [-offset];
-  }
-	
-	public function setChrome(chromeOffset:Float):Void
-	{
+
+	public function new(offset:Float = 0.00) {
+		shader = new ChromaticAberrationShader();
+		shader.rOffset.value = [offset];
+		shader.gOffset.value = [0.0];
+		shader.bOffset.value = [-offset];
+	}
+
+	public function setChrome(chromeOffset:Float):Void {
 		shader.rOffset.value = [chromeOffset];
 		shader.gOffset.value = [0.0];
 		shader.bOffset.value = [chromeOffset * -1];
 	}
-
 }
 
-
-class ScanlineEffect extends Effect
-{
-	
+class ScanlineEffect extends Effect {
 	public var shader:Scanline;
-	public function new (lockAlpha){
+
+	public function new(lockAlpha) {
 		shader = new Scanline();
 		shader.lockAlpha.value = [lockAlpha];
 	}
-	
-	
 }
 
-
-class Scanline extends FlxShader
-{
+class Scanline extends FlxShader {
 	@:glFragmentSource('
 		#pragma header
 		const float scale = 1.0;
@@ -929,26 +853,22 @@ class Scanline extends FlxShader
 				gl_FragColor = texture2D(bitmap, openfl_TextureCoordv);
 			}
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
 
-class TiltshiftEffect extends Effect{
-	
+class TiltshiftEffect extends Effect {
 	public var shader:Tiltshift;
-	public function new (blurAmount:Float, center:Float){
+
+	public function new(blurAmount:Float, center:Float) {
 		shader = new Tiltshift();
 		shader.bluramount.value = [blurAmount];
 		shader.center.value = [center];
 	}
-	
-	
 }
 
-class Tiltshift extends FlxShader
-{
+class Tiltshift extends FlxShader {
 	@:glFragmentSource('
 		#pragma header
 
@@ -1028,22 +948,18 @@ class Tiltshift extends FlxShader
 			// return the final blurred color
 			gl_FragColor = blurred;
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
 }
-class GreyscaleEffect extends Effect{
-	
+
+class GreyscaleEffect extends Effect {
 	public var shader:GreyscaleShader = new GreyscaleShader();
-	
-	public function new(){
-		
-	}
-	
-	
+
+	public function new() {}
 }
-class GreyscaleShader extends FlxShader{
+
+class GreyscaleShader extends FlxShader {
 	@:glFragmentSource('
 	#pragma header
 	void main() {
@@ -1054,44 +970,29 @@ class GreyscaleShader extends FlxShader{
 	
 	
 	')
-	
-	public function new(){
+	public function new() {
 		super();
 	}
-	
-	
-	
 }
 
-
-
-
-
-
-
 class GrainEffect extends Effect {
-	
 	public var shader:Grain;
-	public function new (grainsize, lumamount,lockAlpha){
+
+	public function new(grainsize, lumamount, lockAlpha) {
 		shader = new Grain();
 		shader.lumamount.value = [lumamount];
 		shader.grainsize.value = [grainsize];
 		shader.lockAlpha.value = [lockAlpha];
-		shader.uTime.value = [FlxG.random.float(0,8)];
+		shader.uTime.value = [FlxG.random.float(0, 8)];
 		PlayState.instance.shaderUpdates.push(update);
 	}
-	public function update(elapsed){
+
+	public function update(elapsed) {
 		shader.uTime.value[0] += elapsed;
 	}
-	
-	
-	
-	
 }
 
-
-class Grain extends FlxShader
-{
+class Grain extends FlxShader {
 	@:glFragmentSource('
 		#pragma header
 
@@ -1238,65 +1139,61 @@ class Grain extends FlxShader
 				if (lockAlpha) bitch = texColor.a;
 			gl_FragColor =  vec4(col,bitch);
 		}')
-	public function new()
-	{
+	public function new() {
 		super();
 	}
-	
-	
 }
 
-class VCRDistortionEffect extends Effect
-{
-  public var shader:VCRDistortionShader = new VCRDistortionShader();
-  public function new(glitchFactor:Float,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true){
-    shader.iTime.value = [0];
-    shader.vignetteOn.value = [true];
-    shader.perspectiveOn.value = [perspectiveOn];
-    shader.distortionOn.value = [distortion];
-    shader.scanlinesOn.value = [true];
-    shader.vignetteMoving.value = [vignetteMoving];
-    shader.glitchModifier.value = [glitchFactor];
-    shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
-   // var noise = Assets.getBitmapData(Paths.image("noise2"));
-   // shader.noiseTex.input = noise;
-   PlayState.instance.shaderUpdates.push(update);
-  }
+class VCRDistortionEffect extends Effect {
+	public var shader:VCRDistortionShader = new VCRDistortionShader();
 
-  public function update(elapsed:Float){
-    shader.iTime.value[0] += elapsed;
-    shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
-  }
+	public function new(glitchFactor:Float, distortion:Bool = true, perspectiveOn:Bool = true, vignetteMoving:Bool = true) {
+		shader.iTime.value = [0];
+		shader.vignetteOn.value = [true];
+		shader.perspectiveOn.value = [perspectiveOn];
+		shader.distortionOn.value = [distortion];
+		shader.scanlinesOn.value = [true];
+		shader.vignetteMoving.value = [vignetteMoving];
+		shader.glitchModifier.value = [glitchFactor];
+		shader.iResolution.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
+		// var noise = Assets.getBitmapData(Paths.image("noise2"));
+		// shader.noiseTex.input = noise;
+		PlayState.instance.shaderUpdates.push(update);
+	}
 
-  public function setVignette(state:Bool){
-    shader.vignetteOn.value[0] = state;
-  }
+	public function update(elapsed:Float) {
+		shader.iTime.value[0] += elapsed;
+		shader.iResolution.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
+	}
 
-  public function setPerspective(state:Bool){
-    shader.perspectiveOn.value[0] = state;
-  }
+	public function setVignette(state:Bool) {
+		shader.vignetteOn.value[0] = state;
+	}
 
-  public function setGlitchModifier(modifier:Float){
-    shader.glitchModifier.value[0] = modifier;
-  }
+	public function setPerspective(state:Bool) {
+		shader.perspectiveOn.value[0] = state;
+	}
 
-  public function setDistortion(state:Bool){
-    shader.distortionOn.value[0] = state;
-  }
+	public function setGlitchModifier(modifier:Float) {
+		shader.glitchModifier.value[0] = modifier;
+	}
 
-  public function setScanlines(state:Bool){
-    shader.scanlinesOn.value[0] = state;
-  }
+	public function setDistortion(state:Bool) {
+		shader.distortionOn.value[0] = state;
+	}
 
-  public function setVignetteMoving(state:Bool){
-    shader.vignetteMoving.value[0] = state;
-  }
+	public function setScanlines(state:Bool) {
+		shader.scanlinesOn.value[0] = state;
+	}
+
+	public function setVignetteMoving(state:Bool) {
+		shader.vignetteMoving.value[0] = state;
+	}
 }
 
 class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ldjGzV and https://www.shadertoy.com/view/Ms23DR and https://www.shadertoy.com/view/MsXGD4 and https://www.shadertoy.com/view/Xtccz4
 {
-
-  @:glFragmentSource('
+	@:glFragmentSource('
     #pragma header
 
     uniform float iTime;
@@ -1416,30 +1313,26 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
 
     }
   ')
-  public function new()
-  {
-    super();
-  }
+	public function new() {
+		super();
+	}
 }
 
-
-
-class ThreeDEffect extends Effect{
-	
+class ThreeDEffect extends Effect {
 	public var shader:ThreeDShader = new ThreeDShader();
-	public function new(xrotation:Float=0,yrotation:Float=0,zrotation:Float=0,depth:Float=0){
+
+	public function new(xrotation:Float = 0, yrotation:Float = 0, zrotation:Float = 0, depth:Float = 0) {
 		shader.xrot.value = [xrotation];
 		shader.yrot.value = [yrotation];
 		shader.zrot.value = [zrotation];
 		shader.dept.value = [depth];
 	}
-	
-	
 }
-//coding is like hitting on women, you never start with the number
+
+// coding is like hitting on women, you never start with the number
 //               -naether
 
-class ThreeDShader extends FlxShader{
+class ThreeDShader extends FlxShader {
 	@:glFragmentSource('
 	#pragma header
 	uniform float xrot = 0.0;
@@ -1513,30 +1406,23 @@ void main() {
 
 
 	')
-	
-	public function new(){
+	public function new() {
 		super();
 	}
-	
 }
 
-//Boing! by ThaeHan
+// Boing! by ThaeHan
 
-class FuckingTriangleEffect extends Effect{
-	
+class FuckingTriangleEffect extends Effect {
 	public var shader:FuckingTriangle = new FuckingTriangle();
-	
-	public function new(rotx:Float, roty:Float){
+
+	public function new(rotx:Float, roty:Float) {
 		shader.rotX.value = [rotx];
 		shader.rotY.value = [roty];
-		
 	}
-	
 }
 
-
-class FuckingTriangle extends FlxShader{
-	
+class FuckingTriangle extends FlxShader {
 	@:glFragmentSource('
 	
 	
@@ -1672,30 +1558,21 @@ void main()
 	
 	
 	')
-	
-	
-	public function new(){
+	public function new() {
 		super();
 	}
-	
-	
 }
-class BloomEffect extends Effect{
-	
+
+class BloomEffect extends Effect {
 	public var shader:BloomShader = new BloomShader();
-	public function new(blurSize:Float, intensity:Float){
+
+	public function new(blurSize:Float, intensity:Float) {
 		shader.blurSize.value = [blurSize];
 		shader.intensity.value = [intensity];
-		
 	}
-	
-	
 }
 
-
-class BloomShader extends FlxShader{
-	
-	
+class BloomShader extends FlxShader {
 	@:glFragmentSource('
 	
 	#pragma header
@@ -1745,63 +1622,58 @@ void main()
 	
 	
 	')
-	
-	public function new(){
+	public function new() {
 		super();
 	}
-	
-	
 }
 
-class BlockedGlitchEffect
-{
-    public var shader(default, null):BlockedGlitchShader = new BlockedGlitchShader();
+class BlockedGlitchEffect {
+	public var shader(default, null):BlockedGlitchShader = new BlockedGlitchShader();
 
-    public var time(default, set):Float = 0;
-    public var resolution(default, set):Float = 0;
-    public var colorMultiplier(default, set):Float = 0;
-    public var hasColorTransform(default, set):Bool = false;
+	public var time(default, set):Float = 0;
+	public var resolution(default, set):Float = 0;
+	public var colorMultiplier(default, set):Float = 0;
+	public var hasColorTransform(default, set):Bool = false;
 
-    public function new(res:Float, time:Float, colorMultiplier:Float, colorTransform:Bool):Void
-    {
-        set_time(time);
-        set_resolution(res);
-        set_colorMultiplier(colorMultiplier);
-        set_hasColorTransform(colorTransform);
-    }
-    public function update(elapsed:Float):Void
-    {
-        shader.time.value[0] += elapsed;
-    }
-    public function set_resolution(v:Float):Float
-    {
-        resolution = v;
-        shader.screenSize.value = [resolution];
-        return this.resolution;
-    }
+	public function new(res:Float, time:Float, colorMultiplier:Float, colorTransform:Bool):Void {
+		set_time(time);
+		set_resolution(res);
+		set_colorMultiplier(colorMultiplier);
+		set_hasColorTransform(colorTransform);
+	}
+
+	public function update(elapsed:Float):Void {
+		shader.time.value[0] += elapsed;
+	}
+
+	public function set_resolution(v:Float):Float {
+		resolution = v;
+		shader.screenSize.value = [resolution];
+		return this.resolution;
+	}
+
 	function set_hasColorTransform(value:Bool):Bool {
 		this.hasColorTransform = value;
-        shader.hasColorTransform.value = [hasColorTransform];
-        return hasColorTransform;
+		shader.hasColorTransform.value = [hasColorTransform];
+		return hasColorTransform;
 	}
 
 	function set_colorMultiplier(value:Float):Float {
-        this.colorMultiplier = value;
-        shader.colorMultiplier.value = [value];
-        return this.colorMultiplier;
-    }
+		this.colorMultiplier = value;
+		shader.colorMultiplier.value = [value];
+		return this.colorMultiplier;
+	}
 
 	function set_time(value:Float):Float {
-        this.time = value;
-        shader.time.value = [value];
-        return this.time;
-    }
+		this.time = value;
+		shader.time.value = [value];
+		return this.time;
+	}
 }
 
-class BlockedGlitchShader extends FlxShader
-{
-    // https://www.shadertoy.com/view/MlVSD3
-    @:glFragmentSource('
+class BlockedGlitchShader extends FlxShader {
+	// https://www.shadertoy.com/view/MlVSD3
+	@:glFragmentSource('
     #pragma header
 
     // ---- gllock required fields -----------------------------------------------------------------------------------------
@@ -1830,17 +1702,13 @@ class BlockedGlitchShader extends FlxShader
       gl_FragColor.b = flixel_texture2D(bitmap, uv + vec2(offset(64.0, uv) * 0.03, 0.0)).b;
     }
     ')
-
-    public function new()
-    {
-        super();
-    }
+	public function new() {
+		super();
+	}
 }
 
-
 class Effect {
-	public function setValue(shader:FlxShader, variable:String, value:Float){
+	public function setValue(shader:FlxShader, variable:String, value:Float) {
 		Reflect.setProperty(Reflect.getProperty(shader, 'variable'), 'value', [value]);
 	}
-	
 }

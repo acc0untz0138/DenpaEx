@@ -1,8 +1,7 @@
 package compiletime;
 
 @:build(compiletime.GameBuildTime.getBuildTime())
-class GameVersion
-{
+class GameVersion {
 	public var release(default, null):Int;
 	public var major(default, null):Int;
 	public var minor(default, null):Int;
@@ -11,8 +10,7 @@ class GameVersion
 	public var debugVersion(get, never):String;
 	public var formatted(get, never):String;
 
-	public function new(Release:Int, Major:Int, Minor:Int, Patch:String)
-	{
+	public function new(Release:Int, Major:Int, Minor:Int, Patch:String) {
 		release = Release;
 		major = Major;
 		minor = Minor;

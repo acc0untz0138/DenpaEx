@@ -1,7 +1,6 @@
 package flixel.input;
 
-class FlxInput<T> implements IFlxInput
-{
+class FlxInput<T> implements IFlxInput {
 	public var ID:T;
 
 	public var justReleased(get, never):Bool;
@@ -12,47 +11,37 @@ class FlxInput<T> implements IFlxInput
 	public var current:FlxInputState = RELEASED;
 	public var last:FlxInputState = RELEASED;
 
-	public function new(ID:T)
-	{
+	public function new(ID:T) {
 		this.ID = ID;
 	}
 
-	public function press():Void
-	{
+	public function press():Void {
 		last = current;
 		current = pressed ? PRESSED : JUST_PRESSED;
 	}
 
-	public function release():Void
-	{
+	public function release():Void {
 		last = current;
 		current = pressed ? JUST_RELEASED : RELEASED;
 	}
 
-	public function update():Void
-	{
-		if (last == JUST_RELEASED && current == JUST_RELEASED)
-		{
+	public function update():Void {
+		if (last == JUST_RELEASED && current == JUST_RELEASED) {
 			current = RELEASED;
-		}
-		else if (last == JUST_PRESSED && current == JUST_PRESSED)
-		{
+		} else if (last == JUST_PRESSED && current == JUST_PRESSED) {
 			current = PRESSED;
 		}
 
 		last = current;
 	}
 
-	public function reset():Void
-	{
+	public function reset():Void {
 		current = RELEASED;
 		last = RELEASED;
 	}
 
-	public function hasState(state:FlxInputState):Bool
-	{
-		return switch (state)
-		{
+	public function hasState(state:FlxInputState):Bool {
+		return switch (state) {
 			case JUST_RELEASED: justReleased;
 			case RELEASED: released;
 			case PRESSED: pressed;
@@ -60,30 +49,24 @@ class FlxInput<T> implements IFlxInput
 		}
 	}
 
-	inline function get_justReleased():Bool
-	{
+	inline function get_justReleased():Bool {
 		return current == JUST_RELEASED;
 	}
 
-	inline function get_released():Bool
-	{
+	inline function get_released():Bool {
 		return current == RELEASED || justReleased;
 	}
 
-	inline function get_pressed():Bool
-	{
+	inline function get_pressed():Bool {
 		return current == PRESSED || justPressed;
 	}
 
-	inline function get_justPressed():Bool
-	{
+	inline function get_justPressed():Bool {
 		return current == JUST_PRESSED;
 	}
 }
 
-enum
-abstract FlxInputState(Int) from Int
-{
+enum abstract FlxInputState(Int) from Int {
 	var JUST_RELEASED = -1;
 	var RELEASED = 0;
 	var PRESSED = 1;

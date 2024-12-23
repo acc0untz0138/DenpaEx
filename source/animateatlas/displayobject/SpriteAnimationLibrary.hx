@@ -26,6 +26,7 @@ class SpriteAnimationLibrary {
 	private var _symbolPool:Map<String, Array<SpriteSymbol>>;
 	private var _defaultSymbolName:String;
 	private var _texture:BitmapData;
+
 	public var smoothing:Bool = true;
 
 	public static inline var BITMAP_SYMBOL_NAME:String = "___atlas_sprite___";
