@@ -1,11 +1,9 @@
 {
 	"song": {
-		"player1": "bf-car",
 		"events": [],
-		"gfVersion": "gf-car",
 		"notes": [
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						0,
@@ -48,11 +46,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						2181.818,
@@ -95,10 +93,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						4636.36328,
@@ -141,11 +140,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						6818.18164,
@@ -183,10 +181,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						8727.272,
@@ -234,11 +233,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						11181.8174,
@@ -276,10 +274,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						13090.9082,
@@ -322,11 +321,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						15272.7266,
@@ -364,10 +362,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						17454.5449,
@@ -410,11 +409,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						19636.3633,
@@ -452,11 +450,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						21818.1816,
@@ -549,11 +547,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						24000,
@@ -636,11 +634,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						26181.8164,
@@ -693,11 +691,11 @@
 						409.090881
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						28363.6348,
@@ -750,11 +748,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						30545.4531,
@@ -802,10 +800,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						33000,
@@ -853,11 +852,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						34909.09,
@@ -910,10 +908,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						37363.6367,
@@ -976,11 +975,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						39272.7266,
@@ -1043,10 +1041,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						41454.543,
@@ -1114,11 +1113,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						43636.3633,
@@ -1171,10 +1169,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						45818.18,
@@ -1227,11 +1226,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						48272.7266,
@@ -1274,10 +1272,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						50454.543,
@@ -1320,11 +1319,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						52363.6328,
@@ -1372,10 +1370,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						54818.18,
@@ -1418,11 +1417,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						56727.27,
@@ -1515,11 +1513,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						58909.09,
@@ -1602,11 +1600,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						61090.9063,
@@ -1659,11 +1657,11 @@
 						409.090881
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						63272.7266,
@@ -1716,10 +1714,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						65454.543,
@@ -1767,11 +1766,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						67909.0859,
@@ -1824,10 +1822,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						69818.18,
@@ -1890,11 +1889,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						72000,
@@ -1957,11 +1955,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						74181.81,
@@ -2034,11 +2032,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						76363.63,
@@ -2121,11 +2119,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": false
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						78545.45,
@@ -2178,11 +2176,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
-				"crossFade": true,
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						80727.27,
@@ -2235,10 +2233,11 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
+				"crossFade": true,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						82909.0859,
@@ -2286,10 +2285,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						85363.63,
@@ -2327,10 +2326,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						87272.73,
@@ -2338,49 +2337,70 @@
 						545.4545
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"gfSection": false,
-				"lengthInSteps": 16,
 				"altAnim": false,
+				"mustHitSection": true,
+				"crossFade": false,
+				"lengthInSteps": 16,
 				"typeOfSection": 0,
 				"sectionNotes": [],
+				"gfSection": false,
 				"bpm": 110,
-				"changeBPM": false,
-				"mustHitSection": true,
-				"crossFade": false
+				"changeBPM": false
 			}
 		],
-		"player2": "mom-car",
-		"mania": 3,
-		"player3": null,
-		"song": "Satin Panties",
-		"needsVoices": true,
-		"validScore": true,
-		"bpm": 110,
-		"speed": 1.6,
-		"autoZooms": true,
-		"autoIdles": true,
-		"autoIcons": true,
-		"allowBot": true,
-		"allowGhostTapping": true,
-		"hardness": 3.7
+		"options": {
+			"speed": 1.6,
+			"dangerMiss": false,
+			"allowBot": true,
+			"modchart": null,
+			"beatDrain": false,
+			"tintBlue": null,
+			"mania": 3,
+			"credits": null,
+			"dadModchart": null,
+			"remixCreds": null,
+			"allowGhostTapping": true,
+			"crits": false,
+			"tintRed": null,
+			"p4Modchart": null,
+			"tintGreen": null
+		},
+		"header": {
+			"instVolume": null,
+			"vocalsVolume": null,
+			"bpm": 110,
+			"needsVoices": true,
+			"song": "Satin Panties",
+			"secVocalsVolume": null
+		},
+		"assets": {
+			"stage": null,
+			"player1": "bf-car",
+			"player2": "mom-car",
+			"player3": null,
+			"player4": null,
+			"splashSkin": null,
+			"gfVersion": "gf-car",
+			"arrowSkin": null,
+			"enablePlayer4": null
+		}
 	}
 }

@@ -128,7 +128,10 @@
 	"flip_x": true,
 	"icon_props": {
 		"name": "pico",
-		"offsets": [0,0],
+		"offsets": [
+			0,
+			0
+		],
 		"antialiasing": true
 	},
 	"healthbar_colors": [
@@ -158,5 +161,8 @@
 	"scare_gf": false,
 	"scale": 1,
 	"flixel_trail": false,
-	"selector_offsets": [-140, 15]
+	"selector_offsets": [
+		-140,
+		15
+	]
 }

@@ -1,15 +1,5 @@
-
 {
 	"song": {
-		"speed": 2.3,
-		"stage": "philly",
-		"player1": "bf",
-		"player2": "pico",
-		"player3": null,
-		"player4": null,
-		"dangerMiss": null,
-		"autoIcons": true,
-		"autoIdles": true,
 		"events": [
 			[
 				46545.4545454546,
@@ -969,21 +959,9 @@
 				]
 			]
 		],
-        "allowBot": true,
 		"notes": [],
-		"splashSkin": null,
-        "modchart": null,
-		"validScore": false,
-		"gfVersion": "gf",
-		"bpm": 165,
-        "mania": 3,
-		"arrowSkin": null,
-		"needsVoices": true,
-        "enablePlayer4": null,
-		"healthDrain": null,
-		"allowGhostTapping": true,
-		"crits": null,
-		"song": "Blammed",
-        "autoZooms": true
+		"options": null,
+		"header": null,
+		"assets": null
 	}
 }

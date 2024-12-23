@@ -1,24 +1,48 @@
 {
-	"songs": [
-		["Spookeez", "skid-and-pump", [34, 51, 68]],
-		["South", "skid-and-pump", [34, 51, 68]],
-		["Monster", "monster", [34, 51, 68]]
+	"storyName": "Spooky Month",
+	"difficulties": "Easy, Normal, Hard",
+	"hideFreeplay": false,
+	"weekBackground": "halloween",
+	"weekBefore": "week1",
+	"startUnlocked": true,
+	"sections": [
+		"All",
+		"Vanilla"
 	],
-
 	"weekCharacters": [
 		"spooky",
 		"bf",
 		"gf"
 	],
-	"weekBackground": "halloween",
-
-	"storyName": "Spooky Month",
-	"weekBefore": "week1",
-	"weekName": "Week 2",
-	"startUnlocked": true,
-
+	"songs": [
+		[
+			"Spookeez",
+			"skid-and-pump",
+			[
+				34,
+				51,
+				68
+			]
+		],
+		[
+			"South",
+			"skid-and-pump",
+			[
+				34,
+				51,
+				68
+			]
+		],
+		[
+			"Monster",
+			"monster",
+			[
+				34,
+				51,
+				68
+			]
+		]
+	],
 	"hideStoryMode": false,
-	"hideFreeplay": false,
-	"sections": ["All", "Vanilla"],
-	"difficulties": "Easy, Normal, Hard"
+	"weekName": "Week 2"
 }

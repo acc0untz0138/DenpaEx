@@ -1,13 +1,14 @@
 {
 	"animations": [
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "danceLeft",
+			"fps": 24,
+			"name": "GF IDLE",
 			"indices": [
 				30,
 				0,
@@ -25,17 +26,17 @@
 				12,
 				13,
 				14
-			],
-			"name": "GF IDLE"
+			]
 		},
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "danceRight",
+			"fps": 24,
+			"name": "GF IDLE",
 			"indices": [
 				15,
 				16,
@@ -52,96 +53,106 @@
 				27,
 				28,
 				29
-			],
-			"name": "GF IDLE"
+			]
 		},
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "singUP",
-			"indices": [],
-			"name": "GF IDLE"
+			"fps": 24,
+			"name": "GF IDLE",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "sad",
+			"fps": 24,
 			"name": "GF CRY"
 		},
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "cheer",
+			"fps": 24,
 			"name": "GF CHEER"
 		}
 	],
 	"sarvente_floating": false,
 	"no_antialiasing": true,
 	"death_props": {
-		"endSfx": "gameOverEnd",
-		"bpm": 100,
-		"loopSfx": "gameOver",
 		"character": "bf-dead",
-		"startSfx": "fnf_loss_sfx"
+		"loopSfx": "gameOver",
+		"endSfx": "gameOverEnd",
+		"startSfx": "fnf_loss_sfx",
+		"bpm": 100
 	},
 	"image": "characters/Week6/gfPixel",
-	"trail_length": null,
-	"trail_delay": null,
 	"position": [
 		0,
 		0
 	],
-	"trail_diff": null,
-	"float_speed": null,
-	"trail_alpha": null,
+	"icon_props": {
+		"antialiasing": true,
+		"offsets": [
+			0,
+			0
+		],
+		"name": "gf"
+	},
+	"trail_data": {
+		"length": null,
+		"delay": null,
+		"alpha": null,
+		"diff": null,
+		"enabled": false
+	},
+	"float_speed": 1,
 	"health_drain": false,
+	"selector_offsets": [
+		0,
+		0
+	],
 	"shake_screen": false,
 	"orbit": false,
+	"player": false,
 	"drain_floor": 0.1,
 	"healthbar_count": 3,
 	"flip_x": false,
-	"icon_props": {
-		"name": "gf",
-		"offsets": [0,0],
-		"antialiasing": true
-	},
 	"healthbar_colors": [
 		{
 			"blue": 77,
-			"green": 0,
-			"red": 165
+			"red": 165,
+			"green": 0
 		},
 		{
 			"blue": 57,
-			"green": 0,
-			"red": 145
+			"red": 145,
+			"green": 0
 		},
 		{
 			"blue": 37,
-			"green": 0,
-			"red": 125
+			"red": 125,
+			"green": 0
 		}
 	],
+	"drain_amount": 0.01,
 	"camera_position": [
 		-24,
 		84
 	],
-	"float_magnitude": null,
+	"float_magnitude": 0.6,
 	"sing_duration": 4,
 	"scare_bf": false,
 	"scare_gf": false,
-	"scale": 5.99999999999999,
-	"flixel_trail": false
+	"scale": 5.99999999999999
 }

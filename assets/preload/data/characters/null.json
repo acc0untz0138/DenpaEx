@@ -1,25 +1,25 @@
 {
 	"animations": [
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"loop": false,
-			"fps": 1,
 			"anim": "idle",
-			"indices": [],
-			"name": "idle"
+			"fps": 1,
+			"name": "idle",
+			"indices": []
 		}
 	],
 	"sarvente_floating": false,
 	"no_antialiasing": false,
 	"death_props": {
+		"character": "null",
+		"loopSfx": "",
 		"endSfx": "gameOverEnd",
-		"bpm": 100,
-		"loopSfx": "gameOver",
-		"character": "bf-dead",
-		"startSfx": "fnf_loss_sfx"
+		"startSfx": "",
+		"bpm": 100
 	},
 	"image": "characters/null",
 	"position": [
@@ -27,19 +27,19 @@
 		0
 	],
 	"icon_props": {
+		"antialiasing": false,
 		"offsets": [
 			0,
 			0
 		],
-		"antialiasing": true,
 		"name": "null"
 	},
 	"trail_data": {
-		"length": 4,
-		"delay": 24,
-		"alpha": 0.3,
+		"enabled": false,
 		"diff": 0.069,
-		"enabled": false
+		"length": 4,
+		"alpha": 0.3,
+		"delay": 24
 	},
 	"float_speed": 1,
 	"health_drain": false,
@@ -55,19 +55,19 @@
 	"flip_x": false,
 	"healthbar_colors": [
 		{
-			"green": 0,
+			"blue": 0,
 			"red": 0,
-			"blue": 0
+			"green": 0
 		},
 		{
-			"green": 0,
+			"blue": 0,
 			"red": 0,
-			"blue": 0
+			"green": 0
 		},
 		{
-			"green": 0,
+			"blue": 0,
 			"red": 0,
-			"blue": 0
+			"green": 0
 		}
 	],
 	"drain_amount": 0.01,

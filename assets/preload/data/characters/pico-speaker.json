@@ -1,148 +1,169 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "shoot1",
+			"loop": false,
 			"fps": 24,
-			"name": "Pico shoot 1",
-			"indices": []
+			"anim": "shoot1",
+			"indices": [],
+			"name": "Pico shoot 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				-1,
 				-128
 			],
-			"anim": "shoot2",
+			"loop": false,
 			"fps": 24,
-			"name": "Pico shoot 2",
-			"indices": []
+			"anim": "shoot2",
+			"indices": [],
+			"name": "Pico shoot 2"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				412,
 				-64
 			],
-			"anim": "shoot3",
+			"loop": false,
 			"fps": 24,
-			"name": "Pico shoot 3",
-			"indices": []
+			"anim": "shoot3",
+			"indices": [],
+			"name": "Pico shoot 3"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				439,
 				-19
 			],
-			"anim": "shoot4",
+			"loop": false,
 			"fps": 24,
-			"name": "Pico shoot 4",
-			"indices": []
+			"anim": "shoot4",
+			"indices": [],
+			"name": "Pico shoot 4"
 		},
 		{
-			"loop": true,
 			"offsets": [
 				412,
 				-64
 			],
-			"anim": "shoot3-loop",
+			"loop": true,
 			"fps": 24,
-			"name": "Pico shoot 3",
+			"anim": "shoot3-loop",
 			"indices": [
 				50,
 				51,
 				52
-			]
+			],
+			"name": "Pico shoot 3"
 		},
 		{
-			"loop": true,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "shoot1-loop",
+			"loop": true,
 			"fps": 24,
-			"name": "Pico shoot 1",
+			"anim": "shoot1-loop",
 			"indices": [
 				23,
 				24,
 				25
-			]
+			],
+			"name": "Pico shoot 1"
 		},
 		{
-			"loop": true,
 			"offsets": [
 				1,
 				-128
 			],
-			"anim": "shoot2-loop",
+			"loop": true,
 			"fps": 24,
-			"name": "Pico shoot 2",
+			"anim": "shoot2-loop",
 			"indices": [
 				57,
 				58,
 				59
-			]
+			],
+			"name": "Pico shoot 2"
 		},
 		{
-			"loop": true,
 			"offsets": [
 				439,
 				-19
 			],
-			"anim": "shoot4-loop",
+			"loop": true,
 			"fps": 24,
-			"name": "Pico shoot 4",
+			"anim": "shoot4-loop",
 			"indices": [
 				50,
 				51,
 				52
-			]
+			],
+			"name": "Pico shoot 4"
 		}
 	],
 	"sarvente_floating": false,
 	"no_antialiasing": false,
+	"death_props": {
+		"endSfx": "gameOverEnd",
+		"bpm": 100,
+		"loopSfx": "gameOver",
+		"character": "bf-dead",
+		"startSfx": "fnf_loss_sfx"
+	},
 	"image": "characters/Week7/picoSpeaker",
-	"trail_length": 4,
-	"trail_delay": 24,
 	"position": [
 		120,
 		-125
 	],
-	"trail_diff": 0,
-	"trail_alpha": 1,
+	"icon_props": {
+		"antialiasing": true,
+		"offsets": [
+			0,
+			0
+		],
+		"name": "pico"
+	},
+	"trail_data": {
+		"length": 4,
+		"delay": 24,
+		"alpha": 1,
+		"diff": 0,
+		"enabled": false
+	},
+	"float_speed": 1,
 	"health_drain": false,
+	"selector_offsets": [
+		0,
+		0
+	],
 	"shake_screen": false,
 	"orbit": false,
+	"player": false,
+	"drain_floor": 0.1,
 	"healthbar_count": 3,
 	"flip_x": false,
-	"icon_props": {
-		"name": "pico",
-		"offsets": [0,0],
-		"antialiasing": true
-	},
 	"healthbar_colors": [
 		{
-			"red": 153,
+			"blue": 102,
 			"green": 255,
-			"blue": 102
+			"red": 153
 		},
 		{
-			"red": 133,
+			"blue": 82,
 			"green": 235,
-			"blue": 82
+			"red": 133
 		},
 		{
-			"red": 113,
+			"blue": 62,
 			"green": 215,
-			"blue": 62
+			"red": 113
 		}
 	],
+	"drain_amount": 0.01,
 	"camera_position": [
 		-310,
 		100
@@ -151,6 +172,5 @@
 	"sing_duration": 4,
 	"scare_bf": false,
 	"scare_gf": false,
-	"scale": 1,
-	"flixel_trail": false
+	"scale": 1
 }

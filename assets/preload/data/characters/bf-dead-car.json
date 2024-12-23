@@ -1,85 +1,105 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				37,
 				11
 			],
-			"anim": "firstDeath",
+			"loop": false,
 			"fps": 24,
-			"name": "BF dies",
-			"indices": []
+			"anim": "firstDeath",
+			"indices": [],
+			"name": "BF dies"
 		},
 		{
-			"loop": true,
 			"offsets": [
 				-123,
 				-550
 			],
-			"anim": "deathLoop",
+			"loop": true,
 			"fps": 24,
-			"name": "BF Dead Loop",
-			"indices": []
+			"anim": "deathLoop",
+			"indices": [],
+			"name": "BF Dead Loop"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				-123,
 				-551
 			],
-			"anim": "deathConfirm",
+			"loop": false,
 			"fps": 24,
-			"name": "BF Dead confirm",
-			"indices": []
+			"anim": "deathConfirm",
+			"indices": [],
+			"name": "BF Dead confirm"
 		}
 	],
 	"sarvente_floating": false,
-	"player": true,
+	"no_antialiasing": false,
+	"death_props": {
+		"endSfx": "gameOverEnd",
+		"bpm": 100,
+		"loopSfx": "gameOver",
+		"character": "bf-dead",
+		"startSfx": "fnf_loss_sfx"
+	},
 	"image": "characters/Week4/bfCarDead",
-	"trail_length": 4,
-	"trail_delay": 24,
 	"position": [
 		0,
 		350
 	],
-	"trail_diff": 0,
-	"trail_alpha": 1,
+	"icon_props": {
+		"antialiasing": true,
+		"offsets": [
+			0,
+			0
+		],
+		"name": "bf"
+	},
+	"trail_data": {
+		"length": 4,
+		"delay": 24,
+		"alpha": 1,
+		"diff": 0,
+		"enabled": false
+	},
+	"float_speed": 1,
 	"health_drain": false,
+	"selector_offsets": [
+		0,
+		0
+	],
 	"shake_screen": false,
 	"orbit": false,
+	"player": true,
+	"drain_floor": 0.1,
 	"healthbar_count": 3,
 	"flip_x": true,
-	"icon_props": {
-		"name": "bf",
-		"offsets": [0,0],
-		"antialiasing": true
-	},
 	"healthbar_colors": [
 		{
-			"red": 49,
+			"blue": 209,
 			"green": 176,
-			"blue": 209
+			"red": 49
 		},
 		{
-			"red": 29,
+			"blue": 189,
 			"green": 156,
-			"blue": 189
+			"red": 29
 		},
 		{
-			"red": 9,
+			"blue": 169,
 			"green": 136,
-			"blue": 169
+			"red": 9
 		}
 	],
+	"drain_amount": 0.01,
 	"camera_position": [
 		0,
 		0
 	],
-	"float_magnitude": null,
+	"float_magnitude": 0.6,
 	"sing_duration": 4,
 	"scare_bf": false,
 	"scare_gf": false,
-	"scale": 1,
-	"flixel_trail": false
+	"scale": 1
 }

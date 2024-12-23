@@ -1,22 +1,30 @@
 {
-	"songs": [
-		["Tutorial", "gf", [165, 0, 77]]
+	"storyName": "",
+	"difficulties": "Easy, Normal, Hard, Insanity",
+	"hideFreeplay": false,
+	"weekBackground": "stage",
+	"weekBefore": "tutorial",
+	"startUnlocked": true,
+	"sections": [
+		"All",
+		"Vanilla"
 	],
-
 	"weekCharacters": [
 		"",
 		"bf",
 		"gf"
 	],
-	"weekBackground": "stage",
-
-	"storyName": "",
-	"weekBefore": "tutorial",
-	"weekName": "Tutorial",
-	"startUnlocked": true,
-
+	"songs": [
+		[
+			"Tutorial",
+			"gf",
+			[
+				165,
+				0,
+				77
+			]
+		]
+	],
 	"hideStoryMode": false,
-	"hideFreeplay": false,
-	"sections": ["All", "Vanilla"],
-	"difficulties": "Easy, Normal, Hard, Insanity"
+	"weekName": "Tutorial"
 }

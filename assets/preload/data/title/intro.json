@@ -1,16 +1,20 @@
-{	
+{
 	"beats": [
 		{
 			"beat": 1,
 			"actions": [
 				{
 					"name": "setZoom",
-					"values": [1.1]
+					"values": [
+						1.1
+					]
 				},
 				{
 					"name": "createStartText",
 					"values": [
-						["Denpa Engine by"],
+						[
+							"Denpa Engine by"
+						],
 						-115
 					]
 				}
@@ -21,7 +25,9 @@
 			"actions": [
 				{
 					"name": "icons",
-					"values": [0]
+					"values": [
+						0
+					]
 				},
 				{
 					"name": "addMoreText",
@@ -83,7 +89,9 @@
 				},
 				{
 					"name": "icons",
-					"values": [1]
+					"values": [
+						1
+					]
 				}
 			]
 		},
@@ -92,11 +100,15 @@
 			"actions": [
 				{
 					"name": "newgrounds",
-					"values": [0]
+					"values": [
+						0
+					]
 				},
 				{
 					"name": "setZoom",
-					"values": [1.2]
+					"values": [
+						1.2
+					]
 				}
 			]
 		},
@@ -105,7 +117,9 @@
 			"actions": [
 				{
 					"name": "newgrounds",
-					"values": [1]
+					"values": [
+						1
+					]
 				}
 			]
 		},
@@ -114,11 +128,15 @@
 			"actions": [
 				{
 					"name": "setZoom",
-					"values": [1.05]
+					"values": [
+						1.05
+					]
 				},
 				{
 					"name": "newgrounds",
-					"values": [2]
+					"values": [
+						2
+					]
 				}
 			]
 		},
@@ -127,11 +145,15 @@
 			"actions": [
 				{
 					"name": "changeBPM",
-					"values": [150]
+					"values": [
+						150
+					]
 				},
 				{
 					"name": "addRandomText",
-					"values": [0]
+					"values": [
+						0
+					]
 				}
 			]
 		},
@@ -140,7 +162,9 @@
 			"actions": [
 				{
 					"name": "addRandomText",
-					"values": [1]
+					"values": [
+						1
+					]
 				}
 			]
 		},
@@ -149,7 +173,9 @@
 			"actions": [
 				{
 					"name": "deleteText",
-					"values": [0]
+					"values": [
+						0
+					]
 				},
 				{
 					"name": "setRandomText",
@@ -162,7 +188,9 @@
 			"actions": [
 				{
 					"name": "addRandomText",
-					"values": [0]
+					"values": [
+						0
+					]
 				}
 			]
 		},
@@ -171,7 +199,9 @@
 			"actions": [
 				{
 					"name": "addRandomText",
-					"values": [1]
+					"values": [
+						1
+					]
 				}
 			]
 		},
@@ -180,7 +210,9 @@
 			"actions": [
 				{
 					"name": "setZoom",
-					"values": [1.13]
+					"values": [
+						1.13
+					]
 				},
 				{
 					"name": "deleteText",
@@ -188,7 +220,9 @@
 				},
 				{
 					"name": "changeBPM",
-					"values": [300]
+					"values": [
+						300
+					]
 				}
 			]
 		},
@@ -197,7 +231,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["Drop"]
+					"values": [
+						"Drop"
+					]
 				}
 			]
 		},
@@ -206,7 +242,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["The"]
+					"values": [
+						"The"
+					]
 				}
 			]
 		},
@@ -215,7 +253,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["Beat"]
+					"values": [
+						"Beat"
+					]
 				}
 			]
 		},
@@ -224,7 +264,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["Drop"]
+					"values": [
+						"Drop"
+					]
 				}
 			]
 		},
@@ -233,7 +275,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["The"]
+					"values": [
+						"The"
+					]
 				}
 			]
 		},
@@ -251,7 +295,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["Drop"]
+					"values": [
+						"Drop"
+					]
 				}
 			]
 		},
@@ -260,7 +306,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["The"]
+					"values": [
+						"The"
+					]
 				}
 			]
 		},
@@ -269,7 +317,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["Beat"]
+					"values": [
+						"Beat"
+					]
 				}
 			]
 		},
@@ -278,7 +328,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["Drop"]
+					"values": [
+						"Drop"
+					]
 				}
 			]
 		},
@@ -287,7 +339,9 @@
 			"actions": [
 				{
 					"name": "addMoreText",
-					"values": ["The"]
+					"values": [
+						"The"
+					]
 				}
 			]
 		},
@@ -296,11 +350,15 @@
 			"actions": [
 				{
 					"name": "changeBPM",
-					"values": [102]
+					"values": [
+						102
+					]
 				},
 				{
 					"name": "setZoom",
-					"values": [1.025]
+					"values": [
+						1.025
+					]
 				},
 				{
 					"name": "deleteText",

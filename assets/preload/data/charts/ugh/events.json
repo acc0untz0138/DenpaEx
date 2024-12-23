@@ -1,14 +1,5 @@
 {
 	"song": {
-		"speed": 2.3,
-		"stage": "tank",
-		"player1": "bf",
-		"player2": "tankman",
-		"player3": null,
-		"player4": null,
-		"dangerMiss": null,
-		"autoIcons": true,
-		"autoIdles": true,
 		"events": [
 			[
 				5531.25,
@@ -241,24 +232,9 @@
 				]
 			]
 		],
-		"allowBot": true,
 		"notes": [],
-		"splashSkin": null,
-		"modchart": null,
-		"validScore": false,
-		"beatDrain": null,
-		"tintBlue": null,
-		"gfVersion": "gf-tankmen",
-		"bpm": 160,
-		"mania": 3,
-		"arrowSkin": null,
-		"needsVoices": true,
-		"enablePlayer4": null,
-		"allowGhostTapping": true,
-		"crits": null,
-		"song": "Ugh",
-		"autoZooms": true,
-		"tintRed": null,
-		"tintGreen": null
+		"options": null,
+		"header": null,
+		"assets": null
 	}
 }

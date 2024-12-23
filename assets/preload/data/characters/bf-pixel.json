@@ -1,165 +1,176 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"fps": 24,
+			"loop": false,
 			"anim": "idle",
-			"indices": [],
-			"name": "BF IDLE"
+			"fps": 24,
+			"name": "BF IDLE",
+			"indices": []
 		},
 		{
-			"loop": false,
 			"offsets": [
 				-12,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singLEFTmiss",
-			"fps": 24,
-			"name": "BF LEFT MISS",
-			"indices": []
+			"indices": [],
+			"name": "BF LEFT MISS"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				-12,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singLEFT",
-			"fps": 24,
-			"name": "BF LEFT NOTE",
-			"indices": []
+			"indices": [],
+			"name": "BF LEFT NOTE"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singUPmiss",
-			"fps": 24,
-			"name": "BF UP MISS",
-			"indices": []
+			"indices": [],
+			"name": "BF UP MISS"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singUP",
-			"fps": 24,
-			"name": "BF UP NOTE",
-			"indices": []
+			"indices": [],
+			"name": "BF UP NOTE"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singRIGHT",
-			"fps": 24,
-			"name": "BF RIGHT NOTE",
-			"indices": []
+			"indices": [],
+			"name": "BF RIGHT NOTE"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singRIGHTmiss",
-			"fps": 24,
-			"name": "BF RIGHT MISS",
-			"indices": []
+			"indices": [],
+			"name": "BF RIGHT MISS"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singDOWN",
-			"fps": 24,
-			"name": "BF DOWN NOTE",
-			"indices": []
+			"indices": [],
+			"name": "BF DOWN NOTE"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "singDOWNmiss",
+			"loop": false,
 			"fps": 24,
-			"name": "BF DOWN MISS",
-			"indices": []
+			"anim": "singDOWNmiss",
+			"indices": [],
+			"name": "BF DOWN MISS"
 		},
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				6
 			],
-			"indices": [],
-			"fps": 24,
+			"loop_point": 0,
 			"anim": "hey",
-			"loop": false,
+			"fps": 24,
 			"name": "BF HEY!",
-			"loop_point": 0
+			"indices": []
 		}
 	],
 	"sarvente_floating": false,
-	"player": true,
 	"no_antialiasing": true,
 	"death_props": {
-		"loopSfx": "gameOver-pixel",
 		"character": "bf-pixel-dead",
+		"loopSfx": "gameOver-pixel",
 		"endSfx": "gameOverEnd-pixel",
-		"bpm": 100,
-		"startSfx": "fnf_loss_sfx-pixel"
+		"startSfx": "fnf_loss_sfx-pixel",
+		"bpm": 100
 	},
 	"image": "characters/Week6/bfPixel",
-	"trail_length": null,
-	"trail_delay": null,
 	"position": [
 		0,
 		354
 	],
-	"trail_diff": null,
-	"float_speed": null,
-	"trail_alpha": null,
+	"icon_props": {
+		"antialiasing": false,
+		"offsets": [
+			0,
+			0
+		],
+		"name": "bf-pixel"
+	},
+	"trail_data": {
+		"length": null,
+		"delay": null,
+		"alpha": null,
+		"diff": null,
+		"enabled": false
+	},
+	"float_speed": 1,
 	"health_drain": false,
+	"selector_offsets": [
+		-185,
+		-220
+	],
 	"shake_screen": false,
 	"orbit": false,
+	"player": true,
 	"drain_floor": 0.1,
 	"healthbar_count": 3,
 	"flip_x": true,
-	"icon_props": {
-		"name": "bf-pixel",
-		"offsets": [0,0],
-		"antialiasing": false
-	},
 	"healthbar_colors": [
 		{
 			"blue": 246,
-			"green": 214,
-			"red": 123
+			"red": 123,
+			"green": 214
 		},
 		{
 			"blue": 206,
-			"green": 174,
-			"red": 83
+			"red": 83,
+			"green": 174
 		},
 		{
 			"blue": 186,
-			"green": 134,
-			"red": 43
+			"red": 43,
+			"green": 134
 		}
 	],
+	"drain_amount": 0.01,
 	"camera_position": [
 		48,
 		-78
@@ -168,7 +179,5 @@
 	"sing_duration": 4,
 	"scare_bf": false,
 	"scare_gf": false,
-	"scale": 6,
-	"flixel_trail": false,
-	"selector_offsets": [-185, -220]
+	"scale": 6
 }

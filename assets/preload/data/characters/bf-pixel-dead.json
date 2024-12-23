@@ -1,79 +1,98 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				-30,
 				-12
 			],
-			"fps": 24,
+			"loop": false,
 			"anim": "deathConfirm",
-			"indices": [],
-			"name": "RETRY CONFIRM"
+			"fps": 24,
+			"name": "RETRY CONFIRM",
+			"indices": []
 		},
 		{
-			"loop": true,
 			"offsets": [
 				-30,
 				-12
 			],
-			"fps": 24,
+			"loop": true,
 			"anim": "deathLoop",
-			"indices": [],
-			"name": "Retry Loop"
+			"fps": 24,
+			"name": "Retry Loop",
+			"indices": []
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"fps": 24,
+			"loop": false,
 			"anim": "firstDeath",
-			"indices": [],
-			"name": "BF Dies pixel"
+			"fps": 24,
+			"name": "BF Dies pixel",
+			"indices": []
 		}
 	],
 	"sarvente_floating": false,
-	"player": true,
 	"no_antialiasing": true,
+	"death_props": {
+		"endSfx": "gameOverEnd",
+		"bpm": 100,
+		"loopSfx": "gameOver",
+		"character": "bf-dead",
+		"startSfx": "fnf_loss_sfx"
+	},
 	"image": "characters/Week6/bfPixelsDEAD",
-	"trail_length": null,
-	"trail_delay": null,
 	"position": [
 		0,
 		354
 	],
-	"trail_diff": null,
-	"trail_alpha": null,
+	"icon_props": {
+		"antialiasing": false,
+		"offsets": [
+			0,
+			0
+		],
+		"name": "bf-pixel"
+	},
+	"trail_data": {
+		"length": null,
+		"delay": null,
+		"alpha": null,
+		"diff": null,
+		"enabled": false
+	},
+	"float_speed": 1,
 	"health_drain": false,
+	"selector_offsets": [
+		0,
+		0
+	],
 	"shake_screen": false,
 	"orbit": false,
+	"player": true,
 	"drain_floor": 0.1,
 	"healthbar_count": 3,
 	"flip_x": true,
-	"icon_props": {
-		"name": "bf-pixel",
-		"offsets": [0,0],
-		"antialiasing": false
-	},
 	"healthbar_colors": [
 		{
-			"red": 123,
+			"blue": 246,
 			"green": 214,
-			"blue": 246
+			"red": 123
 		},
 		{
-			"red": 83,
+			"blue": 206,
 			"green": 174,
-			"blue": 206
+			"red": 83
 		},
 		{
-			"red": 43,
+			"blue": 186,
 			"green": 134,
-			"blue": 186
+			"red": 43
 		}
 	],
+	"drain_amount": 0.01,
 	"camera_position": [
 		48,
 		-60
@@ -82,6 +101,5 @@
 	"sing_duration": 4,
 	"scare_bf": false,
 	"scare_gf": false,
-	"scale": 6,
-	"flixel_trail": false
+	"scale": 6
 }

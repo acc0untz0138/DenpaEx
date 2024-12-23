@@ -1,10 +1,22 @@
-{	
-	"titleOffsets": [-10, -5],
+{
+	"titleOffsets": [
+		-10,
+		-5
+	],
 	"titleAntialiasing": true,
-	"startOffsets": [100, 576],
+	"startOffsets": [
+		100,
+		576
+	],
 	"startAntialiasing": true,
-	"gfOffsets": [542, 40],
-	"gfScale": [1, 1],
+	"gfOffsets": [
+		542,
+		40
+	],
+	"gfScale": [
+		1,
+		1
+	],
 	"gfAntialiasing": true,
 	"background": "none",
 	"backgroundAntialiasing": true,

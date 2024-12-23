@@ -5,40 +5,64 @@
         {
             "file": "funkyMenu",
             "name": "Friday Night Funkin' Menu",
-            "rgb": [255, 0, 191],
+            "rgb": [
+                255,
+                0,
+                191
+            ],
             "bpm": 102,
-			"loopStart": 37647.058823
+            "loopStart": 37647.058823
         },
         {
             "file": "freakyMenu",
             "name": "Menu Song",
-            "rgb": [255, 131, 0],
+            "rgb": [
+                255,
+                131,
+                0
+            ],
             "bpm": 100,
-			"loopStart": 71400,
-			"loopEnd": 138600
+            "loopStart": 71400,
+            "loopEnd": 138600
         },
         {
             "file": "overdose",
             "name": "OVERDOSE",
-            "rgb": [28, 30, 32],
+            "rgb": [
+                28,
+                30,
+                32
+            ],
             "bpm": 104
         },
         {
             "file": "program_blood",
             "name": "Program Blood",
-            "rgb": [128, 0, 0],
+            "rgb": [
+                128,
+                0,
+                0
+            ],
             "bpm": 112
         },
         {
             "file": "elevator",
             "name": "Discouragement Elevator",
-            "rgb": [234, 234, 234],
+            "rgb": [
+                234,
+                234,
+                234
+            ],
             "bpm": 128
         },
         {
             "file": "property-surgery",
             "name": "Property Surgery",
-            "rgb": [182, 12, 255],
+            "rgb": [
+                182,
+                12,
+                255
+            ],
             "bpm": 140
         }
     ]
