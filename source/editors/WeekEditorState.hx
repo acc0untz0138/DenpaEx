@@ -24,6 +24,7 @@ import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
 import openfl.utils.Assets;
+import CoolUtil.convPathShit;
 
 /**
 * State used to create and edit `Week` jsons.
@@ -558,9 +559,22 @@ class WeekEditorState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data, weekFileName + ".json");
+			_file.save(data, convPathShit(getCurrentDataPath()));
 			#end
 		}
+	}
+
+	static function getCurrentDataPath():String {
+		var fullPath:String = 'data/weeks/' + weekFileName + '.json';
+
+		var path:String;
+		#if MODS_ALLOWED
+		path = Paths.modFolders(fullPath);
+		if (!FileSystem.exists(path))
+		#end
+			path = Paths.getPreloadPath(fullPath);
+
+		return path;
 	}
 	
 	private static function onSaveComplete(_):Void

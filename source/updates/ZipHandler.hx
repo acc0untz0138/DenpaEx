@@ -19,7 +19,7 @@ class ZipHandler
             if(file.fileName.endsWith('/')) { FileSystem.createDirectory(save_path + file.fileName); continue; } //Step 3.5: If its a directory create it and skip decompression!!!
             final fileData:Null<haxe.io.Bytes> = uncompressFile(file);
 
-            if(file.fileName == 'DenpaEngine.exe') file.fileName = 'App';
+            if(file.fileName == 'DenpaEx.exe') file.fileName = 'App';
             File.saveBytes(save_path + file.fileName, fileData);
         }
     }

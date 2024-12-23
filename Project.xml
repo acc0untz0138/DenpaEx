@@ -34,7 +34,7 @@
 	<!-- LOCATION OF SOURCE FILES -->
 	<classpath name="source" />
 	
-	<!-- DENPA ENGINE CUSTOMIZATION -->
+	<!-- DENPAEX ENGINE CUSTOMIZATION -->
 	<define name="MODS_ALLOWED" if="cpp"/> <!-- COMMENT OUT TO DISABLE MODS -->
 	<define name="LUA_ALLOWED" if="cpp"/> <!-- COMMENT OUT TO DISABLE LUA -->
 	<define name="HSCRIPT_ALLOWED" /> <!-- COMMENT OUT TO DISABLE HSCRIPT -->

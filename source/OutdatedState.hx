@@ -112,7 +112,7 @@ class OutdatedState extends MusicBeatState
 		});
 
 		warnText = new FlxText(10, 0, FlxG.width,
-			"Your version of DENPA Engine is outdated!\n
+			"Your version of DenpaEx is outdated!\n
 			Your version is: " + Main.denpaEngineVersion.version + ",\n
 			The current version is: " + TitleState.updateVersion + ".\n
 			Would you like to update?",
@@ -146,7 +146,7 @@ class OutdatedState extends MusicBeatState
 		if(!leftState) {
 			if ((controls.ACCEPT) && selected == 0) {
 				leftState = true;
-				CoolUtil.browserLoad("https://github.com/UmbratheUmbreon/PublicDenpaEngine");
+				CoolUtil.browserLoad("https://github.com/acc0untz0138/DenpaEx");
 			}
 			if ((controls.ACCEPT) && selected == 1) {
 				leftState = true;

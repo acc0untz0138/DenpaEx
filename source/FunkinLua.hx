@@ -1041,7 +1041,7 @@ class FunkinLua {
 		});
 
 		//stupid bietch ass functions
-		lua.add_callback("setWindowTitle", function(value:String = "Friday Night Funkin': Denpa Engine") {
+		lua.add_callback("setWindowTitle", function(value:String = "Friday Night Funkin': DenpaEx") {
 			Application.current.window.title = value;
 		});
 

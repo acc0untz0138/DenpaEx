@@ -339,7 +339,7 @@ class Main extends Sprite
 		#if desktop
 		DiscordClient.shutdown();
 		#if windows
-		new Process("./crshhndlr/DENPACRASHHANDLER.exe", [errMsg]);
+		new Process("./crshhndlr/DENPAEXCRASHHANDLER.exe", [errMsg]);
 		#end
 		#end
 		Sys.exit(1);
