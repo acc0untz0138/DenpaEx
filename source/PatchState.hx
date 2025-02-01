@@ -111,7 +111,6 @@ class PatchState extends MusicBeatState {
 				'',
 				'4DB33C'
 			],
-			['Denpa Engine'],
 			[
 				'0.8.2',
 				'widol',
