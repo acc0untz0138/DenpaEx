@@ -594,6 +594,7 @@ class ChartingState extends MusicBeatState {
 		\nW / S / MOUSE WHEEL - Change Time
 		\nA / LEFT | D / RIGHT - Change Section
 		\nZ / X - Change Zoom
+		\nCTRL + Q - Change Quant
 		\nQ / E - Change Note Sustain Length
 		\nSPACE - Stop/Resume Song
 		\nENTER - Play Song at Current Section
@@ -612,7 +613,7 @@ class ChartingState extends MusicBeatState {
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {
 			var tipText:FlxText = new FlxText(UI_box.x, UI_box.y + UI_box.height, 0, tipTextArray[i], 16);
-			tipText.y += i * 7.5;
+			tipText.y += i * 7.25;
 			tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			tipText.borderSize = 1;
 			tipText.scrollFactor.set();
