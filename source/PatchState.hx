@@ -92,15 +92,25 @@ class PatchState extends MusicBeatState {
 			// Ver - Icon name - Update Ver - Update Name - Description - Link - BG Color
 			['DenpaEx'],
 			[
-				'0.8.2',
+				'0.8.2b',
 				'100',
-				"0.8.2",
+				"0.8.2b",
 				"",
 				'my brother in christ just go to the https://github.com/acc0untz0138/DenpaEx?tab=readme-ov-file#denpaex-feature-list :cry:',
 				'https://github.com/acc0untz0138/DenpaEx?tab=readme-ov-file#denpaex-feature-list',
 				'202020'
 			],
 			[''],
+			['Denpa Engine'],
+			[
+				'0.8.2b',
+				'widol',
+				"0.8.2b",
+				"",
+				'Additions:\nChart Editor now has a Quantization overlay to help guide note placement.\nFixes:\nThe game no longer crashes when you enter the graphics options with Low Quality enabled.\nThe Character Editor can no longer crash the game when loading an invalid stage.\nThe game will no longer crash when ghost tapping on a not generated song section.\nThe game no longer crashes in the Chart Editor with invalid Event names.\nRFV-0.8.2b',
+				'',
+				'4DB33C'
+			],
 			['Denpa Engine'],
 			[
 				'0.8.2',

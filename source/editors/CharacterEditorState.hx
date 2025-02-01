@@ -428,7 +428,7 @@ class CharacterEditorState extends MusicBeatState {
 				}
 			default:
 				Paths.setModsDirectoryFromType(STAGE, currentStage, false);
-				var stageData:StageFile = StageData.getStageFile(currentStage);
+				var stageData:StageFile = StageData.getStageFile(currentStage) ?? StageData.getStageFile('stage'); // failsafe to prevent broken stages lol, if its still null then idk
 				if (stageData.sprites == null) {
 					var bg:BGSprite = new BGSprite('stageback', -600 + OFFSET_X, -300, 0.9, 0.9);
 					bgLayer.add(bg);
@@ -2326,20 +2326,18 @@ class CharacterEditorState extends MusicBeatState {
 			cameraTwn2.cancel();
 			cameraTwn2 = null;
 		}
-		cameraTwn1 = FlxTween.tween(camFollow,
-			{x: char.getMidpoint().x + (char.isPlayer ? -100 : 150) + char.cameraPosition.x + cameraStageOffsets[0], y: char.getMidpoint().y
-				- 100
-				+ char.cameraPosition.y
-				+ cameraStageOffsets[1]},
-			0.45, {
+		cameraTwn1 = FlxTween.tween(camFollow, {x: char.getMidpoint().x + (char.isPlayer ? -100 : 150) + char.cameraPosition.x + cameraStageOffsets[0],
+			y: char.getMidpoint().y
+			- 100
+			+ char.cameraPosition.y
+			+ cameraStageOffsets[1]}, 0.45, {
 				ease: FlxEase.cubeOut
 			});
-		cameraTwn2 = FlxTween.tween(camFollowPos,
-			{x: char.getMidpoint().x + (char.isPlayer ? -100 : 150) + char.cameraPosition.x + cameraStageOffsets[0], y: char.getMidpoint().y
-				- 100
-				+ char.cameraPosition.y
-				+ cameraStageOffsets[1]},
-			0.45, {
+		cameraTwn2 = FlxTween.tween(camFollowPos, {x: char.getMidpoint().x + (char.isPlayer ? -100 : 150) + char.cameraPosition.x + cameraStageOffsets[0],
+			y: char.getMidpoint().y
+			- 100
+			+ char.cameraPosition.y
+			+ cameraStageOffsets[1]}, 0.45, {
 				ease: FlxEase.cubeOut
 			});
 	}

@@ -5883,7 +5883,8 @@ function playMissSound() {
 function gsTap(direction:Int = 1, ?miss:Bool = false):Void // GS Tap Miss
 {
 	var missStr:String = miss ? 'miss' : '';
-	var char = ((SONG.notes[curSection].gfSection
+	var char = ((SONG.notes[curSection] != null
+		&& SONG.notes[curSection].gfSection
 		&& SONG.notes[curSection].mustHitSection
 		&& gf != null) ? gf : (!opponentChart ? boyfriend : dad));
 	if ((freeze && char.stunned) || char.specialAnim)
