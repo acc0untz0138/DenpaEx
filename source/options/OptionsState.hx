@@ -106,17 +106,15 @@ class OptionsState extends MusicBeatState {
 		bg.y += 5;
 		add(bg);
 
-		if (!ClientPrefs.settings.get("lowQuality")) {
-			bgScroll = new FlxBackdrop(Paths.image('menuBGHexL6'));
-			bgScroll.velocity.set(29, 30);
-			bgScroll.scrollFactor.set(0, 0);
-			add(bgScroll);
+		bgScroll = new FlxBackdrop(Paths.image('menuBGHexL6'));
+		bgScroll.velocity.set(29, 30);
+		bgScroll.scrollFactor.set(0, 0);
+		add(bgScroll);
 
-			bgScroll2 = new FlxBackdrop(Paths.image('menuBGHexL6'));
-			bgScroll2.velocity.set(-29, -30);
-			bgScroll2.scrollFactor.set(0, 0);
-			add(bgScroll2);
-		}
+		bgScroll2 = new FlxBackdrop(Paths.image('menuBGHexL6'));
+		bgScroll2.velocity.set(-29, -30);
+		bgScroll2.scrollFactor.set(0, 0);
+		add(bgScroll2);
 
 		gradient = new FlxSprite(0, 0).loadGraphic(Paths.image('gradient'));
 		gradient.scrollFactor.set(0, 0);
@@ -155,6 +153,8 @@ class OptionsState extends MusicBeatState {
 
 		addVirtualPad(UP_DOWN, A_B);
 
+		bgHexagons();
+
 		super.create();
 	}
 
@@ -172,8 +172,14 @@ class OptionsState extends MusicBeatState {
 		virtualPad.alpha = 0;
 		virtualPad.alpha = ClientPrefs.settings.get("mobileCAlpha");
 		ClientPrefs.saveSettings();
+		bgHexagons();
 		persistentDraw = true;
 		persistentUpdate = true;
+	}
+
+	function bgHexagons() {
+		var isLowQuality:Bool = cast (ClientPrefs.settings.get("lowQuality"), Bool);
+		bgScroll.exists = bgScroll2.exists = !isLowQuality;
 	}
 
 	override function update(elapsed:Float) {
@@ -203,7 +209,7 @@ class OptionsState extends MusicBeatState {
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
 			changeSelection(-shiftMult * FlxG.mouse.wheel);
 		}
-
+		
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			if (PauseSubState.transferPlayState) {

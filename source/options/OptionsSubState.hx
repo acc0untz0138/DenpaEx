@@ -810,7 +810,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu {
 
 		super();
 
-		addScrollers();
+		addScrollers(true);
 
 		shouldZoom = ClientPrefs.settings.get("camZooms");
 
