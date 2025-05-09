@@ -6105,7 +6105,7 @@ public function goodNoteHit(note:Note, p4:Bool = false) {
 		return;
 	}
 
-	if (!cpuControlled) {
+	if (!cpuControlled) { // no botplay
 		var rate:String = 'sick';
 		if (!note.isSustainNote && !note.ratingDisabled) {
 			combo += 1;
@@ -6116,8 +6116,7 @@ public function goodNoteHit(note:Note, p4:Bool = false) {
 
 		if (!note.isSustainNote && !note.noteSplashDisabled && (['sick', 'perfect'].contains(rate) || note.forceNoteSplash))
 			spawnNoteSplashOnNote(note);
-	}
-	if (cpuControlled && ClientPrefs.settings.get("ratingVisibility")) {
+	} else if (ClientPrefs.settings.get("ratingVisibility")) { // botplay & shown rating
 		if (!note.isSustainNote && !note.ratingDisabled) {
 			combo += 1;
 			if (highestCombo < combo)
@@ -6130,13 +6129,12 @@ public function goodNoteHit(note:Note, p4:Bool = false) {
 
 		if (!note.isSustainNote && !note.noteSplashDisabled)
 			spawnNoteSplashOnNote(note);
-	}
-	if (cpuControlled && !ClientPrefs.settings.get("ratingVisibility")) {
+	} else { // botplay & hidden rating
 		if (!note.isSustainNote) {
 			combo += 1;
 			if (highestCombo < combo)
 				highestCombo = combo;
-			songScore += 600;
+			// songScore += 600; // it doesn't need to increace here, because the score won't update. you can remove this line if you want
 		}
 
 		if (!note.isSustainNote

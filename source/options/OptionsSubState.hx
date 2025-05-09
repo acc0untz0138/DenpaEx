@@ -228,19 +228,19 @@ class NotesSubState extends MusicBeatSubstate {
 		} else {
 			if (controls.UI_UP_P) {
 				changeSelection(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				// FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 			if (controls.UI_DOWN_P) {
 				changeSelection(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				// FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 			if (controls.UI_LEFT_P) {
 				changeType(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				// FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 			if (controls.UI_RIGHT_P) {
 				changeType(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				// FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 			if (virtualPad.buttonC.justPressed || controls.RESET) {
 				for (i in 0...3) {
@@ -1020,6 +1020,8 @@ class CustomizationSettingsSubState extends BaseOptionsMenu {
 
 		super();
 
+		addScrollers();
+
 		noteSplash = new FlxSprite(FlxG.width, FlxG.height / 2 - 200);
 		noteSplash.frames = Paths.getSparrowAtlas('splashes/noteSplashes');
 		noteSplash.animation.addByPrefix('splash1', 'note splash A 1', 24, false);
@@ -1103,6 +1105,8 @@ class GameRendererSettingsSubState extends BaseOptionsMenu {
 		option.displayFormat = '%v Mbps';
 
 		super();
+		
+		addScrollers();
 	}
 }
 
