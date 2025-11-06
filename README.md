@@ -31,10 +31,6 @@ Jordan Santiago - Co-Developer
 
 HRK.EXEX - Co-Developer
 
-![mcagabe19](https://github.com/acc0untz0138/DenpaEx/blob/master/assets/preload/images/credits/lily.png)
-
-Lily - Platform Porter (Linux, Android, iOS, MacOS)
-
 ## Denpa Engine Team
 
 ![at](https://user-images.githubusercontent.com/101066547/221386616-ff55be43-b6d3-4315-96b0-0b6140afb873.png)
