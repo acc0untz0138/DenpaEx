@@ -3,7 +3,7 @@
     {
       "name": "lime",
       "type": "git",
-      "url": "https://github.com/MobilePorting/lime"
+      "url": "https://github.com/Psych-Slice/lime-mobile"
     },
     {
       "name": "openfl",
@@ -33,7 +33,7 @@
     {
       "name": "hxcpp",
       "type": "git",
-      "url": "https://github.com/MobilePorting/hxcpp"
+      "url": "https://github.com/Psych-Slice/hxcpp-mobile"
     },
     {
       "name": "hxcpp-debug-server",
@@ -70,7 +70,7 @@
       "name": "linc_luajit",
       "type": "git",
       "ref": "main",
-      "url": "https://github.com/MobilePorting/linc_luajit-0.6.3"
+      "url": "https://github.com/Psych-Slice/linc_luajit-mobile"
     },
     {
       "name": "extension-androidtools",
