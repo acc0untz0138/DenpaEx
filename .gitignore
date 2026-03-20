@@ -1,6 +1,9 @@
+export/
 export/*
+.haxelib/
 .haxelib/*
 vscode-project.hxml
+crshhndlr/export/
 crshhndlr/export/*
 crshhndlr/export/debug/*
 crshhndlr/export/release/windows/haxe/*
